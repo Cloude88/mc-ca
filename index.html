@@ -17,8 +17,8 @@
         
         #enter-btn {
             position: absolute; bottom: 5%; right: 5%;
-            background: none; border: none; color: black; font-size: 1.2rem;
-            cursor: pointer; display: none; font-weight: bold;
+            background: none; border: none; color: white; /* Colore Bianco */
+            font-size: 1.2rem; cursor: pointer; display: none; font-weight: bold;
         }
 
         /* --- HOME PAGE --- */
@@ -41,8 +41,8 @@
         }
         .header {
             padding: 20px 5%; 
-            border-bottom: 2px solid white; 
-            background-color: white;
+            border-bottom: 2px solid white; /* Linea bianca fissa */
+            background-color: #f4f4f4; /* Ripristinato colore barra orizzontale */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -57,13 +57,17 @@
         .gallery { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .gallery img { max-width: 90%; max-height: 80vh; object-fit: contain; }
 
+        /* Colonna Menu a Sinistra */
         .sidebar {
             width: 300px; border-right: 2px solid grey; 
-            display: flex; flex-direction: column; padding: 40px 5%; gap: 15px; 
+            display: flex; flex-direction: column; 
+            padding: 40px 2% 40px 5%; /* Ridotto margine interno per spostare scritte a sinistra */
+            gap: 15px; 
         }
         .menu-item {
             cursor: pointer; font-size: 1.1rem; color: black; 
             transition: 0.3s;
+            text-align: left; /* Allineamento a sinistra */
         }
         .menu-item:hover { color: #888; text-decoration: underline; }
 

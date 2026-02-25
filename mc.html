@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Layout</title>
+    <style>
+        body { display: flex; }
+        header { width: 100%; background: #f1f1f1; padding: 1rem; text-align: center; }
+        aside { width: 250px; background: #ddd; padding: 1rem; height: 100vh; }
+        main { flex-grow: 1; padding: 1rem; overflow-y: scroll; height: 100vh; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Header</h1>
+    </header>
+    <aside>
+        <h2>Sidebar</h2>
+        <ul>
+            <li>Link 1</li>
+            <li>Link 2</li>
+            <li>Link 3</li>
+        </ul>
+    </aside>
+    <main>
+        <h2>Content Area</h2>
+        <p>This is the main content area. It is scrollable.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <p>More content can be added here...</p>
+    </main>
+</body>
+</html>

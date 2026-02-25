@@ -16,9 +16,9 @@
         video { width: 100%; height: 100%; object-fit: cover; }
         
         #enter-btn {
-            position: absolute; bottom: 5%; right: 5%; /* Distanza 5% dai bordi */
+            position: absolute; bottom: 5%; right: 5%;
             background: none; border: none; color: black; font-size: 1.2rem;
-            cursor: pointer; display: none; font-weight: bold; text-transform: uppercase;
+            cursor: pointer; display: none; font-weight: bold;
         }
 
         /* --- HOME PAGE --- */
@@ -26,9 +26,8 @@
             display: none; height: 100vh; width: 100vw;
             justify-content: center; align-items: center; position: relative;
         }
-        .main-logo { font-size: 8rem; font-weight: bold; letter-spacing: 2px; position: relative; white-space: nowrap; }
+        .main-logo { font-size: 8rem; font-weight: bold; letter-spacing: 2px; position: relative; }
         
-        /* Tasti trasparenti sopra MC e CA */
         .hidden-link {
             position: absolute; top: 0; width: 40%; height: 100%;
             background: transparent; cursor: pointer; border: none;
@@ -41,31 +40,35 @@
             display: none; height: 100vh; width: 100vw; flex-direction: column;
         }
         .header {
-            padding: 20px 5%; /* Spazio laterale 5% */
+            padding: 20px 5%; 
             border-bottom: 2px solid white; 
-            background-color: #f9f9f9; 
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-between; /* Mette scritte a sinistra e logo a destra */
+            align-items: center;
         }
-        .header h1 { font-size: 3.5rem; font-weight: bold; margin-bottom: 5px; }
-        .header p { font-size: 1.1rem; color: #333; }
+        .header-titles h1 { font-size: 3.5rem; font-weight: bold; margin-bottom: 5px; }
+        .header-titles p { font-size: 1.1rem; color: #333; }
+        
+        .header-logo img { height: 60px; width: auto; object-fit: contain; }
 
-        .content-wrapper { display: flex; flex: 1; overflow: hidden; flex-direction: row-reverse; } /* Invertito per avere menu a sinistra */
+        .content-wrapper { display: flex; flex: 1; overflow: hidden; flex-direction: row-reverse; }
         
         .gallery { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .gallery img { max-width: 90%; max-height: 80vh; object-fit: contain; }
 
         /* Colonna Menu a Sinistra */
         .sidebar {
-            width: 300px; border-right: 2px solid grey; /* Linea a destra del menu (sinistra pagina) */
-            display: flex; flex-direction: column; padding: 40px 5%; gap: 25px; /* Maggiore distanziamento */
+            width: 300px; border-right: 2px solid grey;
+            display: flex; flex-direction: column; padding: 40px 5%; gap: 15px; 
         }
         .menu-item {
             cursor: pointer; font-size: 1.1rem; color: black; 
-            font-weight: bold; text-transform: uppercase; /* Grassetto e Maiuscolo */
-            transition: 0.3s; line-height: 1.4;
+            transition: 0.3s;
         }
-        .menu-item:hover { color: #888; }
+        .menu-item:hover { color: #888; text-decoration: underline; }
 
-        .back-home { margin-top: auto; font-size: 0.8rem; cursor: pointer; opacity: 0.6; font-weight: bold; }
+        .back-home { margin-top: auto; font-size: 1.1rem; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -73,7 +76,6 @@
     <div id="intro-container">
         <video id="myVideo" autoplay muted playsinline loop>
             <source src="intro.mp4" type="video/mp4">
-            Il tuo browser non supporta il video.
         </video>
         <button id="enter-btn" onclick="showHome()">ENTRA</button>
     </div>
@@ -88,8 +90,13 @@
 
     <div id="page-mc" class="sub-page">
         <div class="header">
-            <h1>MC</h1>
-            <p>Martina Colucci</p>
+            <div class="header-titles">
+                <h1>MC</h1>
+                <p>Martina Colucci</p>
+            </div>
+            <div class="header-logo">
+                <img src="logo.png" alt="Logo">
+            </div>
         </div>
         <div class="content-wrapper">
             <div class="gallery"><img id="img-mc" src="" alt=""></div>
@@ -99,8 +106,13 @@
 
     <div id="page-ca" class="sub-page">
         <div class="header">
-            <h1>CA</h1>
-            <p>Claudio Antonelli</p>
+            <div class="header-titles">
+                <h1>CA</h1>
+                <p>Claudio Antonelli</p>
+            </div>
+            <div class="header-logo">
+                <img src="logo.png" alt="Logo">
+            </div>
         </div>
         <div class="content-wrapper">
             <div class="gallery"><img id="img-ca" src="" alt=""></div>
@@ -109,10 +121,8 @@
     </div>
 
     <script>
-        const video = document.getElementById('myVideo');
         const btn = document.getElementById('enter-btn');
 
-        // Mostra il tasto dopo 3 secondi
         setTimeout(() => {
             btn.style.display = 'block';
         }, 3000);
@@ -125,8 +135,7 @@
         function showPage(id) {
             document.getElementById('home-page').style.display = 'none';
             document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
-            const target = document.getElementById(id);
-            target.style.display = 'flex';
+            document.getElementById(id).style.display = 'flex';
         }
 
         const data = {
@@ -148,7 +157,7 @@
 
             const back = document.createElement('div');
             back.className = 'back-home';
-            back.innerText = "← HOME";
+            back.innerText = "MC - CA"; // Tasto di ritorno rinominato
             back.onclick = () => {
                 document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
                 document.getElementById('home-page').style.display = 'flex';

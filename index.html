@@ -6,9 +6,8 @@
     <title>MC - CA</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; transition: background-color 0.4s; }
-        body, html { height: 100%; width: 100%; background-color: white; }
+        body, html { height: 100%; width: 100%; background-color: white; overflow: hidden; }
 
-        /* Canvas: fisso e dietro a tutto */
         #bg-canvas { 
             position: fixed; 
             top: 0; 
@@ -16,7 +15,7 @@
             width: 100vw; 
             height: 100vh; 
             z-index: 0; 
-            pointer-events: none; 
+            pointer-events: none; /* Il mouse passa attraverso per cliccare i menu */
         }
 
         /* --- INTRO VIDEO --- */
@@ -45,7 +44,7 @@
         
         .header {
             padding: 20px 5%; border-bottom: 2px solid white; 
-            background-color: rgba(244, 244, 244, 0.95); /* Fascia alta meno trasparente */
+            background-color: rgba(244, 244, 244, 0.95); 
             display: flex; justify-content: space-between; align-items: center;
             z-index: 30;
         }
@@ -57,11 +56,10 @@
         .gallery { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; background: transparent; }
         .gallery img { max-width: 90%; max-height: 80vh; object-fit: contain; z-index: 20; }
 
-        /* FASCIA VERTICALE MENÙ - Modificata trasparenza */
         .sidebar {
             width: 300px; border-right: 2px solid grey; 
             display: flex; flex-direction: column; padding: 40px 0 40px 5%; gap: 15px;
-            background: rgba(255, 255, 255, 0.95); /* Quasi opaca per coprire il canvas */
+            background: rgba(255, 255, 255, 0.95); 
             z-index: 30;
         }
         .menu-item {
@@ -71,7 +69,6 @@
         .menu-item:hover { color: #888; text-decoration: underline; }
         .back-home { margin-top: auto; font-size: 1.1rem; cursor: pointer; font-weight: bold; text-transform: none; color: black; }
 
-        /* Modalità Dark */
         .dark-mode { background-color: black !important; color: white !important; }
         .dark-mode .header { background-color: rgba(26, 26, 26, 1) !important; }
         .dark-mode .sidebar { border-right: 2px solid #444 !important; background: black !important; }
@@ -122,13 +119,26 @@
     <script>
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
+        let currentEffect = "";
+        let ellipses = [];
+        let mouseX = 0, mouseY = 0;
 
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            if(currentEffect) drawEffect(currentEffect);
         }
         window.addEventListener('resize', resize);
         resize();
+
+        // Tracciamento mouse
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") {
+                requestAnimationFrame(() => drawEffect(currentEffect));
+            }
+        });
 
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 3000);
 
@@ -141,42 +151,69 @@
             document.getElementById('home-page').style.display = 'none';
             document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
             document.getElementById(id).style.display = 'flex';
+            currentEffect = "";
             clearCanvas();
             document.body.classList.remove('dark-mode');
         }
 
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
+        function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
         function drawEffect(type) {
+            currentEffect = type;
             clearCanvas();
             document.body.classList.remove('dark-mode');
-            
             ctx.strokeStyle = "black";
             ctx.lineWidth = 1.5;
 
             if (type === "CASA PIONIERA") {
-                const w = 60; const h = 90; 
+                const w = 60, h = 90;
                 for(let x=0; x<canvas.width; x+=w) {
                     for(let y=0; y<canvas.height; y+=h) {
-                        ctx.strokeRect(x, y, w, h);
+                        ctx.beginPath();
+                        ctx.rect(x, y, w, h);
+                        // Controllo se il mouse è dentro il rettangolo
+                        if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h) {
+                            ctx.fillStyle = "rgba(122, 161, 190, 0.5)";
+                            ctx.fill();
+                        }
+                        ctx.stroke();
                     }
                 }
             } else if (type === "CENTRO POLIFUNZIONALE") {
                 for(let i=0; i<50; i++) {
                     ctx.beginPath();
-                    ctx.moveTo(Math.random() * canvas.width, 0);
-                    ctx.lineTo(Math.random() * canvas.width, canvas.height);
+                    ctx.moveTo((i * canvas.width / 50), 0);
+                    ctx.lineTo((canvas.width - i * canvas.width / 50), canvas.height);
                     ctx.stroke();
                 }
             } else if (type === "THE ELLIPSE") {
-                for(let i=0; i<30; i++) {
-                    ctx.beginPath();
-                    let rx = 100; let ry = 50;
-                    ctx.ellipse(Math.random()*canvas.width, Math.random()*canvas.height, rx, ry, Math.random()*Math.PI, 0, Math.PI*2);
-                    ctx.stroke();
+                // Genero ellissi fisse se non esistono
+                if (ellipses.length === 0) {
+                    for(let i=0; i<30; i++) {
+                        ellipses.push({
+                            x: Math.random()*canvas.width,
+                            y: Math.random()*canvas.height,
+                            rx: 100, ry: 50,
+                            rot: Math.random()*Math.PI
+                        });
+                    }
                 }
+                ellipses.forEach(e => {
+                    ctx.beginPath();
+                    ctx.ellipse(e.x, e.y, e.rx, e.ry, e.rot, 0, Math.PI*2);
+                    
+                    // Controllo collisione approssimativa per l'ellisse
+                    let dx = mouseX - e.x;
+                    let dy = mouseY - e.y;
+                    let cos = Math.cos(-e.rot), sin = Math.sin(-e.rot);
+                    let xh = cos * dx - sin * dy;
+                    let yh = sin * dx + cos * dy;
+                    if ((xh*xh)/(e.rx*e.rx) + (yh*yh)/(e.ry*e.ry) <= 1) {
+                        ctx.fillStyle = "rgba(122, 161, 190, 0.5)";
+                        ctx.fill();
+                    }
+                    ctx.stroke();
+                });
             } else if (type === "RELOADINGENOVA") {
                 document.body.classList.add('dark-mode');
             }
@@ -195,8 +232,13 @@
                 div.innerText = item;
                 div.onclick = () => {
                     document.getElementById(`img-${prefix}`).src = `${prefix.toUpperCase()}/${item}.PNG`;
-                    if(prefix === 'ca') drawEffect(item);
-                    else clearCanvas();
+                    if(prefix === 'ca') {
+                        if(item !== "THE ELLIPSE") ellipses = []; // Reset ellissi
+                        drawEffect(item);
+                    } else {
+                        currentEffect = "";
+                        clearCanvas();
+                    }
                 };
                 menu.appendChild(div);
             });
@@ -206,6 +248,8 @@
             back.innerText = "MC - CA";
             back.onclick = () => {
                 document.body.classList.remove('dark-mode');
+                currentEffect = "";
+                ellipses = [];
                 clearCanvas();
                 document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
                 document.getElementById('home-page').style.display = 'flex';

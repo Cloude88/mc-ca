@@ -3,66 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CA - MC-CA</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>MC-CA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body, html { height: 100%; overflow: hidden; background-color: white; }
+
+        /* --- INTRO VIDEO --- */
+        #intro-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; z-index: 100; display: flex; justify-content: center; align-items: center;
+        }
+        video { width: 100%; height: 100%; object-fit: cover; }
+        
+        #enter-btn {
+            position: absolute; bottom: 30px; right: 30px;
+            background: none; border: none; color: black; font-size: 1.2rem;
+            cursor: pointer; display: none; font-weight: bold;
+        }
+
+        /* --- HOME PAGE --- */
+        #home-page {
+            display: none; height: 100vh; width: 100vw;
+            justify-content: center; align-items: center; position: relative;
+        }
+        .main-logo { font-size: 8rem; font-weight: bold; letter-spacing: -5px; position: relative; }
+        .hidden-link {
+            position: absolute; top: 0; width: 45%; height: 100%;
+            background: transparent; cursor: pointer; border: none;
+        }
+        .link-mc { left: 0; }
+        .link-ca { right: 0; }
+
+        /* --- PAGINE PROGETTI --- */
+        .sub-page {
+            display: none; height: 100vh; width: 100vw; flex-direction: column;
+        }
+        .header {
+            padding: 20px; border-bottom: 2px solid white; /* Linea orizzontale */
+            background-color: #f0f0f0; /* Grigio chiaro per vedere la linea bianca */
+        }
+        .header h1 { font-size: 3rem; margin-bottom: 0; }
+        .header p { font-size: 1.2rem; color: #555; }
+
+        .content-wrapper { display: flex; flex: 1; overflow: hidden; }
+        
+        .gallery { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .gallery img { max-width: 100%; max-height: 80vh; object-fit: contain; }
+
+        .sidebar {
+            width: 250px; border-left: 2px solid grey; /* Linea verticale grigia */
+            display: flex; flex-direction: column; padding: 20px; gap: 15px;
+        }
+        .menu-item {
+            cursor: pointer; font-size: 1rem; color: black; transition: 0.3s;
+        }
+        .menu-item:hover { color: grey; text-decoration: underline; }
+
+        .back-home { margin-top: auto; font-size: 0.8rem; cursor: pointer; opacity: 0.5; }
+    </style>
 </head>
-<body class="section-page">
-    <div class="layout-wrapper">
-        <!-- Header fisso -->
-        <header class="top-header">
-            <h1>CA</h1>
-        </header>
+<body>
 
-        <!-- Sidebar fisso -->
-        <aside class="left-sidebar">
-            <nav>
-                <button class="nav-button active" data-section="0">Progetto 1</button>
-                <button class="nav-button" data-section="1">Progetto 2</button>
-                <button class="nav-button" data-section="2">Progetto 3</button>
-                <button class="nav-button" data-section="3">Progetto 4</button>
-                <button class="nav-button" data-section="4">Progetto 5</button>
-            </nav>
-            <nav class="section-nav">
-                <a href="mc.html" class="section-link">MC</a>
-                <a href="mc-ca.html" class="section-link">MC-CA</a>
-                <a href="ca.html" class="section-link active">CA</a>
-            </nav>
-        </aside>
-
-        <!-- Area contenuto scrollabile -->
-        <main class="content-area">
-            <section class="project-section" data-project="0">
-                <h2>Progetto 1</h2>
-                <p>Descrizione Progetto 1</p>
-                <img src="assets/placeholder.jpg" alt="Progetto 1">
-            </section>
-
-            <section class="project-section" data-project="1">
-                <h2>Progetto 2</h2>
-                <p>Descrizione Progetto 2</p>
-                <img src="assets/placeholder.jpg" alt="Progetto 2">
-            </section>
-
-            <section class="project-section" data-project="2">
-                <h2>Progetto 3</h2>
-                <p>Descrizione Progetto 3</p>
-                <img src="assets/placeholder.jpg" alt="Progetto 3">
-            </section>
-
-            <section class="project-section" data-project="3">
-                <h2>Progetto 4</h2>
-                <p>Descrizione Progetto 4</p>
-                <img src="assets/placeholder.jpg" alt="Progetto 4">
-            </section>
-
-            <section class="project-section" data-project="4">
-                <h2>Progetto 5</h2>
-                <p>Descrizione Progetto 5</p>
-                <img src="assets/placeholder.jpg" alt="Progetto 5">
-            </section>
-        </main>
+    <div id="intro-container">
+        <video id="myVideo" autoplay muted playsinline>
+            <source src="intro.mp4" type="video/mp4">
+        </video>
+        <button id="enter-btn" onclick="showHome()">ENTRA</button>
     </div>
 
-    <script src="js/script.js"></script>
+    <div id="home-page">
+        <div class="main-logo">
+            MC-CA
+            <button class="hidden-link link-mc" onclick="showPage('page-mc')"></button>
+            <button class="hidden-link link-ca" onclick="showPage('page-ca')"></button>
+        </div>
+    </div>
+
+    <div id="page-mc" class="sub-page">
+        <div class="header">
+            <h1>MC</h1>
+            <p>Martina Colucci</p>
+        </div>
+        <div class="content-wrapper">
+            <div class="gallery"><img id="img-mc" src="" alt="Seleziona un progetto"></div>
+            <div class="sidebar" id="menu-mc">
+                </div>
+        </div>
+    </div>
+
+    <div id="page-ca" class="sub-page">
+        <div class="header">
+            <h1>CA</h1>
+            <p>Claudio Antonelli</p>
+        </div>
+        <div class="content-wrapper">
+            <div class="gallery"><img id="img-ca" src="" alt="Seleziona un progetto"></div>
+            <div class="sidebar" id="menu-ca">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const btn = document.getElementById('enter-btn');
+
+        // Mostra il tasto dopo 3 secondi
+        setTimeout(() => {
+            btn.style.display = 'block';
+        }, 3000);
+
+        function showHome() {
+            document.getElementById('intro-container').style.display = 'none';
+            document.getElementById('home-page').style.display = 'flex';
+        }
+
+        function showPage(id) {
+            document.getElementById('home-page').style.display = 'none';
+            document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
+            const target = document.getElementById(id);
+            target.style.display = 'flex';
+        }
+
+        // Gestione Menu e Immagini
+        const data = {
+            'mc': ["Progetto 1", "Progetto 2", "Progetto 3"],
+            'ca': ["Casa pioniera", "Centro polifunzionale", "The ellipse", "ReloadinGenova"]
+        };
+
+        function setupMenu(prefix) {
+            const menu = document.getElementById(`menu-${prefix}`);
+            data[prefix].forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'menu-item';
+                div.innerText = item;
+                div.onclick = () => {
+                    // Cerca l'immagine nella cartella relativa (es: MC/Progetto 1.jpg)
+                    document.getElementById(`img-${prefix}`).src = `${prefix.toUpperCase()}/${item}.jpg`;
+                };
+                menu.appendChild(div);
+            });
+
+            // Tasto per tornare indietro
+            const back = document.createElement('div');
+            back.className = 'back-home';
+            back.innerText = "← TORNA HOME";
+            back.onclick = () => location.reload();
+            menu.appendChild(back);
+        }
+
+        setupMenu('mc');
+        setupMenu('ca');
+    </script>
 </body>
 </html>

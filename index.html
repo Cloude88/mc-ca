@@ -15,7 +15,7 @@
             width: 100vw; 
             height: 100vh; 
             z-index: 0; 
-            pointer-events: none; /* Il mouse passa attraverso per cliccare i menu */
+            pointer-events: none; 
         }
 
         /* --- INTRO VIDEO --- */
@@ -121,6 +121,7 @@
         const ctx = canvas.getContext('2d');
         let currentEffect = "";
         let ellipses = [];
+        let randomLines = [];
         let mouseX = 0, mouseY = 0;
 
         function resize() {
@@ -131,7 +132,6 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // Tracciamento mouse
         window.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -171,7 +171,6 @@
                     for(let y=0; y<canvas.height; y+=h) {
                         ctx.beginPath();
                         ctx.rect(x, y, w, h);
-                        // Controllo se il mouse è dentro il rettangolo
                         if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h) {
                             ctx.fillStyle = "rgba(122, 161, 190, 0.5)";
                             ctx.fill();
@@ -180,14 +179,24 @@
                     }
                 }
             } else if (type === "CENTRO POLIFUNZIONALE") {
-                for(let i=0; i<50; i++) {
-                    ctx.beginPath();
-                    ctx.moveTo((i * canvas.width / 50), 0);
-                    ctx.lineTo((canvas.width - i * canvas.width / 50), canvas.height);
-                    ctx.stroke();
+                // Linee oblique casuali "old style"
+                if (randomLines.length === 0) {
+                    for(let i=0; i<40; i++) {
+                        randomLines.push({
+                            x1: Math.random() * canvas.width,
+                            y1: 0,
+                            x2: Math.random() * canvas.width,
+                            y2: canvas.height
+                        });
+                    }
                 }
+                randomLines.forEach(l => {
+                    ctx.beginPath();
+                    ctx.moveTo(l.x1, l.y1);
+                    ctx.lineTo(l.x2, l.y2);
+                    ctx.stroke();
+                });
             } else if (type === "THE ELLIPSE") {
-                // Genero ellissi fisse se non esistono
                 if (ellipses.length === 0) {
                     for(let i=0; i<30; i++) {
                         ellipses.push({
@@ -201,13 +210,9 @@
                 ellipses.forEach(e => {
                     ctx.beginPath();
                     ctx.ellipse(e.x, e.y, e.rx, e.ry, e.rot, 0, Math.PI*2);
-                    
-                    // Controllo collisione approssimativa per l'ellisse
-                    let dx = mouseX - e.x;
-                    let dy = mouseY - e.y;
+                    let dx = mouseX - e.x, dy = mouseY - e.y;
                     let cos = Math.cos(-e.rot), sin = Math.sin(-e.rot);
-                    let xh = cos * dx - sin * dy;
-                    let yh = sin * dx + cos * dy;
+                    let xh = cos * dx - sin * dy, yh = sin * dx + cos * dy;
                     if ((xh*xh)/(e.rx*e.rx) + (yh*yh)/(e.ry*e.ry) <= 1) {
                         ctx.fillStyle = "rgba(122, 161, 190, 0.5)";
                         ctx.fill();
@@ -233,7 +238,8 @@
                 div.onclick = () => {
                     document.getElementById(`img-${prefix}`).src = `${prefix.toUpperCase()}/${item}.PNG`;
                     if(prefix === 'ca') {
-                        if(item !== "THE ELLIPSE") ellipses = []; // Reset ellissi
+                        if(item !== "THE ELLIPSE") ellipses = [];
+                        if(item !== "CENTRO POLIFUNZIONALE") randomLines = [];
                         drawEffect(item);
                     } else {
                         currentEffect = "";
@@ -250,6 +256,7 @@
                 document.body.classList.remove('dark-mode');
                 currentEffect = "";
                 ellipses = [];
+                randomLines = [];
                 clearCanvas();
                 document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
                 document.getElementById('home-page').style.display = 'flex';

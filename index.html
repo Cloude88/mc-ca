@@ -8,7 +8,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; transition: background-color 0.4s; }
         body, html { height: 100%; width: 100%; background-color: white; }
 
-        /* Canvas: fondamentale che sia fisso e dietro a tutto */
+        /* Canvas: fisso e dietro a tutto */
         #bg-canvas { 
             position: fixed; 
             top: 0; 
@@ -43,11 +43,11 @@
         /* --- PAGINE PROGETTI --- */
         .sub-page { display: none; height: 100vh; width: 100vw; flex-direction: column; position: relative; z-index: 10; }
         
-        /* Rendiamo l'header e la galleria trasparenti per far vedere il canvas sotto */
         .header {
             padding: 20px 5%; border-bottom: 2px solid white; 
-            background-color: rgba(244, 244, 244, 0.8); /* Trasparenza */
+            background-color: rgba(244, 244, 244, 0.95); /* Fascia alta meno trasparente */
             display: flex; justify-content: space-between; align-items: center;
+            z-index: 30;
         }
         .header-titles h1 { font-size: 3.5rem; font-weight: bold; margin-bottom: 5px; }
         .header-titles p { font-size: 1.1rem; color: #333; }
@@ -57,10 +57,12 @@
         .gallery { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; background: transparent; }
         .gallery img { max-width: 90%; max-height: 80vh; object-fit: contain; z-index: 20; }
 
+        /* FASCIA VERTICALE MENÙ - Modificata trasparenza */
         .sidebar {
             width: 300px; border-right: 2px solid grey; 
             display: flex; flex-direction: column; padding: 40px 0 40px 5%; gap: 15px;
-            background: rgba(255, 255, 255, 0.5); /* Trasparenza per il menu */
+            background: rgba(255, 255, 255, 0.95); /* Quasi opaca per coprire il canvas */
+            z-index: 30;
         }
         .menu-item {
             cursor: pointer; font-size: 1.1rem; color: black; 
@@ -71,8 +73,8 @@
 
         /* Modalità Dark */
         .dark-mode { background-color: black !important; color: white !important; }
-        .dark-mode .header { background-color: rgba(26, 26, 26, 0.9) !important; }
-        .dark-mode .sidebar { border-right: 2px solid #444 !important; background: transparent; }
+        .dark-mode .header { background-color: rgba(26, 26, 26, 1) !important; }
+        .dark-mode .sidebar { border-right: 2px solid #444 !important; background: black !important; }
         .dark-mode .menu-item, .dark-mode .back-home, .dark-mode .header-titles p { color: white !important; }
     </style>
 </head>
@@ -152,7 +154,7 @@
             document.body.classList.remove('dark-mode');
             
             ctx.strokeStyle = "black";
-            ctx.lineWidth = 1.5; // Linee un po' più spesse per essere visibili
+            ctx.lineWidth = 1.5;
 
             if (type === "CASA PIONIERA") {
                 const w = 60; const h = 90; 

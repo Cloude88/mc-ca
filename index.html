@@ -78,30 +78,34 @@
             width: 50%;
             height: 500px;
             position: relative;
-            margin: 20px auto;
+            margin: 40px auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: transparent;
+            z-index: 50;
         }
         .slider-img { 
             position: absolute;
             max-width: 100%; 
             max-height: 100%; 
             object-fit: contain; 
-            display: none; 
+            opacity: 0;
+            z-index: 51;
+            transition: opacity 0.4s;
+            pointer-events: none;
         }
-        .slider-img.active { display: block; }
+        .slider-img.active { opacity: 1; pointer-events: auto; }
+
         .slider-arrow {
             position: absolute; top: 50%; transform: translateY(-50%);
             background: black; color: white; border: none;
-            font-size: 1.5rem; width: 40px; height: 40px; 
-            cursor: pointer; z-index: 100; display: none; /* Nascoste di default */
+            font-size: 1.2rem; width: 45px; height: 45px; 
+            cursor: pointer; z-index: 100; display: none;
             align-items: center; justify-content: center;
             border-radius: 50%;
         }
-        .arrow-left { left: -60px; }
-        .arrow-right { right: -60px; }
+        .arrow-left { left: -70px; }
+        .arrow-right { right: -70px; }
 
         .label-cap {
             align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold;
@@ -202,7 +206,6 @@
         window.addEventListener('resize', resize); resize();
         window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; if (currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") drawEffect(currentEffect); });
 
-        // Navigazione slider
         window.addEventListener('keydown', (e) => {
             if(currentEffect === "RIQUALIFICAZIONE MOLINETTE") {
                 if(e.key === "ArrowRight") moveSlider(1);
@@ -278,15 +281,14 @@
             const images = document.querySelectorAll('.slider-img');
             const btnLeft = document.querySelector('.arrow-left');
             const btnRight = document.querySelector('.arrow-right');
-            if(!images.length) return;
+            if(!images || images.length === 0) return;
 
             images[sliderIdx].classList.remove('active');
             sliderIdx = Math.max(0, Math.min(images.length - 1, sliderIdx + step));
             images[sliderIdx].classList.add('active');
 
-            // Logica visibilità frecce
-            btnLeft.style.display = (sliderIdx === 0) ? "none" : "flex";
-            btnRight.style.display = (sliderIdx === images.length - 1) ? "none" : "flex";
+            if(btnLeft) btnLeft.style.display = (sliderIdx === 0) ? "none" : "flex";
+            if(btnRight) btnRight.style.display = (sliderIdx === images.length - 1) ? "none" : "flex";
         }
 
         const data = { 'mc': ["PROGETTO 1", "PROGETTO 2", "PROGETTO 3"], 'ca': ["CASA PIONIERA", "CENTRO POLIFUNZIONALE", "THE ELLIPSE", "RIQUALIFICAZIONE MOLINETTE", "RELOADINGENOVA"] };
@@ -322,22 +324,20 @@
                     }
 
                     if(item === "RIQUALIFICAZIONE MOLINETTE") {
-                        // Foto 1-4
                         for(let i=1; i<=4; i++) {
                             const wrap = document.createElement('div'); wrap.className = 'img-wrap';
                             const img = document.createElement('img'); img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
                             img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
                             wrap.appendChild(img); gallery.appendChild(wrap);
                         }
-                        // Testo Celid
                         const subT = document.createElement('div'); subT.className = 'project-description'; subT.style.display = 'block';
                         subT.innerText = molinetteSubText; gallery.appendChild(subT);
                         
-                        // Slider Foto 5-7
                         const sliderCont = document.createElement('div'); sliderCont.className = 'slider-container';
                         sliderIdx = 0;
                         for(let i=5; i<=7; i++) {
-                            const img = document.createElement('img'); img.className = `slider-img ${i===5?'active':''}`;
+                            const img = document.createElement('img'); 
+                            img.className = `slider-img ${i===5?'active':''}`;
                             img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
                             img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
                             sliderCont.appendChild(img);

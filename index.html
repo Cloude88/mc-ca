@@ -300,7 +300,7 @@
                     if (item === "CASA PIONIERA") count = 4;
                     else if (item === "CENTRO POLIFUNZIONALE") count = 7;
                     else if (item === "THE ELLIPSE") count = 4;
-                    else if (item === "RIQUALIFICAZIONE MOLINETTE") count = 6;
+                    else if (item === "RIQUALIFICAZIONE MOLINETTE") count = 7;
 
                     for(let i=1; i<=count; i++) {
                         const wrap = document.createElement('div'); wrap.className = 'img-wrap';
@@ -313,7 +313,6 @@
                         wrap.prepend(img);
                         gallery.appendChild(wrap);
 
-                        // Inserimento testo speciale Molinette tra foto 4 e 5
                         if (item === "RIQUALIFICAZIONE MOLINETTE" && i === 4) {
                             const subText = document.createElement('div');
                             subText.className = 'project-description project-description-sub';

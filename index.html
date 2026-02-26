@@ -43,10 +43,13 @@
         .header-titles h1 { font-size: 3.5rem; font-weight: bold; margin-bottom: 5px; }
         .header-titles p { font-size: 1.1rem; color: #333; }
         
-        /* Titolo centrale dinamico */
+        /* Titolo centrale allineato con la zona immagini */
         .header-center-title {
-            position: absolute; left: 50%; transform: translateX(-50%);
+            position: absolute; 
+            left: calc(50% - 150px); /* Centrato rispetto allo spazio rimanente (300px sidebar / 2) */
+            transform: translateX(-50%);
             font-size: 1.5rem; font-weight: bold; color: black; text-transform: uppercase;
+            pointer-events: none;
         }
 
         .header-logo img { height: 60px; width: auto; object-fit: contain; }
@@ -64,17 +67,17 @@
             z-index: 20;
         }
         
-        /* Box Descrizione Progetto */
+        /* Box Descrizione Progetto - Allineato al centro */
         .project-description {
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
-            padding: 2.5%; /* Circa il 2% in più del testo per lato */
+            padding: 2.5%; 
             color: black;
             font-size: 1rem;
             line-height: 1.5;
-            text-align: left;
+            text-align: center; /* Allineamento testo al centro */
             margin-bottom: 20px;
-            display: none; /* Visibile solo su Casa Pioniera */
+            display: none; 
         }
 
         .gallery img { 
@@ -97,7 +100,6 @@
         }
         .menu-item:hover { color: #888; text-decoration: underline; }
         
-        /* Classe per l'elemento selezionato */
         .menu-item.active {
             color: rgb(122, 161, 190) !important;
             font-weight: bold;
@@ -197,7 +199,6 @@
             currentEffect = "";
             clearCanvas();
             document.body.classList.remove('dark-mode');
-            // Reset titoli centrali e active menu
             document.getElementById('center-title-mc').innerText = "";
             document.getElementById('center-title-ca').innerText = "";
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
@@ -270,14 +271,10 @@
                 div.className = 'menu-item';
                 div.innerText = item;
                 div.onclick = () => {
-                    // Gestione Active Menu
                     document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
                     div.classList.add('active');
-
-                    // Titolo centrale
                     centerTitle.innerText = item;
 
-                    // Pulisce galleria (mantenendo il box descrizione se CA)
                     const descBox = document.getElementById('desc-casa-pioniera');
                     gallery.querySelectorAll('img').forEach(img => img.remove());
                     

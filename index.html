@@ -76,6 +76,15 @@
             background: white; color: black; padding: 3px 6px; text-transform: uppercase;
         }
 
+        /* Pulsante THE PLAN */
+        .btn-theplan {
+            display: inline-block; margin-top: 20px; padding: 10px 20px;
+            background-color: black; color: white; text-decoration: none;
+            font-weight: bold; font-size: 0.9rem; text-transform: uppercase;
+            border-radius: 2px; transition: opacity 0.3s;
+        }
+        .btn-theplan:hover { opacity: 0.8; }
+
         .project-description {
             width: 100%; background: rgba(255, 255, 255, 0.95); padding: 2.5%; 
             color: black; font-size: 1rem; line-height: 1.5; text-align: center; margin-bottom: 20px; display: none; 
@@ -86,6 +95,9 @@
         .menu-item.green-act { color: rgb(169, 212, 177) !important; font-weight: bold; }
 
         .back-home { margin-top: auto; font-size: 1.1rem; cursor: pointer; font-weight: bold; text-transform: none; color: black; }
+
+        /* Cursore Triangolo Nero */
+        .cursor-triangle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="black"/></svg>'), auto !important; }
 
         .dark-mode { background-color: black !important; color: white !important; }
         .dark-mode .header { background-color: rgba(26, 26, 26, 1) !important; }
@@ -160,6 +172,7 @@
             document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
             const page = document.getElementById(id); page.style.display = 'flex';
             currentEffect = ""; clearCanvas(); document.body.classList.remove('dark-mode');
+            document.body.classList.remove('cursor-triangle');
             updateSoftware(id === 'page-ca' ? 'sw-ca-list' : 'sw-mc-list', "");
         }
 
@@ -167,7 +180,6 @@
             const container = document.getElementById(id); container.innerHTML = "";
             softwareNames.forEach(name => {
                 const s = document.createElement('span'); s.className = `sw-tag`; s.innerText = name;
-                
                 if (currentItem === "CASA PIONIERA") {
                     if (["AutoCAD", "Illustrator", "SketchUp"].includes(name)) s.classList.add("green-h");
                 } else if (currentItem === "CENTRO POLIFUNZIONALE") {
@@ -195,16 +207,10 @@
             } else if (type === "CENTRO POLIFUNZIONALE") {
                 if (randomLines.length === 0) { 
                     for(let i=0; i<45; i++) {
-                        randomLines.push({ 
-                            x1: Math.random() * canvas.width, y1: 0, 
-                            x2: Math.random() * canvas.width, y2: canvas.height,
-                            color: Math.random() > 0.5 ? "black" : "#bbb" // Nero o Grigio a caso
-                        }); 
+                        randomLines.push({ x1: Math.random() * canvas.width, y1: 0, x2: Math.random() * canvas.width, y2: canvas.height, color: Math.random() > 0.5 ? "black" : "#bbb" }); 
                     } 
                 }
-                randomLines.forEach(l => { 
-                    ctx.beginPath(); ctx.strokeStyle = l.color; ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke(); 
-                });
+                randomLines.forEach(l => { ctx.beginPath(); ctx.strokeStyle = l.color; ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke(); });
             } else if (type === "THE ELLIPSE") {
                 ctx.strokeStyle = "black";
                 if (ellipses.length === 0) { for(let i=0; i<30; i++) ellipses.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI }); }
@@ -229,14 +235,31 @@
                 div.className = 'menu-item'; div.innerText = item;
                 div.onclick = () => {
                     document.querySelectorAll('.menu-item').forEach(m => { m.classList.remove('blue-act'); m.classList.remove('green-act'); });
+                    document.body.classList.remove('cursor-triangle');
+                    
                     if(item === "CASA PIONIERA") { div.classList.add('green-act'); }
-                    else if (prefix === 'ca') { div.classList.add('blue-act'); }
+                    else if (prefix === 'ca') { 
+                        div.classList.add('blue-act'); 
+                        if(item === "CENTRO POLIFUNZIONALE") document.body.classList.add('cursor-triangle');
+                    }
                     
                     updateSoftware(prefix === 'ca' ? 'sw-ca-list' : 'sw-mc-list', item);
                     title.innerText = item;
-                    gallery.querySelectorAll('.img-wrap').forEach(w => w.remove());
+                    gallery.querySelectorAll('.img-wrap, .btn-theplan').forEach(w => w.remove());
                     const dBox = document.getElementById('desc-box');
-                    if(dBox) { dBox.innerText = descriptions[item] || ""; dBox.style.display = descriptions[item] ? "block" : "none"; }
+                    if(dBox) { 
+                        dBox.innerText = descriptions[item] || ""; 
+                        dBox.style.display = descriptions[item] ? "block" : "none";
+                        // Aggiunge il pulsante THE PLAN se è il centro polifunzionale
+                        if(item === "CENTRO POLIFUNZIONALE") {
+                            const btn = document.createElement('a');
+                            btn.className = 'btn-theplan';
+                            btn.innerText = "Pubblicazione THE PLAN";
+                            btn.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano";
+                            btn.target = "_blank";
+                            gallery.insertBefore(btn, gallery.firstChild.nextSibling); // Lo mette subito dopo la descrizione
+                        }
+                    }
 
                     let count = (item === "CASA PIONIERA") ? 4 : (item === "CENTRO POLIFUNZIONALE") ? 7 : 1;
                     for(let i=1; i<=count; i++) {
@@ -259,6 +282,7 @@
             back.onclick = () => {
                 document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
                 document.getElementById('home-page').style.display = 'flex';
+                document.body.classList.remove('cursor-triangle');
                 clearCanvas();
             };
             menu.appendChild(back);

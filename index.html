@@ -76,7 +76,6 @@
             background: white; color: black; padding: 3px 6px; text-transform: uppercase;
         }
 
-        /* Pulsante THE PLAN */
         .btn-theplan {
             display: inline-block; margin-top: 20px; padding: 10px 20px;
             background-color: black; color: white; text-decoration: none;
@@ -96,7 +95,6 @@
 
         .back-home { margin-top: auto; font-size: 1.1rem; cursor: pointer; font-weight: bold; text-transform: none; color: black; }
 
-        /* Cursore Triangolo Nero */
         .cursor-triangle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="black"/></svg>'), auto !important; }
 
         .dark-mode { background-color: black !important; color: white !important; }
@@ -250,18 +248,22 @@
                     if(dBox) { 
                         dBox.innerText = descriptions[item] || ""; 
                         dBox.style.display = descriptions[item] ? "block" : "none";
-                        // Aggiunge il pulsante THE PLAN se è il centro polifunzionale
                         if(item === "CENTRO POLIFUNZIONALE") {
                             const btn = document.createElement('a');
                             btn.className = 'btn-theplan';
                             btn.innerText = "Pubblicazione THE PLAN";
                             btn.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano";
                             btn.target = "_blank";
-                            gallery.insertBefore(btn, gallery.firstChild.nextSibling); // Lo mette subito dopo la descrizione
+                            gallery.insertBefore(btn, gallery.firstChild.nextSibling);
                         }
                     }
 
-                    let count = (item === "CASA PIONIERA") ? 4 : (item === "CENTRO POLIFUNZIONALE") ? 7 : 1;
+                    // Logica immagini: 4 per Casa Pioniera, 7 per Centro Polifunzionale, 4 per The Ellipse
+                    let count = 1;
+                    if (item === "CASA PIONIERA") count = 4;
+                    else if (item === "CENTRO POLIFUNZIONALE") count = 7;
+                    else if (item === "THE ELLIPSE") count = 4;
+
                     for(let i=1; i<=count; i++) {
                         const wrap = document.createElement('div'); wrap.className = 'img-wrap';
                         const img = document.createElement('img');

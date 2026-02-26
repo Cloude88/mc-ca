@@ -7,183 +7,69 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; transition: background-color 0.4s; }
         body, html { height: 100%; width: 100%; background-color: white; overflow: hidden; }
-
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-        /* --- INTRO --- */
-        #intro-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; z-index: 1000; display: flex; justify-content: center; align-items: center;
-        }
+        /* --- INTRO & HOME --- */
+        #intro-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; display: flex; justify-content: center; align-items: center; }
         video { width: 100%; height: 100%; object-fit: cover; }
-        #enter-btn {
-            position: absolute; bottom: 5%; right: 5%;
-            background: none; border: none; color: white;
-            font-size: 1.2rem; cursor: pointer; display: none; font-weight: bold;
-        }
-
-        /* --- HOME --- */
-        #home-page {
-            display: none; height: 100vh; width: 100vw;
-            justify-content: center; align-items: center; position: relative; z-index: 10;
-        }
+        #enter-btn { position: absolute; bottom: 5%; right: 5%; background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; display: none; font-weight: bold; }
+        #home-page { display: none; height: 100vh; width: 100vw; justify-content: center; align-items: center; position: relative; z-index: 10; }
         .main-logo { font-size: 8rem; font-weight: bold; letter-spacing: 2px; position: relative; }
         .hidden-link { position: absolute; top: 0; width: 40%; height: 100%; background: transparent; cursor: pointer; border: none; }
         .link-mc { left: 0; } .link-ca { right: 0; }
 
         /* --- HEADER --- */
-        .header {
-            padding: 20px 5%; border-bottom: 2px solid white; 
-            background-color: rgba(244, 244, 244, 0.95); 
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 30; min-height: 140px; position: relative;
-        }
-
-        .header-center-area {
-            position: absolute; left: calc(50% + 150px); transform: translateX(-50%);
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-        }
+        .header { padding: 20px 5%; border-bottom: 2px solid white; background-color: rgba(244, 244, 244, 0.95); display: flex; justify-content: space-between; align-items: center; z-index: 30; min-height: 140px; position: relative; }
+        .header-center-area { position: absolute; left: calc(50% + 150px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .header-center-title { font-size: 1.5rem; font-weight: bold; color: black; text-transform: uppercase; }
-        
         .sw-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 0.8rem; font-weight: bold; max-width: 800px; }
         .sw-tag { padding: 2px 6px; background: transparent; }
         .sw-tag.green-h { background: rgb(169, 212, 177); }
         .sw-tag.blue-h { background: rgb(122, 161, 190); }
         .sw-tag.teal-h { background: rgb(133, 162, 162); }
         .sw-tag.red-h { background: rgb(227, 59, 78); }
-
         .header-titles h1 { font-size: 3.5rem; font-weight: bold; margin-bottom: 5px; }
         .header-titles p { font-size: 1.1rem; color: #333; }
         .header-logo img { height: 60px; width: auto; object-fit: contain; }
 
         /* --- CONTENT --- */
         .content-wrapper { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: transparent; }
+        .sidebar { width: 300px; border-right: 2px solid grey; display: flex; flex-direction: column; padding: 40px 0 40px 5%; gap: 15px; background: rgba(255, 255, 255, 0.95); z-index: 30; }
+        .gallery { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding: 5%; gap: 60px; z-index: 20; }
         
-        .sidebar {
-            width: 300px; border-right: 2px solid grey; 
-            display: flex; flex-direction: column; padding: 40px 0 40px 5%; gap: 15px;
-            background: rgba(255, 255, 255, 0.95); z-index: 30;
-        }
-
-        /* GALLERY GENERALE */
-        .gallery { 
-            flex: 1; display: flex; flex-direction: column; 
-            align-items: center; overflow-y: auto; padding: 5% 0; gap: 60px; z-index: 20;
-        }
-        
-        /* Immagini standard ridotte in percentuale e centrate */
-        .img-wrap { 
-            width: 80%; /* Più piccole in percentuale */
-            display: flex; flex-direction: column; position: relative; align-items: center; margin: 0 auto;
-        }
+        /* IMMAGINI AL 100% */
+        .img-wrap { width: 100%; display: flex; flex-direction: column; position: relative; align-items: center; }
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
-        /* --- SLIDER MOLINETTE CORRETTO --- */
-        .slider-wrapper {
-            width: 100%; /* Contenitore esterno per centrare */
-            display: flex;
-            justify-content: center;
-            margin: 40px 0;
-            z-index: 50;
-        }
+        /* --- SLIDER MOLINETTE --- */
+        .molinette-slider { width: 100%; display: flex; flex-direction: column; align-items: center; margin: 40px 0; position: relative; }
+        .slider-frame { width: 50%; height: 600px; display: flex; align-items: center; justify-content: center; position: relative; background: white; }
+        .slider-img { max-width: 100%; max-height: 100%; object-fit: contain; display: none; }
+        .slider-img.active { display: block; }
+        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: black; color: white; border: none; width: 50px; height: 50px; cursor: pointer; z-index: 100; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
+        .arrow-prev { left: -70px; display: none; }
+        .arrow-next { right: -70px; }
 
-        .slider-container {
-            width: 50%; /* Più piccolo (metà della gallery) in percentuale */
-            position: relative;
-            background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* CSS fondamentale per sovrapporre le immagini */
-        .slider-images-frame {
-            width: 100%;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .slider-img { 
-            width: 100%;
-            height: auto;
-            object-fit: contain; 
-            display: none; /* Nascondiamo tutto di base */
-        }
-        .slider-img.active { 
-            display: block; /* Mostriamo solo l'attiva */
-        }
-
-        .slider-arrow {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: black; color: white; border: none;
-            font-size: 1.5rem; width: 45px; height: 45px; 
-            cursor: pointer; z-index: 100; display: none;
-            align-items: center; justify-content: center;
-            border-radius: 50%;
-        }
-        /* Frecce posizionate in percentuale rispetto al contenitore */
-        .arrow-left { left: -10%; }
-        .arrow-right { right: -10%; }
-
-        .label-cap {
-            align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold;
-            background: white; color: black; padding: 3px 6px; text-transform: uppercase;
-        }
-
-        .btn-theplan {
-            display: inline-block; margin: 0 auto 20px auto; padding: 10px 20px;
-            background-color: black; color: white; text-decoration: none;
-            font-weight: bold; font-size: 0.9rem; text-transform: uppercase;
-            border-radius: 2px; transition: opacity 0.3s;
-        }
-        .btn-theplan:hover { opacity: 0.8; }
-
-        .project-description {
-            width: 80%; /* Allineata alle immagini ridotte */
-            background: rgba(255, 255, 255, 0.95); padding: 2.5%; 
-            color: black; font-size: 1rem; line-height: 1.5; text-align: center; margin: 0 auto 20px auto; display: none; 
-        }
-
-        .menu-item { cursor: pointer; font-size: 1.1rem; color: black; text-transform: uppercase; text-align: left; }
+        .project-description { width: 100%; background: rgba(255, 255, 255, 0.95); padding: 2.5%; color: black; font-size: 1rem; line-height: 1.5; text-align: center; margin-bottom: 20px; display: none; }
+        .menu-item { cursor: pointer; font-size: 1.1rem; color: black; text-transform: uppercase; }
         .menu-item.blue-act { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .menu-item.green-act { color: rgb(169, 212, 177) !important; font-weight: bold; }
         .menu-item.teal-act { color: rgb(133, 162, 162) !important; font-weight: bold; }
         .menu-item.red-act { color: rgb(227, 59, 78) !important; font-weight: bold; }
-
-        .back-home { margin-top: auto; font-size: 1.1rem; cursor: pointer; font-weight: bold; text-transform: none; color: black; }
-
+        .back-home { margin-top: auto; font-size: 1.1rem; cursor: pointer; font-weight: bold; color: black; }
         .cursor-triangle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="black"/></svg>'), auto !important; }
-
         .dark-mode { background-color: black !important; color: white !important; }
-        .dark-mode .header { background-color: rgba(26, 26, 26, 1) !important; }
-        .dark-mode .sidebar { border-right: 2px solid #444 !important; background: black !important; }
     </style>
 </head>
 <body>
-
     <canvas id="bg-canvas"></canvas>
-
-    <div id="intro-container">
-        <video id="myVideo" autoplay muted playsinline loop><source src="intro.mp4" type="video/mp4"></video>
-        <button id="enter-btn" onclick="showHome()">ENTRA</button>
-    </div>
-
-    <div id="home-page">
-        <div class="main-logo">MC - CA
-            <button class="hidden-link link-mc" onclick="showPage('page-mc')"></button>
-            <button class="hidden-link link-ca" onclick="showPage('page-ca')"></button>
-        </div>
-    </div>
+    <div id="intro-container"><video id="myVideo" autoplay muted playsinline loop><source src="intro.mp4" type="video/mp4"></video><button id="enter-btn" onclick="showHome()">ENTRA</button></div>
+    <div id="home-page"><div class="main-logo">MC - CA<button class="hidden-link link-mc" onclick="showPage('page-mc')"></button><button class="hidden-link link-ca" onclick="showPage('page-ca')"></button></div></div>
 
     <div id="page-mc" class="sub-page" style="display:none; height:100vh; flex-direction:column;">
         <div class="header">
             <div class="header-titles"><h1>MC</h1><p>Martina Colucci</p></div>
-            <div class="header-center-area">
-                <div class="header-center-title" id="title-mc"></div>
-                <div class="sw-list" id="sw-mc-list"></div>
-            </div>
+            <div class="header-center-area"><div class="header-center-title" id="title-mc"></div><div class="sw-list" id="sw-mc-list"></div></div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
         <div class="content-wrapper"><div class="sidebar" id="menu-mc"></div><div class="gallery" id="gallery-mc"></div></div>
@@ -192,63 +78,31 @@
     <div id="page-ca" class="sub-page" style="display:none; height:100vh; flex-direction:column;">
         <div class="header">
             <div class="header-titles"><h1>CA</h1><p>Claudio Antonelli</p></div>
-            <div class="header-center-area">
-                <div class="header-center-title" id="title-ca"></div>
-                <div class="sw-list" id="sw-ca-list"></div>
-            </div>
+            <div class="header-center-area"><div class="header-center-title" id="title-ca"></div><div class="sw-list" id="sw-ca-list"></div></div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
-        <div class="content-wrapper">
-            <div class="sidebar" id="menu-ca"></div>
-            <div class="gallery" id="gallery-ca"><div id="desc-box" class="project-description"></div></div>
-        </div>
+        <div class="content-wrapper"><div class="sidebar" id="menu-ca"></div><div class="gallery" id="gallery-ca"><div id="desc-box" class="project-description"></div></div></div>
     </div>
 
     <script>
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let currentEffect = ""; let ellipses = []; let randomLines = []; let waves = [];
-        let mouseX = 0, mouseY = 0;
-        let sliderIdx = 0;
+        let mouseX = 0, mouseY = 0; let sliderIdx = 0;
         
         const softwareNames = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
-        const cpCaps = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
-        
         const descriptions = {
-            "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
-            "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro not solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
-            "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto not solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figura geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse not come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
-            "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
+            "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati...",
+            "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico...",
+            "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici...",
+            "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette..."
         };
 
-        const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
+        const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro...";
 
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize); resize();
         window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; if (currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") drawEffect(currentEffect); });
-
-        // Navigazione slider tastiera
-        window.addEventListener('keydown', (e) => {
-            if(currentEffect === "RIQUALIFICAZIONE MOLINETTE") {
-                if(e.key === "ArrowRight") moveSlider(1);
-                if(e.key === "ArrowLeft") moveSlider(-1);
-            }
-        });
-
-        function moveSlider(step) {
-            const images = document.querySelectorAll('.slider-img');
-            const btnLeft = document.querySelector('.arrow-left');
-            const btnRight = document.querySelector('.arrow-right');
-            if(!images.length) return;
-
-            images[sliderIdx].classList.remove('active');
-            sliderIdx = Math.max(0, Math.min(images.length - 1, sliderIdx + step));
-            images[sliderIdx].classList.add('active');
-
-            // Logica visibilità frecce
-            if(btnLeft) btnLeft.style.display = (sliderIdx === 0) ? "none" : "flex";
-            if(btnRight) btnRight.style.display = (sliderIdx === images.length - 1) ? "none" : "flex";
-        }
 
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 3000);
         function showHome() { document.getElementById('intro-container').style.display = 'none'; document.getElementById('home-page').style.display = 'flex'; }
@@ -276,42 +130,21 @@
         function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
         function drawEffect(type) {
-            currentEffect = type; clearCanvas(); document.body.classList.remove('dark-mode');
-            ctx.lineWidth = 1.5;
-            if (type === "CASA PIONIERA") {
-                ctx.strokeStyle = "black";
-                const w = 60, h = 90;
-                for(let x=0; x<canvas.width; x+=w) {
-                    for(let y=0; y<canvas.height; y+=h) {
-                        ctx.beginPath(); ctx.rect(x, y, w, h);
-                        if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h) { ctx.fillStyle = "rgba(169, 212, 177, 0.5)"; ctx.fill(); }
-                        ctx.stroke();
-                    }
-                }
-            } else if (type === "CENTRO POLIFUNZIONALE") {
+            currentEffect = type; clearCanvas();
+            if (type === "CENTRO POLIFUNZIONALE") {
                 if (randomLines.length === 0) { for(let i=0; i<45; i++) randomLines.push({ x1: Math.random() * canvas.width, y1: 0, x2: Math.random() * canvas.width, y2: canvas.height, color: Math.random() > 0.5 ? "black" : "#bbb" }); }
                 randomLines.forEach(l => { ctx.beginPath(); ctx.strokeStyle = l.color; ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke(); });
-            } else if (type === "THE ELLIPSE") {
-                ctx.strokeStyle = "black";
-                if (ellipses.length === 0) { for(let i=0; i<30; i++) ellipses.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI }); }
-                ellipses.forEach(e => {
-                    ctx.beginPath(); ctx.ellipse(e.x, e.y, e.rx, e.ry, e.rot, 0, Math.PI*2);
-                    let dx = mouseX - e.x, dy = mouseY - e.y, cos = Math.cos(-e.rot), sin = Math.sin(-e.rot), xh = cos * dx - sin * dy, yh = sin * dx + cos * dy;
-                    if ((xh*xh)/(e.rx*e.rx) + (yh*yh)/(e.ry*e.ry) <= 1) { ctx.fillStyle = "rgba(133, 162, 162, 0.5)"; ctx.fill(); }
-                    ctx.stroke();
-                });
             } else if (type === "RIQUALIFICAZIONE MOLINETTE") {
-                if (waves.length === 0) {
-                    for(let i=0; i<35; i++) {
-                        waves.push({ y: Math.random() * canvas.height, amp: 20 + Math.random() * 40, freq: 0.002 + Math.random() * 0.005, color: Math.random() > 0.5 ? "rgb(227, 59, 78)" : "rgb(93, 113, 117)" });
-                    }
-                }
-                waves.forEach(w => {
-                    ctx.beginPath(); ctx.strokeStyle = w.color;
-                    for(let x=0; x<canvas.width; x+=5) { let y = w.y + Math.sin(x * w.freq) * w.amp; if(x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
-                    ctx.stroke();
-                });
-            } else if (type === "RELOADINGENOVA") { document.body.classList.add('dark-mode'); }
+                if (waves.length === 0) { for(let i=0; i<35; i++) waves.push({ y: Math.random() * canvas.height, amp: 30, freq: 0.003, color: Math.random() > 0.5 ? "rgb(227, 59, 78)" : "rgb(93, 113, 117)" }); }
+                waves.forEach(w => { ctx.beginPath(); ctx.strokeStyle = w.color; for(let x=0; x<canvas.width; x+=5) { let y = w.y + Math.sin(x * w.freq) * w.amp; if(x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); } ctx.stroke(); });
+            }
+        }
+
+        function updateSlider() {
+            const imgs = document.querySelectorAll('.slider-img');
+            imgs.forEach((img, i) => img.classList.toggle('active', i === sliderIdx));
+            document.querySelector('.arrow-prev').style.display = sliderIdx === 0 ? 'none' : 'flex';
+            document.querySelector('.arrow-next').style.display = sliderIdx === imgs.length - 1 ? 'none' : 'flex';
         }
 
         const data = { 'mc': ["PROGETTO 1", "PROGETTO 2", "PROGETTO 3"], 'ca': ["CASA PIONIERA", "CENTRO POLIFUNZIONALE", "THE ELLIPSE", "RIQUALIFICAZIONE MOLINETTE", "RELOADINGENOVA"] };
@@ -326,92 +159,42 @@
                 div.className = 'menu-item'; div.innerText = item;
                 div.onclick = () => {
                     document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('blue-act', 'green-act', 'teal-act', 'red-act'));
-                    document.body.classList.remove('cursor-triangle');
                     if(item === "CASA PIONIERA") div.classList.add('green-act');
                     else if (item === "THE ELLIPSE") div.classList.add('teal-act');
                     else if (item === "RIQUALIFICAZIONE MOLINETTE") div.classList.add('red-act');
-                    else if (prefix === 'ca') { div.classList.add('blue-act'); if(item === "CENTRO POLIFUNZIONALE") document.body.classList.add('cursor-triangle'); }
+                    else div.classList.add('blue-act');
+
+                    if(item === "CENTRO POLIFUNZIONALE") document.body.classList.add('cursor-triangle'); else document.body.classList.remove('cursor-triangle');
                     
                     updateSoftware(prefix === 'ca' ? 'sw-ca-list' : 'sw-mc-list', item);
                     title.innerText = item;
                     gallery.innerHTML = '<div id="desc-box" class="project-description"></div>';
-                    
-                    const dBox = document.getElementById('desc-box');
-                    dBox.innerText = descriptions[item] || "";
-                    dBox.style.display = descriptions[item] ? "block" : "none";
-
-                    if(item === "CENTRO POLIFUNZIONALE") {
-                        const btn = document.createElement('a'); btn.className = 'btn-theplan'; btn.innerText = "Pubblicazione THE PLAN";
-                        btn.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano";
-                        btn.target = "_blank"; gallery.appendChild(btn);
-                    }
+                    document.getElementById('desc-box').innerText = descriptions[item] || "";
+                    document.getElementById('desc-box').style.display = descriptions[item] ? "block" : "none";
 
                     if(item === "RIQUALIFICAZIONE MOLINETTE") {
-                        // Foto statiche 1-4 (al 80%)
-                        for(let i=1; i<=4; i++) {
-                            const wrap = document.createElement('div'); wrap.className = 'img-wrap';
-                            const img = document.createElement('img'); img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
-                            img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
-                            wrap.appendChild(img); gallery.appendChild(wrap);
-                        }
-                        // Testo Celid (al 80%)
-                        const subT = document.createElement('div'); subT.className = 'project-description'; subT.style.display = 'block';
-                        subT.innerText = molinetteSubText; gallery.appendChild(subT);
-                        
-                        // SLIDER Foto 5-7 (al 50%) Centrato
-                        const sliderWrapper = document.createElement('div'); sliderWrapper.className = 'slider-wrapper';
-                        const sliderCont = document.createElement('div'); sliderCont.className = 'slider-container';
-                        const imagesFrame = document.createElement('div'); imagesFrame.className = 'slider-images-frame';
-                        
-                        sliderIdx = 0; // Reset
-                        for(let i=5; i<=7; i++) {
-                            const img = document.createElement('img'); 
-                            img.className = `slider-img ${i===5?'active':''}`;
-                            img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
-                            img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
-                            imagesFrame.appendChild(img);
-                        }
-                        
-                        const lA = document.createElement('button'); lA.className = 'slider-arrow arrow-left'; lA.innerHTML = '&#10094;'; 
-                        lA.onclick = (e) => { e.stopPropagation(); moveSlider(-1); };
-                        
-                        const rA = document.createElement('button'); rA.className = 'slider-arrow arrow-right'; rA.innerHTML = '&#10095;'; 
-                        rA.style.display = "flex"; // Destra visibile all'inizio
-                        rA.onclick = (e) => { e.stopPropagation(); moveSlider(1); };
-                        
-                        sliderCont.appendChild(lA);
-                        sliderCont.appendChild(imagesFrame);
-                        sliderCont.appendChild(rA);
-                        sliderWrapper.appendChild(sliderCont);
-                        gallery.appendChild(sliderWrapper);
-
+                        for(let i=1; i<=4; i++) { gallery.innerHTML += `<div class="img-wrap"><img src="CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG"></div>`; }
+                        gallery.innerHTML += `<div class="project-description" style="display:block">${molinetteSubText}</div>`;
+                        gallery.innerHTML += `
+                            <div class="molinette-slider">
+                                <button class="slider-arrow arrow-prev" onclick="sliderIdx--;updateSlider()">&#10094;</button>
+                                <div class="slider-frame">
+                                    <img src="CA/RIQUALIFICAZIONE MOLINETTE 5.PNG" class="slider-img active">
+                                    <img src="CA/RIQUALIFICAZIONE MOLINETTE 6.PNG" class="slider-img">
+                                    <img src="CA/RIQUALIFICAZIONE MOLINETTE 7.PNG" class="slider-img">
+                                </div>
+                                <button class="slider-arrow arrow-next" onclick="sliderIdx++;updateSlider()">&#10095;</button>
+                            </div>`;
+                        sliderIdx = 0;
                     } else {
-                        // Altri progetti (al 80%)
-                        let count = (item === "CASA PIONIERA" || item === "THE ELLIPSE") ? 4 : (item === "CENTRO POLIFUNZIONALE") ? 7 : 1;
-                        for(let i=1; i<=count; i++) {
-                            const wrap = document.createElement('div'); wrap.className = 'img-wrap';
-                            const img = document.createElement('img');
-                            let fName = count > 1 ? `${item} ${i}` : item;
-                            img.src = `${prefix.toUpperCase()}/${fName}.PNG`;
-                            img.onerror = function() { this.src = this.src.includes(".PNG") ? this.src.replace(".PNG", ".png") : this.src.replace(".png", ".PNG"); };
-                            if(item === "CASA PIONIERA") { const c = document.createElement('div'); c.className = 'label-cap'; c.innerText = cpCaps[i-1]; wrap.appendChild(c); }
-                            wrap.prepend(img); gallery.appendChild(wrap);
-                        }
+                        let count = (item === "CENTRO POLIFUNZIONALE") ? 7 : (item === "RELOADINGENOVA" ? 1 : 4);
+                        for(let i=1; i<=count; i++) { gallery.innerHTML += `<div class="img-wrap"><img src="${prefix.toUpperCase()}/${item}${count>1?' '+i:''}.PNG"></div>`; }
                     }
                     randomLines = []; waves = []; drawEffect(item);
                 };
                 menu.appendChild(div);
             });
-
-            const back = document.createElement('div');
-            back.className = 'back-home'; back.innerText = "MC - CA";
-            back.onclick = () => {
-                document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
-                document.getElementById('home-page').style.display = 'flex';
-                document.body.classList.remove('cursor-triangle');
-                clearCanvas();
-            };
-            menu.appendChild(back);
+            const back = document.createElement('div'); back.className = 'back-home'; back.innerText = "MC - CA"; back.onclick = () => { document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none'); document.getElementById('home-page').style.display = 'flex'; clearCanvas(); }; menu.appendChild(back);
         }
         setupMenu('mc'); setupMenu('ca');
     </script>

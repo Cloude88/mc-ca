@@ -165,6 +165,8 @@
             "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
         };
 
+        const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
+
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize); resize();
         window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; if (currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") drawEffect(currentEffect); });
@@ -236,7 +238,7 @@
                             y: Math.random() * canvas.height,
                             amp: 20 + Math.random() * 40,
                             freq: 0.002 + Math.random() * 0.005,
-                            color: Math.random() > 0.5 ? "rgb(227, 59, 78)" : "#bbb"
+                            color: Math.random() > 0.5 ? "rgb(227, 59, 78)" : "rgb(93, 113, 117)"
                         });
                     }
                 }
@@ -278,7 +280,7 @@
                     
                     updateSoftware(prefix === 'ca' ? 'sw-ca-list' : 'sw-mc-list', item);
                     title.innerText = item;
-                    gallery.querySelectorAll('.img-wrap, .btn-theplan').forEach(w => w.remove());
+                    gallery.querySelectorAll('.img-wrap, .btn-theplan, .project-description-sub').forEach(el => el.remove());
                     
                     const dBox = document.getElementById('desc-box');
                     if(dBox) { 
@@ -298,7 +300,7 @@
                     if (item === "CASA PIONIERA") count = 4;
                     else if (item === "CENTRO POLIFUNZIONALE") count = 7;
                     else if (item === "THE ELLIPSE") count = 4;
-                    else if (item === "RIQUALIFICAZIONE MOLINETTE") count = 3;
+                    else if (item === "RIQUALIFICAZIONE MOLINETTE") count = 6;
 
                     for(let i=1; i<=count; i++) {
                         const wrap = document.createElement('div'); wrap.className = 'img-wrap';
@@ -307,7 +309,18 @@
                         img.src = `${prefix.toUpperCase()}/${fName}.PNG`;
                         img.onerror = function() { this.src = this.src.includes(".PNG") ? this.src.replace(".PNG", ".png") : this.src.replace(".png", ".PNG"); };
                         if(item === "CASA PIONIERA") { const c = document.createElement('div'); c.className = 'label-cap'; c.innerText = cpCaps[i-1]; wrap.appendChild(c); }
-                        wrap.prepend(img); gallery.appendChild(wrap);
+                        
+                        wrap.prepend(img);
+                        gallery.appendChild(wrap);
+
+                        // Inserimento testo speciale Molinette tra foto 4 e 5
+                        if (item === "RIQUALIFICAZIONE MOLINETTE" && i === 4) {
+                            const subText = document.createElement('div');
+                            subText.className = 'project-description project-description-sub';
+                            subText.style.display = 'block';
+                            subText.innerText = molinetteSubText;
+                            gallery.appendChild(subText);
+                        }
                     }
                     if(item !== "CENTRO POLIFUNZIONALE") randomLines = [];
                     if(item !== "RIQUALIFICAZIONE MOLINETTE") waves = [];

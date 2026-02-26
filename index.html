@@ -50,6 +50,7 @@
         .sw-tag.green-h { background: rgb(169, 212, 177); }
         .sw-tag.blue-h { background: rgb(122, 161, 190); }
         .sw-tag.teal-h { background: rgb(133, 162, 162); }
+        .sw-tag.red-h { background: rgb(227, 59, 78); }
 
         .header-titles h1 { font-size: 3.5rem; font-weight: bold; margin-bottom: 5px; }
         .header-titles p { font-size: 1.1rem; color: #333; }
@@ -94,6 +95,7 @@
         .menu-item.blue-act { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .menu-item.green-act { color: rgb(169, 212, 177) !important; font-weight: bold; }
         .menu-item.teal-act { color: rgb(133, 162, 162) !important; font-weight: bold; }
+        .menu-item.red-act { color: rgb(227, 59, 78) !important; font-weight: bold; }
 
         .back-home { margin-top: auto; font-size: 1.1rem; cursor: pointer; font-weight: bold; text-transform: none; color: black; }
 
@@ -150,7 +152,7 @@
     <script>
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        let currentEffect = ""; let ellipses = []; let randomLines = [];
+        let currentEffect = ""; let ellipses = []; let randomLines = []; let waves = [];
         let mouseX = 0, mouseY = 0;
         
         const softwareNames = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
@@ -189,6 +191,8 @@
                     if (["AutoCAD", "Revit", "Indesign", "Lumion 3D", "SketchUp", "Photoshop", "Enscape", "Pacchetto Office"].includes(name)) s.classList.add("blue-h");
                 } else if (currentItem === "THE ELLIPSE") {
                     if (["Revit", "Illustrator", "Lumion 3D", "Dynamo"].includes(name)) s.classList.add("teal-h");
+                } else if (currentItem === "RIQUALIFICAZIONE MOLINETTE") {
+                    if (["AutoCAD", "Revit", "Illustrator", "Photoshop", "Pacchetto Office"].includes(name)) s.classList.add("red-h");
                 }
                 container.appendChild(s);
             });
@@ -225,6 +229,25 @@
                     if ((xh*xh)/(e.rx*e.rx) + (yh*yh)/(e.ry*e.ry) <= 1) { ctx.fillStyle = "rgba(133, 162, 162, 0.5)"; ctx.fill(); }
                     ctx.stroke();
                 });
+            } else if (type === "RIQUALIFICAZIONE MOLINETTE") {
+                if (waves.length === 0) {
+                    for(let i=0; i<35; i++) {
+                        waves.push({
+                            y: Math.random() * canvas.height,
+                            amp: 20 + Math.random() * 40,
+                            freq: 0.002 + Math.random() * 0.005,
+                            color: Math.random() > 0.5 ? "rgb(227, 59, 78)" : "#bbb"
+                        });
+                    }
+                }
+                waves.forEach(w => {
+                    ctx.beginPath(); ctx.strokeStyle = w.color;
+                    for(let x=0; x<canvas.width; x+=5) {
+                        let y = w.y + Math.sin(x * w.freq) * w.amp;
+                        if(x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                });
             } else if (type === "RELOADINGENOVA") { document.body.classList.add('dark-mode'); }
         }
 
@@ -242,11 +265,12 @@
                 const div = document.createElement('div');
                 div.className = 'menu-item'; div.innerText = item;
                 div.onclick = () => {
-                    document.querySelectorAll('.menu-item').forEach(m => { m.classList.remove('blue-act', 'green-act', 'teal-act'); });
+                    document.querySelectorAll('.menu-item').forEach(m => { m.classList.remove('blue-act', 'green-act', 'teal-act', 'red-act'); });
                     document.body.classList.remove('cursor-triangle');
                     
                     if(item === "CASA PIONIERA") div.classList.add('green-act');
                     else if (item === "THE ELLIPSE") div.classList.add('teal-act');
+                    else if (item === "RIQUALIFICAZIONE MOLINETTE") div.classList.add('red-act');
                     else if (prefix === 'ca') { 
                         div.classList.add('blue-act'); 
                         if(item === "CENTRO POLIFUNZIONALE") document.body.classList.add('cursor-triangle');
@@ -286,6 +310,7 @@
                         wrap.prepend(img); gallery.appendChild(wrap);
                     }
                     if(item !== "CENTRO POLIFUNZIONALE") randomLines = [];
+                    if(item !== "RIQUALIFICAZIONE MOLINETTE") waves = [];
                     drawEffect(item);
                 };
                 menu.appendChild(div);

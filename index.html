@@ -65,31 +65,49 @@
             background: rgba(255, 255, 255, 0.95); z-index: 30;
         }
 
+        /* GALLERY GENERALE */
         .gallery { 
             flex: 1; display: flex; flex-direction: column; 
-            align-items: center; overflow-y: auto; padding: 5%; gap: 60px; z-index: 20;
+            align-items: center; overflow-y: auto; padding: 5% 0; gap: 60px; z-index: 20;
         }
         
-        .img-wrap { width: 100%; display: flex; flex-direction: column; position: relative; align-items: center; }
+        /* Immagini standard ridotte in percentuale e centrate */
+        .img-wrap { 
+            width: 80%; /* Più piccole in percentuale */
+            display: flex; flex-direction: column; position: relative; align-items: center; margin: 0 auto;
+        }
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
-        /* --- SLIDER MOLINETTE NUOVO --- */
+        /* --- SLIDER MOLINETTE CORRETTO --- */
+        .slider-wrapper {
+            width: 100%; /* Contenitore esterno per centrare */
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+            z-index: 50;
+        }
+
         .slider-container {
-            width: 100%;
-            max-width: 800px;
-            height: 500px;
+            width: 50%; /* Più piccolo (metà della gallery) in percentuale */
             position: relative;
-            margin: 40px auto;
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: transparent;
         }
-        .slider-img { 
-            position: absolute;
-            top: 0; left: 0;
+        
+        /* CSS fondamentale per sovrapporre le immagini */
+        .slider-images-frame {
             width: 100%;
-            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-img { 
+            width: 100%;
+            height: auto;
             object-fit: contain; 
             display: none; /* Nascondiamo tutto di base */
         }
@@ -105,8 +123,9 @@
             align-items: center; justify-content: center;
             border-radius: 50%;
         }
-        .arrow-left { left: -60px; }
-        .arrow-right { right: -60px; }
+        /* Frecce posizionate in percentuale rispetto al contenitore */
+        .arrow-left { left: -10%; }
+        .arrow-right { right: -10%; }
 
         .label-cap {
             align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold;
@@ -122,8 +141,9 @@
         .btn-theplan:hover { opacity: 0.8; }
 
         .project-description {
-            width: 100%; background: rgba(255, 255, 255, 0.95); padding: 2.5%; 
-            color: black; font-size: 1rem; line-height: 1.5; text-align: center; margin-bottom: 20px; display: none; 
+            width: 80%; /* Allineata alle immagini ridotte */
+            background: rgba(255, 255, 255, 0.95); padding: 2.5%; 
+            color: black; font-size: 1rem; line-height: 1.5; text-align: center; margin: 0 auto 20px auto; display: none; 
         }
 
         .menu-item { cursor: pointer; font-size: 1.1rem; color: black; text-transform: uppercase; text-align: left; }
@@ -196,8 +216,8 @@
         
         const descriptions = {
             "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
-            "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro non solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
-            "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto non solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figura geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
+            "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro not solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
+            "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto not solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figura geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse not come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
             "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
         };
 
@@ -206,6 +226,14 @@
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize); resize();
         window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; if (currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") drawEffect(currentEffect); });
+
+        // Navigazione slider tastiera
+        window.addEventListener('keydown', (e) => {
+            if(currentEffect === "RIQUALIFICAZIONE MOLINETTE") {
+                if(e.key === "ArrowRight") moveSlider(1);
+                if(e.key === "ArrowLeft") moveSlider(-1);
+            }
+        });
 
         function moveSlider(step) {
             const images = document.querySelectorAll('.slider-img');
@@ -217,6 +245,7 @@
             sliderIdx = Math.max(0, Math.min(images.length - 1, sliderIdx + step));
             images[sliderIdx].classList.add('active');
 
+            // Logica visibilità frecce
             if(btnLeft) btnLeft.style.display = (sliderIdx === 0) ? "none" : "flex";
             if(btnRight) btnRight.style.display = (sliderIdx === images.length - 1) ? "none" : "flex";
         }
@@ -318,42 +347,46 @@
                     }
 
                     if(item === "RIQUALIFICAZIONE MOLINETTE") {
-                        // Foto statiche 1-4
+                        // Foto statiche 1-4 (al 80%)
                         for(let i=1; i<=4; i++) {
                             const wrap = document.createElement('div'); wrap.className = 'img-wrap';
                             const img = document.createElement('img'); img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
                             img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
                             wrap.appendChild(img); gallery.appendChild(wrap);
                         }
-                        // Testo Celid
+                        // Testo Celid (al 80%)
                         const subT = document.createElement('div'); subT.className = 'project-description'; subT.style.display = 'block';
                         subT.innerText = molinetteSubText; gallery.appendChild(subT);
                         
-                        // SLIDER Foto 5-7
+                        // SLIDER Foto 5-7 (al 50%) Centrato
+                        const sliderWrapper = document.createElement('div'); sliderWrapper.className = 'slider-wrapper';
                         const sliderCont = document.createElement('div'); sliderCont.className = 'slider-container';
-                        sliderIdx = 0; // Reset indice
+                        const imagesFrame = document.createElement('div'); imagesFrame.className = 'slider-images-frame';
                         
+                        sliderIdx = 0; // Reset
                         for(let i=5; i<=7; i++) {
                             const img = document.createElement('img'); 
                             img.className = `slider-img ${i===5?'active':''}`;
                             img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
                             img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
-                            sliderCont.appendChild(img);
+                            imagesFrame.appendChild(img);
                         }
                         
                         const lA = document.createElement('button'); lA.className = 'slider-arrow arrow-left'; lA.innerHTML = '&#10094;'; 
                         lA.onclick = (e) => { e.stopPropagation(); moveSlider(-1); };
                         
                         const rA = document.createElement('button'); rA.className = 'slider-arrow arrow-right'; rA.innerHTML = '&#10095;'; 
-                        rA.style.display = "flex"; // La destra appare subito
+                        rA.style.display = "flex"; // Destra visibile all'inizio
                         rA.onclick = (e) => { e.stopPropagation(); moveSlider(1); };
                         
                         sliderCont.appendChild(lA);
+                        sliderCont.appendChild(imagesFrame);
                         sliderCont.appendChild(rA);
-                        gallery.appendChild(sliderCont);
+                        sliderWrapper.appendChild(sliderCont);
+                        gallery.appendChild(sliderWrapper);
 
                     } else {
-                        // Altri progetti
+                        // Altri progetti (al 80%)
                         let count = (item === "CASA PIONIERA" || item === "THE ELLIPSE") ? 4 : (item === "CENTRO POLIFUNZIONALE") ? 7 : 1;
                         for(let i=1; i<=count; i++) {
                             const wrap = document.createElement('div'); wrap.className = 'img-wrap';

@@ -8,18 +8,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; transition: background-color 0.4s; }
         body, html { height: 100%; width: 100%; background-color: white; overflow: hidden; }
 
-        /* Canvas per effetti grafici sullo sfondo */
-        #bg-canvas { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh; 
-            z-index: 0; 
-            pointer-events: none; 
-        }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-        /* --- SCHERMATA INTRO VIDEO --- */
+        /* --- INTRO VIDEO --- */
         #intro-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white; z-index: 1000; display: flex; justify-content: center; align-items: center;
@@ -47,15 +38,21 @@
             padding: 20px 5%; border-bottom: 2px solid white; 
             background-color: rgba(244, 244, 244, 0.95); 
             display: flex; justify-content: space-between; align-items: center;
-            z-index: 30; min-height: 120px;
+            z-index: 30; min-height: 120px; position: relative;
         }
         .header-titles h1 { font-size: 3.5rem; font-weight: bold; margin-bottom: 5px; }
         .header-titles p { font-size: 1.1rem; color: #333; }
+        
+        /* Titolo centrale dinamico */
+        .header-center-title {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            font-size: 1.5rem; font-weight: bold; color: black; text-transform: uppercase;
+        }
+
         .header-logo img { height: 60px; width: auto; object-fit: contain; }
 
         .content-wrapper { display: flex; flex: 1; overflow: hidden; flex-direction: row-reverse; background: transparent; }
         
-        /* Galleria con scroll e margini richiesti */
         .gallery { 
             flex: 1; 
             display: flex; 
@@ -66,6 +63,20 @@
             gap: 50px; 
             z-index: 20;
         }
+        
+        /* Box Descrizione Progetto */
+        .project-description {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5%; /* Circa il 2% in più del testo per lato */
+            color: black;
+            font-size: 1rem;
+            line-height: 1.5;
+            text-align: left;
+            margin-bottom: 20px;
+            display: none; /* Visibile solo su Casa Pioniera */
+        }
+
         .gallery img { 
             width: 100%; 
             height: auto; 
@@ -74,7 +85,6 @@
             display: block;
         }
 
-        /* Menu laterale fisso */
         .sidebar {
             width: 300px; border-right: 2px solid grey; 
             display: flex; flex-direction: column; padding: 40px 0 40px 5%; gap: 15px;
@@ -86,13 +96,20 @@
             text-transform: uppercase; text-align: left;
         }
         .menu-item:hover { color: #888; text-decoration: underline; }
+        
+        /* Classe per l'elemento selezionato */
+        .menu-item.active {
+            color: rgb(122, 161, 190) !important;
+            font-weight: bold;
+        }
+
         .back-home { margin-top: auto; font-size: 1.1rem; cursor: pointer; font-weight: bold; text-transform: none; color: black; }
 
-        /* Modalità Dark per ReloadinGenova */
         .dark-mode { background-color: black !important; color: white !important; }
         .dark-mode .header { background-color: rgba(26, 26, 26, 1) !important; }
         .dark-mode .sidebar { border-right: 2px solid #444 !important; background: black !important; }
         .dark-mode .menu-item, .dark-mode .back-home, .dark-mode .header-titles p { color: white !important; }
+        .dark-mode .header-center-title { color: white !important; }
     </style>
 </head>
 <body>
@@ -117,6 +134,7 @@
     <div id="page-mc" class="sub-page">
         <div class="header">
             <div class="header-titles"><h1>MC</h1><p>Martina Colucci</p></div>
+            <div class="header-center-title" id="center-title-mc"></div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
         <div class="content-wrapper">
@@ -128,10 +146,15 @@
     <div id="page-ca" class="sub-page">
         <div class="header">
             <div class="header-titles"><h1>CA</h1><p>Claudio Antonelli</p></div>
+            <div class="header-center-title" id="center-title-ca"></div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
         <div class="content-wrapper">
-            <div class="gallery" id="gallery-ca"></div>
+            <div class="gallery" id="gallery-ca">
+                <div id="desc-casa-pioniera" class="project-description">
+                    La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.
+                </div>
+            </div>
             <div class="sidebar" id="menu-ca"></div>
         </div>
     </div>
@@ -174,6 +197,10 @@
             currentEffect = "";
             clearCanvas();
             document.body.classList.remove('dark-mode');
+            // Reset titoli centrali e active menu
+            document.getElementById('center-title-mc').innerText = "";
+            document.getElementById('center-title-ca').innerText = "";
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
         }
 
         function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
@@ -236,27 +263,37 @@
         function setupMenu(prefix) {
             const menu = document.getElementById(`menu-${prefix}`);
             const gallery = document.getElementById(`gallery-${prefix}`);
+            const centerTitle = document.getElementById(`center-title-${prefix}`);
 
             data[prefix].forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'menu-item';
                 div.innerText = item;
                 div.onclick = () => {
-                    gallery.innerHTML = ""; 
+                    // Gestione Active Menu
+                    document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+                    div.classList.add('active');
+
+                    // Titolo centrale
+                    centerTitle.innerText = item;
+
+                    // Pulisce galleria (mantenendo il box descrizione se CA)
+                    const descBox = document.getElementById('desc-casa-pioniera');
+                    gallery.querySelectorAll('img').forEach(img => img.remove());
                     
                     if (item === "CASA PIONIERA") {
+                        if(descBox) descBox.style.display = "block";
                         for(let i=1; i<=4; i++) {
                             const img = document.createElement('img');
-                            // Prime 3 immagini .png, la 4a è .PNG
                             let ext = (i < 4) ? ".png" : ".PNG";
                             img.src = `CA/CASA PIONIERA ${i}${ext}`;
                             img.onerror = function() {
-                                // Se fallisce, prova l'estensione opposta per sicurezza
                                 this.src = this.src.includes(".PNG") ? this.src.replace(".PNG", ".png") : this.src.replace(".png", ".PNG");
                             };
                             gallery.appendChild(img);
                         }
                     } else {
+                        if(descBox) descBox.style.display = "none";
                         const img = document.createElement('img');
                         img.src = `${prefix.toUpperCase()}/${item}.PNG`;
                         img.onerror = function() {
@@ -283,7 +320,9 @@
                 document.body.classList.remove('dark-mode');
                 currentEffect = ""; ellipses = []; randomLines = [];
                 clearCanvas();
-                gallery.innerHTML = "";
+                gallery.querySelectorAll('img').forEach(img => img.remove());
+                const descBox = document.getElementById('desc-casa-pioniera');
+                if(descBox) descBox.style.display = "none";
                 document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
                 document.getElementById('home-page').style.display = 'flex';
             };

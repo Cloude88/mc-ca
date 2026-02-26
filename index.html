@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MC - CA</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; transition: background-color 0.4s; }
         body, html { height: 100%; width: 100%; background-color: white; overflow: hidden; }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
@@ -32,30 +32,30 @@
         .header-logo img { height: 60px; width: auto; }
 
         /* --- CONTENT --- */
-        .content-wrapper { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; }
+        .content-wrapper { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; position: relative; z-index: 10; }
         .sidebar { width: 300px; border-right: 2px solid grey; display: flex; flex-direction: column; padding: 40px 0 40px 5%; gap: 15px; background: white; z-index: 30; }
-        .gallery { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding: 5%; gap: 60px; z-index: 20; }
+        .gallery { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding: 5%; gap: 60px; z-index: 20; background: transparent; }
         
-        /* IMMAGINI AL 100% */
         .img-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .img-wrap img { width: 100%; height: auto; display: block; }
+        .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
         /* --- SLIDER MOLINETTE --- */
         .slider-container { width: 100%; display: flex; justify-content: center; align-items: center; position: relative; margin: 40px 0; }
-        .slider-box { width: 50%; height: 500px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; }
-        .slider-img { position: absolute; max-width: 100%; max-height: 100%; display: none; }
-        .slider-img.active { display: block; }
+        .slider-box { width: 50%; height: 500px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .slider-img-item { position: absolute; max-width: 100%; max-height: 100%; display: none; }
+        .slider-img-item.active { display: block; }
         .s-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: black; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 100; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
         .s-prev { left: 15%; display: none; }
         .s-next { right: 15%; }
 
-        .project-description { width: 100%; padding: 20px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.8); }
-        .menu-item { cursor: pointer; font-size: 1.1rem; text-transform: uppercase; color: black; }
+        .project-description { width: 100%; padding: 20px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; font-weight: bold; }
+        .menu-item { cursor: pointer; font-size: 1.1rem; text-transform: uppercase; color: black; text-align: left; }
         .menu-item.active-blue { color: rgb(122, 161, 190); font-weight: bold; }
         .menu-item.active-green { color: rgb(169, 212, 177); font-weight: bold; }
         .menu-item.active-teal { color: rgb(133, 162, 162); font-weight: bold; }
         .menu-item.active-red { color: rgb(227, 59, 78); font-weight: bold; }
         .back-home { margin-top: auto; font-weight: bold; cursor: pointer; }
+        .cursor-triangle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="black"/></svg>'), auto !important; }
     </style>
 </head>
 <body>
@@ -84,38 +84,36 @@
     <script>
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        let sliderIdx = 0;
+        let currentEffect = ""; let sliderIdx = 0;
+        let randomLines = []; let ellipses = []; let waves = [];
+        let mouseX = 0, mouseY = 0;
+
         const softwareList = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
         
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+        window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; if(currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") drawEffect(currentEffect); });
+
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 2000);
         function startSite() { document.getElementById('intro-container').style.display='none'; document.getElementById('home-page').style.display='flex'; }
 
         function openPage(user) {
             document.getElementById('home-page').style.display='none';
             document.getElementById('main-interface').style.display='flex';
-            const initials = document.getElementById('side-initials');
-            const fullname = document.getElementById('side-fullname');
-            initials.innerText = user.toUpperCase();
-            fullname.innerText = user === 'mc' ? 'Martina Colucci' : 'Claudio Antonelli';
+            document.getElementById('side-initials').innerText = user.toUpperCase();
+            document.getElementById('side-fullname').innerText = user === 'mc' ? 'Martina Colucci' : 'Claudio Antonelli';
             buildMenu(user);
         }
 
         function buildMenu(user) {
-            const box = document.getElementById('menu-box');
-            box.innerHTML = "";
+            const box = document.getElementById('menu-box'); box.innerHTML = "";
             const projs = user === 'mc' ? ["PROGETTO 1", "PROGETTO 2", "PROGETTO 3"] : ["CASA PIONIERA", "CENTRO POLIFUNZIONALE", "THE ELLIPSE", "RIQUALIFICAZIONE MOLINETTE", "RELOADINGENOVA"];
-            
             projs.forEach(p => {
-                const d = document.createElement('div');
-                d.className = 'menu-item'; d.innerText = p;
+                const d = document.createElement('div'); d.className = 'menu-item'; d.innerText = p;
                 d.onclick = () => loadProject(user, p, d);
                 box.appendChild(d);
             });
-
-            const back = document.createElement('div');
-            back.className = 'back-home'; back.innerText = "MC - CA";
-            back.onclick = () => location.reload();
-            box.appendChild(back);
+            const back = document.createElement('div'); back.className = 'back-home'; back.innerText = "MC - CA"; back.onclick = () => location.reload(); box.appendChild(back);
         }
 
         function loadProject(user, title, element) {
@@ -128,40 +126,39 @@
             document.getElementById('proj-title').innerText = title;
             const gallery = document.getElementById('gallery-box');
             gallery.innerHTML = ""; sliderIdx = 0;
+            document.body.classList.toggle('cursor-triangle', title === "CENTRO POLIFUNZIONALE");
 
             if(title === "RIQUALIFICAZIONE MOLINETTE") {
                 for(let i=1; i<=4; i++) addImg(gallery, `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`);
+                const subT = document.createElement('div'); subT.className = 'project-description'; subT.innerText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro..."; gallery.appendChild(subT);
+                
                 const sliderWrap = document.createElement('div'); sliderWrap.className = 'slider-container';
                 sliderWrap.innerHTML = `
                     <button class="s-arrow s-prev" id="prevB" onclick="moveS(-1)">&#10094;</button>
                     <div class="slider-box">
-                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 5.PNG" class="slider-img active">
-                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 6.PNG" class="slider-img">
-                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 7.PNG" class="slider-img">
+                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 5.PNG" class="slider-img-item active" onerror="this.src=this.src.replace('.PNG','.png')">
+                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 6.PNG" class="slider-img-item" onerror="this.src=this.src.replace('.PNG','.png')">
+                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 7.PNG" class="slider-img-item" onerror="this.src=this.src.replace('.PNG','.png')">
                     </div>
-                    <button class="s-arrow s-next" id="nextB" onclick="moveS(1)">&#10095;</button>
-                `;
+                    <button class="s-arrow s-next" id="nextB" onclick="moveS(1)">&#10095;</button>`;
                 gallery.appendChild(sliderWrap);
             } else {
-                let count = (title === "CENTRO POLIFUNZIONALE") ? 7 : (title === "RELOADINGENOVA" ? 1 : 4);
-                for(let i=1; i<=count; i++) {
-                    let path = count > 1 ? `${user.toUpperCase()}/${title} ${i}.PNG` : `${user.toUpperCase()}/${title}.PNG`;
-                    addImg(gallery, path);
-                }
+                let count = (title === "CENTRO POLIFUNZIONALE") ? 7 : (title === "THE ELLIPSE") ? 4 : 1;
+                for(let i=1; i<=count; i++) addImg(gallery, `${user.toUpperCase()}/${title}${count>1?' '+i:''}.PNG`);
             }
             updateSW(title);
+            randomLines = []; ellipses = []; waves = []; drawEffect(title);
         }
 
         function addImg(parent, src) {
             const div = document.createElement('div'); div.className = 'img-wrap';
-            const img = document.createElement('img');
-            img.src = src;
+            const img = document.createElement('img'); img.src = src;
             img.onerror = () => { if(img.src.includes('.PNG')) img.src = img.src.replace('.PNG', '.png'); };
             div.appendChild(img); parent.appendChild(div);
         }
 
         function moveS(step) {
-            const imgs = document.querySelectorAll('.slider-img');
+            const imgs = document.querySelectorAll('.slider-img-item');
             imgs[sliderIdx].classList.remove('active');
             sliderIdx += step;
             imgs[sliderIdx].classList.add('active');
@@ -174,9 +171,40 @@
             softwareList.forEach(s => {
                 const span = document.createElement('span'); span.className = 'sw-tag'; span.innerText = s;
                 if(proj === "CASA PIONIERA" && ["AutoCAD", "Illustrator", "SketchUp"].includes(s)) span.classList.add('green-h');
-                if(proj === "RIQUALIFICAZIONE MOLINETTE" && ["AutoCAD", "Revit", "Illustrator", "Photoshop"].includes(s)) span.classList.add('red-h');
+                if(proj === "CENTRO POLIFUNZIONALE" && ["AutoCAD", "Revit", "Indesign", "Lumion 3D", "SketchUp", "Photoshop", "Enscape", "Pacchetto Office"].includes(s)) span.classList.add('blue-h');
+                if(proj === "THE ELLIPSE" && ["Revit", "Illustrator", "Lumion 3D", "Dynamo"].includes(s)) span.classList.add('teal-h');
+                if(proj === "RIQUALIFICAZIONE MOLINETTE" && ["AutoCAD", "Revit", "Illustrator", "Photoshop", "Pacchetto Office"].includes(s)) span.classList.add('red-h');
                 box.appendChild(span);
             });
+        }
+
+        function drawEffect(type) {
+            currentEffect = type; ctx.clearRect(0,0,canvas.width,canvas.height);
+            if(type === "CASA PIONIERA") {
+                ctx.strokeStyle = "black"; ctx.lineWidth = 1;
+                for(let x=0; x<canvas.width; x+=60) {
+                    for(let y=0; y<canvas.height; y+=90) {
+                        ctx.beginPath(); ctx.rect(x,y,60,90);
+                        if(mouseX>=x && mouseX<=x+60 && mouseY>=y && mouseY<=y+90) { ctx.fillStyle="rgba(169, 212, 177, 0.5)"; ctx.fill(); }
+                        ctx.stroke();
+                    }
+                }
+            } else if(type === "CENTRO POLIFUNZIONALE") {
+                if(!randomLines.length) for(let i=0; i<45; i++) randomLines.push({x1: Math.random()*canvas.width, y1: 0, x2: Math.random()*canvas.width, y2: canvas.height, c: Math.random()>0.5?"black":"#bbb"});
+                randomLines.forEach(l => { ctx.beginPath(); ctx.strokeStyle=l.c; ctx.moveTo(l.x1,l.y1); ctx.lineTo(l.x2,l.y2); ctx.stroke(); });
+            } else if(type === "THE ELLIPSE") {
+                if(!ellipses.length) for(let i=0; i<30; i++) ellipses.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI});
+                ctx.strokeStyle = "black";
+                ellipses.forEach(e => {
+                    ctx.beginPath(); ctx.ellipse(e.x, e.y, e.rx, e.ry, e.rot, 0, Math.PI*2);
+                    let dx=mouseX-e.x, dy=mouseY-e.y, cos=Math.cos(-e.rot), sin=Math.sin(-e.rot), xh=cos*dx-sin*dy, yh=sin*dx+cos*dy;
+                    if((xh*xh)/(e.rx*e.rx)+(yh*yh)/(e.ry*e.ry) <= 1) { ctx.fillStyle="rgba(133, 162, 162, 0.5)"; ctx.fill(); }
+                    ctx.stroke();
+                });
+            } else if(type === "RIQUALIFICAZIONE MOLINETTE") {
+                if(!waves.length) for(let i=0; i<35; i++) waves.push({y: Math.random()*canvas.height, c: Math.random()>0.5?"rgb(227, 59, 78)":"rgb(93, 113, 117)"});
+                waves.forEach(w => { ctx.beginPath(); ctx.strokeStyle=w.c; for(let x=0; x<canvas.width; x+=5) { let y = w.y + Math.sin(x*0.003)*30; if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.stroke(); });
+            }
         }
     </script>
 </body>

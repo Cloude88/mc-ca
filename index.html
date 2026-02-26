@@ -75,26 +75,34 @@
         
         /* --- SLIDER MOLINETTE --- */
         .slider-container {
-            width: 50%; /* Metà larghezza */
-            height: auto;
+            width: 50%;
+            height: 500px; /* Altezza uguale per tutte */
             position: relative;
             margin: 20px 0;
             display: flex;
             align-items: center;
             justify-content: center;
             background: white;
+            overflow: visible;
         }
-        .slider-img { width: 100%; display: none; }
+        .slider-img { 
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain; 
+            display: none; 
+        }
         .slider-img.active { display: block; }
         .slider-arrow {
             position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.1); color: black; border: none;
-            font-size: 2rem; padding: 10px; cursor: pointer; z-index: 10;
-            opacity: 0; transition: opacity 0.3s;
+            background: black; color: white; border: none;
+            font-size: 1.5rem; width: 40px; height: 40px; 
+            cursor: pointer; z-index: 50; display: flex; 
+            align-items: center; justify-content: center;
+            border-radius: 50%; transition: transform 0.2s;
         }
-        .slider-container:hover .slider-arrow { opacity: 1; }
-        .arrow-left { left: -50px; }
-        .arrow-right { right: -50px; }
+        .slider-arrow:hover { transform: translateY(-50%) scale(1.1); }
+        .arrow-left { left: -60px; }
+        .arrow-right { right: -60px; }
 
         .label-cap {
             align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold;
@@ -195,7 +203,6 @@
         window.addEventListener('resize', resize); resize();
         window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; if (currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") drawEffect(currentEffect); });
 
-        // Navigazione tastiera per slider
         window.addEventListener('keydown', (e) => {
             if(currentEffect === "RIQUALIFICAZIONE MOLINETTE") {
                 if(e.key === "ArrowRight") moveSlider(1);
@@ -308,17 +315,15 @@
                     }
 
                     if(item === "RIQUALIFICAZIONE MOLINETTE") {
-                        // Foto 1-4
                         for(let i=1; i<=4; i++) {
                             const wrap = document.createElement('div'); wrap.className = 'img-wrap';
                             const img = document.createElement('img'); img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
                             img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
                             wrap.appendChild(img); gallery.appendChild(wrap);
                         }
-                        // Testo Celid
                         const subT = document.createElement('div'); subT.className = 'project-description'; subT.style.display = 'block';
                         subT.innerText = molinetteSubText; gallery.appendChild(subT);
-                        // Slider Foto 5-7
+                        
                         const sliderCont = document.createElement('div'); sliderCont.className = 'slider-container';
                         sliderIdx = 0;
                         for(let i=5; i<=7; i++) {

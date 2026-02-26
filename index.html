@@ -31,39 +31,25 @@
         .hidden-link { position: absolute; top: 0; width: 40%; height: 100%; background: transparent; cursor: pointer; border: none; }
         .link-mc { left: 0; } .link-ca { right: 0; }
 
-        /* --- PAGINE PROGETTI --- */
+        /* --- STRUTTURA PAGINE --- */
         .sub-page { display: none; height: 100vh; width: 100vw; flex-direction: column; position: relative; z-index: 10; }
         
+        /* Header diviso per rispecchiare il layout del corpo */
         .header {
-            padding: 20px 0; /* Tolto padding laterale per gestione precisa centro */
+            display: flex;
+            flex-direction: row-reverse; 
             border-bottom: 2px solid white; 
             background-color: rgba(244, 244, 244, 0.95); 
-            display: flex; 
-            flex-direction: row-reverse; /* Allineato con il content-wrapper */
             z-index: 30; min-height: 120px;
         }
 
-        /* Logo e Titoli laterali */
-        .header-left { width: 300px; padding-left: 5%; display: flex; flex-direction: column; justify-content: center; }
-        .header-right { flex: 1; padding-right: 5%; display: flex; justify-content: flex-end; align-items: center; }
-        
-        /* Contenitore per il titolo centrale: occupa lo spazio sopra la galleria */
-        .header-center-container { 
-            flex: 1; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            position: relative;
-        }
+        .header-left-box { width: 300px; padding-left: 5%; display: flex; flex-direction: column; justify-content: center; }
+        .header-center-box { flex: 1; display: flex; justify-content: center; align-items: center; }
+        .header-right-box { width: 150px; display: flex; justify-content: center; align-items: center; padding-right: 20px; }
 
         .header-titles h1 { font-size: 3.5rem; font-weight: bold; margin-bottom: 5px; }
         .header-titles p { font-size: 1.1rem; color: #333; }
-        
-        .header-center-title {
-            font-size: 1.5rem; font-weight: bold; color: black; text-transform: uppercase;
-            text-align: center;
-        }
-
+        .header-center-title { font-size: 1.5rem; font-weight: bold; color: black; text-transform: uppercase; }
         .header-logo img { height: 60px; width: auto; object-fit: contain; }
 
         .content-wrapper { display: flex; flex: 1; overflow: hidden; flex-direction: row-reverse; background: transparent; }
@@ -79,6 +65,18 @@
             z-index: 20;
         }
         
+        /* Contenitore immagine + didascalia */
+        .img-container { width: 100%; position: relative; display: flex; flex-direction: column; align-items: center; }
+        
+        .caption {
+            align-self: flex-end;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: black;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
         .project-description {
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
@@ -91,13 +89,7 @@
             display: none; 
         }
 
-        .gallery img { 
-            width: 100%; 
-            height: auto; 
-            max-width: 100%; 
-            object-fit: contain; 
-            display: block;
-        }
+        .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
 
         .sidebar {
             width: 300px; border-right: 2px solid grey; 
@@ -105,23 +97,17 @@
             background: rgba(255, 255, 255, 0.95); 
             z-index: 30;
         }
-        .menu-item {
-            cursor: pointer; font-size: 1.1rem; color: black; 
-            text-transform: uppercase; text-align: left;
-        }
+        .menu-item { cursor: pointer; font-size: 1.1rem; color: black; text-transform: uppercase; text-align: left; }
         .menu-item:hover { color: #888; text-decoration: underline; }
-        
-        .menu-item.active {
-            color: rgb(122, 161, 190) !important;
-            font-weight: bold;
-        }
+        .menu-item.active { color: rgb(122, 161, 190) !important; font-weight: bold; }
 
         .back-home { margin-top: auto; font-size: 1.1rem; cursor: pointer; font-weight: bold; text-transform: none; color: black; }
 
+        /* Dark Mode */
         .dark-mode { background-color: black !important; color: white !important; }
         .dark-mode .header { background-color: rgba(26, 26, 26, 1) !important; }
         .dark-mode .sidebar { border-right: 2px solid #444 !important; background: black !important; }
-        .dark-mode .menu-item, .dark-mode .back-home, .dark-mode .header-titles p { color: white !important; }
+        .dark-mode .menu-item, .dark-mode .back-home, .dark-mode .header-titles p, .dark-mode .caption { color: white !important; }
         .dark-mode .header-center-title { color: white !important; }
     </style>
 </head>
@@ -146,9 +132,9 @@
 
     <div id="page-mc" class="sub-page">
         <div class="header">
-            <div class="header-right"><div class="header-logo"><img src="logo.PNG" alt="Logo"></div></div>
-            <div class="header-center-container"><div class="header-center-title" id="center-title-mc"></div></div>
-            <div class="header-left"><div class="header-titles"><h1>MC</h1><p>Martina Colucci</p></div></div>
+            <div class="header-right-box"><div class="header-logo"><img src="logo.PNG" alt="Logo"></div></div>
+            <div class="header-center-box"><div class="header-center-title" id="center-title-mc"></div></div>
+            <div class="header-left-box"><div class="header-titles"><h1>MC</h1><p>Martina Colucci</p></div></div>
         </div>
         <div class="content-wrapper">
             <div class="gallery" id="gallery-mc"></div>
@@ -158,9 +144,9 @@
 
     <div id="page-ca" class="sub-page">
         <div class="header">
-            <div class="header-right"><div class="header-logo"><img src="logo.PNG" alt="Logo"></div></div>
-            <div class="header-center-container"><div class="header-center-title" id="center-title-ca"></div></div>
-            <div class="header-left"><div class="header-titles"><h1>CA</h1><p>Claudio Antonelli</p></div></div>
+            <div class="header-right-box"><div class="header-logo"><img src="logo.PNG" alt="Logo"></div></div>
+            <div class="header-center-box"><div class="header-center-title" id="center-title-ca"></div></div>
+            <div class="header-left-box"><div class="header-titles"><h1>CA</h1><p>Claudio Antonelli</p></div></div>
         </div>
         <div class="content-wrapper">
             <div class="gallery" id="gallery-ca">
@@ -180,6 +166,8 @@
         let randomLines = [];
         let mouseX = 0, mouseY = 0;
 
+        const cpCaptions = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
+
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -189,11 +177,8 @@
         resize();
 
         window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            if (currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") {
-                requestAnimationFrame(() => drawEffect(currentEffect));
-            }
+            mouseX = e.clientX; mouseY = e.clientY;
+            if (currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") requestAnimationFrame(() => drawEffect(currentEffect));
         });
 
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 3000);
@@ -207,8 +192,7 @@
             document.getElementById('home-page').style.display = 'none';
             document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
             document.getElementById(id).style.display = 'flex';
-            currentEffect = "";
-            clearCanvas();
+            currentEffect = ""; clearCanvas();
             document.body.classList.remove('dark-mode');
             document.getElementById('center-title-mc').innerText = "";
             document.getElementById('center-title-ca').innerText = "";
@@ -218,59 +202,32 @@
         function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
         function drawEffect(type) {
-            currentEffect = type;
-            clearCanvas();
-            document.body.classList.remove('dark-mode');
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 1.5;
-
+            currentEffect = type; clearCanvas(); document.body.classList.remove('dark-mode');
+            ctx.strokeStyle = "black"; ctx.lineWidth = 1.5;
             if (type === "CASA PIONIERA") {
                 const w = 60, h = 90;
                 for(let x=0; x<canvas.width; x+=w) {
                     for(let y=0; y<canvas.height; y+=h) {
-                        ctx.beginPath();
-                        ctx.rect(x, y, w, h);
-                        if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h) {
-                            ctx.fillStyle = "rgba(122, 161, 190, 0.5)";
-                            ctx.fill();
-                        }
+                        ctx.beginPath(); ctx.rect(x, y, w, h);
+                        if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h) { ctx.fillStyle = "rgba(122, 161, 190, 0.5)"; ctx.fill(); }
                         ctx.stroke();
                     }
                 }
             } else if (type === "CENTRO POLIFUNZIONALE") {
-                if (randomLines.length === 0) {
-                    for(let i=0; i<40; i++) {
-                        randomLines.push({ x1: Math.random() * canvas.width, y1: 0, x2: Math.random() * canvas.width, y2: canvas.height });
-                    }
-                }
-                randomLines.forEach(l => {
-                    ctx.beginPath(); ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke();
-                });
+                if (randomLines.length === 0) { for(let i=0; i<40; i++) randomLines.push({ x1: Math.random() * canvas.width, y1: 0, x2: Math.random() * canvas.width, y2: canvas.height }); }
+                randomLines.forEach(l => { ctx.beginPath(); ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke(); });
             } else if (type === "THE ELLIPSE") {
-                if (ellipses.length === 0) {
-                    for(let i=0; i<30; i++) {
-                        ellipses.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI });
-                    }
-                }
+                if (ellipses.length === 0) { for(let i=0; i<30; i++) ellipses.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI }); }
                 ellipses.forEach(e => {
                     ctx.beginPath(); ctx.ellipse(e.x, e.y, e.rx, e.ry, e.rot, 0, Math.PI*2);
-                    let dx = mouseX - e.x, dy = mouseY - e.y;
-                    let cos = Math.cos(-e.rot), sin = Math.sin(-e.rot);
-                    let xh = cos * dx - sin * dy, yh = sin * dx + cos * dy;
-                    if ((xh*xh)/(e.rx*e.rx) + (yh*yh)/(e.ry*e.ry) <= 1) {
-                        ctx.fillStyle = "rgba(122, 161, 190, 0.5)"; ctx.fill();
-                    }
+                    let dx = mouseX - e.x, dy = mouseY - e.y, cos = Math.cos(-e.rot), sin = Math.sin(-e.rot), xh = cos * dx - sin * dy, yh = sin * dx + cos * dy;
+                    if ((xh*xh)/(e.rx*e.rx) + (yh*yh)/(e.ry*e.ry) <= 1) { ctx.fillStyle = "rgba(122, 161, 190, 0.5)"; ctx.fill(); }
                     ctx.stroke();
                 });
-            } else if (type === "RELOADINGENOVA") {
-                document.body.classList.add('dark-mode');
-            }
+            } else if (type === "RELOADINGENOVA") { document.body.classList.add('dark-mode'); }
         }
 
-        const data = {
-            'mc': ["PROGETTO 1", "PROGETTO 2", "PROGETTO 3"],
-            'ca': ["CASA PIONIERA", "CENTRO POLIFUNZIONALE", "THE ELLIPSE", "RELOADINGENOVA"]
-        };
+        const data = { 'mc': ["PROGETTO 1", "PROGETTO 2", "PROGETTO 3"], 'ca': ["CASA PIONIERA", "CENTRO POLIFUNZIONALE", "THE ELLIPSE", "RELOADINGENOVA"] };
 
         function setupMenu(prefix) {
             const menu = document.getElementById(`menu-${prefix}`);
@@ -279,58 +236,44 @@
 
             data[prefix].forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'menu-item';
-                div.innerText = item;
+                div.className = 'menu-item'; div.innerText = item;
                 div.onclick = () => {
                     document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-                    div.classList.add('active');
-                    centerTitle.innerText = item;
-
+                    div.classList.add('active'); centerTitle.innerText = item;
                     const descBox = document.getElementById('desc-casa-pioniera');
-                    gallery.querySelectorAll('img').forEach(img => img.remove());
+                    gallery.querySelectorAll('.img-container').forEach(c => c.remove());
                     
                     if (item === "CASA PIONIERA") {
                         if(descBox) descBox.style.display = "block";
                         for(let i=1; i<=4; i++) {
+                            const container = document.createElement('div'); container.className = 'img-container';
                             const img = document.createElement('img');
                             let ext = (i < 4) ? ".png" : ".PNG";
                             img.src = `CA/CASA PIONIERA ${i}${ext}`;
-                            img.onerror = function() {
-                                this.src = this.src.includes(".PNG") ? this.src.replace(".PNG", ".png") : this.src.replace(".png", ".PNG");
-                            };
-                            gallery.appendChild(img);
+                            img.onerror = function() { this.src = this.src.includes(".PNG") ? this.src.replace(".PNG", ".png") : this.src.replace(".png", ".PNG"); };
+                            const cap = document.createElement('div'); cap.className = 'caption'; cap.innerText = cpCaptions[i-1];
+                            container.appendChild(img); container.appendChild(cap);
+                            gallery.appendChild(container);
                         }
                     } else {
                         if(descBox) descBox.style.display = "none";
-                        const img = document.createElement('img');
-                        img.src = `${prefix.toUpperCase()}/${item}.PNG`;
-                        img.onerror = function() {
-                            this.src = this.src.replace(".PNG", ".png");
-                        };
-                        gallery.appendChild(img);
+                        const container = document.createElement('div'); container.className = 'img-container';
+                        const img = document.createElement('img'); img.src = `${prefix.toUpperCase()}/${item}.PNG`;
+                        img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
+                        container.appendChild(img); gallery.appendChild(container);
                     }
-
-                    if(prefix === 'ca') {
-                        if(item !== "THE ELLIPSE") ellipses = [];
-                        if(item !== "CENTRO POLIFUNZIONALE") randomLines = [];
-                        drawEffect(item);
-                    } else {
-                        currentEffect = ""; clearCanvas();
-                    }
+                    if(prefix === 'ca') { if(item !== "THE ELLIPSE") ellipses = []; if(item !== "CENTRO POLIFUNZIONALE") randomLines = []; drawEffect(item); }
+                    else { currentEffect = ""; clearCanvas(); }
                 };
                 menu.appendChild(div);
             });
 
             const back = document.createElement('div');
-            back.className = 'back-home';
-            back.innerText = "MC - CA";
+            back.className = 'back-home'; back.innerText = "MC - CA";
             back.onclick = () => {
-                document.body.classList.remove('dark-mode');
-                currentEffect = ""; ellipses = []; randomLines = [];
-                clearCanvas();
-                gallery.querySelectorAll('img').forEach(img => img.remove());
-                const descBox = document.getElementById('desc-casa-pioniera');
-                if(descBox) descBox.style.display = "none";
+                document.body.classList.remove('dark-mode'); currentEffect = ""; ellipses = []; randomLines = []; clearCanvas();
+                gallery.querySelectorAll('.img-container').forEach(c => c.remove());
+                const descBox = document.getElementById('desc-casa-pioniera'); if(descBox) descBox.style.display = "none";
                 document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
                 document.getElementById('home-page').style.display = 'flex';
             };

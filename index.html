@@ -31,9 +31,7 @@
         .hidden-link { position: absolute; top: 0; width: 40%; height: 100%; background: transparent; cursor: pointer; border: none; }
         .link-mc { left: 0; } .link-ca { right: 0; }
 
-        /* --- STRUTTURA PAGINE --- */
-        .sub-page { display: none; height: 100vh; width: 100vw; flex-direction: column; position: relative; z-index: 10; }
-        
+        /* --- HEADER --- */
         .header {
             padding: 20px 5%; border-bottom: 2px solid white; 
             background-color: rgba(244, 244, 244, 0.95); 
@@ -41,20 +39,22 @@
             z-index: 30; min-height: 130px; position: relative;
         }
 
-        /* Titolo e Software centrati rispetto alla gallery */
         .header-center-area {
             position: absolute; left: calc(50% + 150px); transform: translateX(-50%);
             display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
         .header-center-title { font-size: 1.5rem; font-weight: bold; color: black; text-transform: uppercase; }
-        .sw-list { display: flex; gap: 10px; font-size: 0.8rem; font-weight: bold; }
+        
+        .sw-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 0.75rem; font-weight: bold; max-width: 600px; }
         .sw-tag { padding: 2px 6px; background: transparent; }
-        .sw-tag.active-green { background: rgb(169, 212, 177); }
+        .sw-tag.green-h { background: rgb(169, 212, 177); }
+        .sw-tag.blue-h { background: rgb(122, 161, 190); }
 
         .header-titles h1 { font-size: 3.5rem; font-weight: bold; margin-bottom: 5px; }
         .header-titles p { font-size: 1.1rem; color: #333; }
         .header-logo img { height: 60px; width: auto; object-fit: contain; }
 
+        /* --- CONTENT --- */
         .content-wrapper { display: flex; flex: 1; overflow: hidden; flex-direction: row-reverse; background: transparent; }
         
         .gallery { 
@@ -75,14 +75,13 @@
             color: black; font-size: 1rem; line-height: 1.5; text-align: center; margin-bottom: 20px; display: none; 
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 300px; border-right: 2px solid grey; 
             display: flex; flex-direction: column; padding: 40px 0 40px 5%; gap: 15px;
             background: rgba(255, 255, 255, 0.95); z-index: 30;
         }
         .menu-item { cursor: pointer; font-size: 1.1rem; color: black; text-transform: uppercase; text-align: left; }
-        
-        /* Colori Menu */
         .menu-item.blue-act { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .menu-item.green-act { color: rgb(169, 212, 177) !important; font-weight: bold; }
 
@@ -91,8 +90,6 @@
         .dark-mode { background-color: black !important; color: white !important; }
         .dark-mode .header { background-color: rgba(26, 26, 26, 1) !important; }
         .dark-mode .sidebar { border-right: 2px solid #444 !important; background: black !important; }
-        .dark-mode .menu-item, .dark-mode .back-home, .dark-mode .header-titles p { color: white !important; }
-        .dark-mode .header-center-title, .dark-mode .sw-list { color: white !important; }
     </style>
 </head>
 <body>
@@ -100,15 +97,12 @@
     <canvas id="bg-canvas"></canvas>
 
     <div id="intro-container">
-        <video id="myVideo" autoplay muted playsinline loop>
-            <source src="intro.mp4" type="video/mp4">
-        </video>
+        <video id="myVideo" autoplay muted playsinline loop><source src="intro.mp4" type="video/mp4"></video>
         <button id="enter-btn" onclick="showHome()">ENTRA</button>
     </div>
 
     <div id="home-page">
-        <div class="main-logo">
-            MC - CA
+        <div class="main-logo">MC - CA
             <button class="hidden-link link-mc" onclick="showPage('page-mc')"></button>
             <button class="hidden-link link-ca" onclick="showPage('page-ca')"></button>
         </div>
@@ -119,7 +113,7 @@
             <div class="header-titles"><h1>MC</h1><p>Martina Colucci</p></div>
             <div class="header-center-area">
                 <div class="header-center-title" id="title-mc"></div>
-                <div class="sw-list"><span>AutoCAD</span><span>SketchUp</span><span>Illustrator</span></div>
+                <div class="sw-list" id="sw-mc-list"></div>
             </div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
@@ -131,17 +125,13 @@
             <div class="header-titles"><h1>CA</h1><p>Claudio Antonelli</p></div>
             <div class="header-center-area">
                 <div class="header-center-title" id="title-ca"></div>
-                <div class="sw-list" id="sw-ca-list">
-                    <span class="sw-tag">AutoCAD</span><span class="sw-tag">SketchUp</span><span class="sw-tag">Illustrator</span>
-                </div>
+                <div class="sw-list" id="sw-ca-list"></div>
             </div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
         <div class="content-wrapper">
             <div class="gallery" id="gallery-ca">
-                <div id="desc-cp" class="project-description">
-                    La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.
-                </div>
+                <div id="desc-cp" class="project-description"></div>
             </div>
             <div class="sidebar" id="menu-ca"></div>
         </div>
@@ -152,7 +142,12 @@
         const ctx = canvas.getContext('2d');
         let currentEffect = ""; let ellipses = []; let randomLines = [];
         let mouseX = 0, mouseY = 0;
-        const cpCaps = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
+        
+        const softwareNames = ["Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office"];
+        const descriptions = {
+            "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
+            "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro non solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica."
+        };
 
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; if(currentEffect) drawEffect(currentEffect); }
         window.addEventListener('resize', resize); resize();
@@ -162,7 +157,6 @@
         });
 
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 3000);
-
         function showHome() { document.getElementById('intro-container').style.display = 'none'; document.getElementById('home-page').style.display = 'flex'; }
 
         function showPage(id) {
@@ -171,7 +165,18 @@
             document.getElementById(id).style.display = 'flex';
             currentEffect = ""; clearCanvas(); document.body.classList.remove('dark-mode');
             document.querySelectorAll('.menu-item').forEach(m => { m.classList.remove('blue-act'); m.classList.remove('green-act'); });
-            document.querySelectorAll('.sw-tag').forEach(s => s.classList.remove('active-green'));
+            renderSoftware(id === 'page-ca' ? 'sw-ca-list' : 'sw-mc-list');
+        }
+
+        function renderSoftware(containerId, highlightClass = "") {
+            const container = document.getElementById(containerId);
+            container.innerHTML = "";
+            softwareNames.forEach(name => {
+                const span = document.createElement('span');
+                span.className = `sw-tag ${highlightClass}`;
+                span.innerText = name;
+                container.appendChild(span);
+            });
         }
 
         function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
@@ -184,9 +189,7 @@
                 for(let x=0; x<canvas.width; x+=w) {
                     for(let y=0; y<canvas.height; y+=h) {
                         ctx.beginPath(); ctx.rect(x, y, w, h);
-                        if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h) { 
-                            ctx.fillStyle = "rgba(169, 212, 177, 0.5)"; ctx.fill(); 
-                        }
+                        if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h) { ctx.fillStyle = "rgba(169, 212, 177, 0.5)"; ctx.fill(); }
                         ctx.stroke();
                     }
                 }
@@ -216,30 +219,36 @@
                 div.className = 'menu-item'; div.innerText = item;
                 div.onclick = () => {
                     document.querySelectorAll('.menu-item').forEach(m => { m.classList.remove('blue-act'); m.classList.remove('green-act'); });
-                    document.querySelectorAll('.sw-tag').forEach(s => s.classList.remove('active-green'));
                     
-                    if(item === "CASA PIONIERA") { div.classList.add('green-act'); document.querySelectorAll('.sw-tag').forEach(s => s.classList.add('active-green')); }
-                    else { div.classList.add('blue-act'); }
+                    if(item === "CASA PIONIERA") {
+                        div.classList.add('green-act');
+                        renderSoftware('sw-ca-list', 'green-h');
+                    } else if (prefix === 'ca') {
+                        div.classList.add('blue-act');
+                        renderSoftware('sw-ca-list', 'blue-h');
+                    } else {
+                        div.classList.add('blue-act');
+                    }
 
                     title.innerText = item;
                     gallery.querySelectorAll('.img-wrap').forEach(w => w.remove());
-                    const dBox = document.getElementById('desc-cp'); if(dBox) dBox.style.display = (item === "CASA PIONIERA") ? "block" : "none";
+                    const dBox = (prefix === 'ca') ? document.getElementById('desc-cp') : null;
+                    
+                    if (dBox) {
+                        if (descriptions[item]) { dBox.innerText = descriptions[item]; dBox.style.display = "block"; }
+                        else dBox.style.display = "none";
+                    }
 
-                    if (item === "CASA PIONIERA") {
-                        for(let i=1; i<=4; i++) {
-                            const wrap = document.createElement('div'); wrap.className = 'img-wrap';
-                            const img = document.createElement('img'); let ext = (i < 4) ? ".png" : ".PNG";
-                            img.src = `CA/CASA PIONIERA ${i}${ext}`;
-                            img.onerror = function() { this.src = this.src.includes(".PNG") ? this.src.replace(".PNG", ".png") : this.src.replace(".png", ".PNG"); };
-                            const cap = document.createElement('div'); cap.className = 'label-cap'; cap.innerText = cpCaps[i-1];
-                            wrap.appendChild(img); wrap.appendChild(cap); gallery.appendChild(wrap);
-                        }
-                    } else {
+                    let count = (item === "CASA PIONIERA") ? 4 : (item === "CENTRO POLIFUNZIONALE") ? 7 : 1;
+                    for(let i=1; i<=count; i++) {
                         const wrap = document.createElement('div'); wrap.className = 'img-wrap';
-                        const img = document.createElement('img'); img.src = `${prefix.toUpperCase()}/${item}.PNG`;
-                        img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
+                        const img = document.createElement('img');
+                        let fileName = count > 1 ? `${item} ${i}` : item;
+                        img.src = `${prefix.toUpperCase()}/${fileName}.PNG`;
+                        img.onerror = function() { this.src = this.src.includes(".PNG") ? this.src.replace(".PNG", ".png") : this.src.replace(".png", ".PNG"); };
                         wrap.appendChild(img); gallery.appendChild(wrap);
                     }
+
                     if(prefix === 'ca') { if(item !== "THE ELLIPSE") ellipses = []; if(item !== "CENTRO POLIFUNZIONALE") randomLines = []; drawEffect(item); }
                     else { currentEffect = ""; clearCanvas(); }
                 };

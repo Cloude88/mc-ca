@@ -73,6 +73,29 @@
         .img-wrap { width: 100%; display: flex; flex-direction: column; position: relative; }
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
+        /* --- SLIDER MOLINETTE --- */
+        .slider-container {
+            width: 50%; /* Metà larghezza */
+            height: auto;
+            position: relative;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+        }
+        .slider-img { width: 100%; display: none; }
+        .slider-img.active { display: block; }
+        .slider-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.1); color: black; border: none;
+            font-size: 2rem; padding: 10px; cursor: pointer; z-index: 10;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .slider-container:hover .slider-arrow { opacity: 1; }
+        .arrow-left { left: -50px; }
+        .arrow-right { right: -50px; }
+
         .label-cap {
             align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold;
             background: white; color: black; padding: 3px 6px; text-transform: uppercase;
@@ -154,6 +177,7 @@
         const ctx = canvas.getContext('2d');
         let currentEffect = ""; let ellipses = []; let randomLines = []; let waves = [];
         let mouseX = 0, mouseY = 0;
+        let sliderIdx = 0;
         
         const softwareNames = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
         const cpCaps = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
@@ -171,15 +195,22 @@
         window.addEventListener('resize', resize); resize();
         window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; if (currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") drawEffect(currentEffect); });
 
+        // Navigazione tastiera per slider
+        window.addEventListener('keydown', (e) => {
+            if(currentEffect === "RIQUALIFICAZIONE MOLINETTE") {
+                if(e.key === "ArrowRight") moveSlider(1);
+                if(e.key === "ArrowLeft") moveSlider(-1);
+            }
+        });
+
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 3000);
         function showHome() { document.getElementById('intro-container').style.display = 'none'; document.getElementById('home-page').style.display = 'flex'; }
 
         function showPage(id) {
             document.getElementById('home-page').style.display = 'none';
             document.querySelectorAll('.sub-page').forEach(p => p.style.display = 'none');
-            const page = document.getElementById(id); page.style.display = 'flex';
-            currentEffect = ""; clearCanvas(); document.body.classList.remove('dark-mode');
-            document.body.classList.remove('cursor-triangle');
+            document.getElementById(id).style.display = 'flex';
+            currentEffect = ""; clearCanvas(); document.body.classList.remove('dark-mode', 'cursor-triangle');
             updateSoftware(id === 'page-ca' ? 'sw-ca-list' : 'sw-mc-list', "");
         }
 
@@ -187,15 +218,10 @@
             const container = document.getElementById(id); container.innerHTML = "";
             softwareNames.forEach(name => {
                 const s = document.createElement('span'); s.className = `sw-tag`; s.innerText = name;
-                if (currentItem === "CASA PIONIERA") {
-                    if (["AutoCAD", "Illustrator", "SketchUp"].includes(name)) s.classList.add("green-h");
-                } else if (currentItem === "CENTRO POLIFUNZIONALE") {
-                    if (["AutoCAD", "Revit", "Indesign", "Lumion 3D", "SketchUp", "Photoshop", "Enscape", "Pacchetto Office"].includes(name)) s.classList.add("blue-h");
-                } else if (currentItem === "THE ELLIPSE") {
-                    if (["Revit", "Illustrator", "Lumion 3D", "Dynamo"].includes(name)) s.classList.add("teal-h");
-                } else if (currentItem === "RIQUALIFICAZIONE MOLINETTE") {
-                    if (["AutoCAD", "Revit", "Illustrator", "Photoshop", "Pacchetto Office"].includes(name)) s.classList.add("red-h");
-                }
+                if (currentItem === "CASA PIONIERA") { if (["AutoCAD", "Illustrator", "SketchUp"].includes(name)) s.classList.add("green-h"); }
+                else if (currentItem === "CENTRO POLIFUNZIONALE") { if (["AutoCAD", "Revit", "Indesign", "Lumion 3D", "SketchUp", "Photoshop", "Enscape", "Pacchetto Office"].includes(name)) s.classList.add("blue-h"); }
+                else if (currentItem === "THE ELLIPSE") { if (["Revit", "Illustrator", "Lumion 3D", "Dynamo"].includes(name)) s.classList.add("teal-h"); }
+                else if (currentItem === "RIQUALIFICAZIONE MOLINETTE") { if (["AutoCAD", "Revit", "Illustrator", "Photoshop", "Pacchetto Office"].includes(name)) s.classList.add("red-h"); }
                 container.appendChild(s);
             });
         }
@@ -216,11 +242,7 @@
                     }
                 }
             } else if (type === "CENTRO POLIFUNZIONALE") {
-                if (randomLines.length === 0) { 
-                    for(let i=0; i<45; i++) {
-                        randomLines.push({ x1: Math.random() * canvas.width, y1: 0, x2: Math.random() * canvas.width, y2: canvas.height, color: Math.random() > 0.5 ? "black" : "#bbb" }); 
-                    } 
-                }
+                if (randomLines.length === 0) { for(let i=0; i<45; i++) randomLines.push({ x1: Math.random() * canvas.width, y1: 0, x2: Math.random() * canvas.width, y2: canvas.height, color: Math.random() > 0.5 ? "black" : "#bbb" }); }
                 randomLines.forEach(l => { ctx.beginPath(); ctx.strokeStyle = l.color; ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke(); });
             } else if (type === "THE ELLIPSE") {
                 ctx.strokeStyle = "black";
@@ -234,29 +256,26 @@
             } else if (type === "RIQUALIFICAZIONE MOLINETTE") {
                 if (waves.length === 0) {
                     for(let i=0; i<35; i++) {
-                        waves.push({
-                            y: Math.random() * canvas.height,
-                            amp: 20 + Math.random() * 40,
-                            freq: 0.002 + Math.random() * 0.005,
-                            color: Math.random() > 0.5 ? "rgb(227, 59, 78)" : "rgb(93, 113, 117)"
-                        });
+                        waves.push({ y: Math.random() * canvas.height, amp: 20 + Math.random() * 40, freq: 0.002 + Math.random() * 0.005, color: Math.random() > 0.5 ? "rgb(227, 59, 78)" : "rgb(93, 113, 117)" });
                     }
                 }
                 waves.forEach(w => {
                     ctx.beginPath(); ctx.strokeStyle = w.color;
-                    for(let x=0; x<canvas.width; x+=5) {
-                        let y = w.y + Math.sin(x * w.freq) * w.amp;
-                        if(x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-                    }
+                    for(let x=0; x<canvas.width; x+=5) { let y = w.y + Math.sin(x * w.freq) * w.amp; if(x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
                     ctx.stroke();
                 });
             } else if (type === "RELOADINGENOVA") { document.body.classList.add('dark-mode'); }
         }
 
-        const data = { 
-            'mc': ["PROGETTO 1", "PROGETTO 2", "PROGETTO 3"], 
-            'ca': ["CASA PIONIERA", "CENTRO POLIFUNZIONALE", "THE ELLIPSE", "RIQUALIFICAZIONE MOLINETTE", "RELOADINGENOVA"] 
-        };
+        function moveSlider(step) {
+            const images = document.querySelectorAll('.slider-img');
+            if(!images.length) return;
+            images[sliderIdx].classList.remove('active');
+            sliderIdx = (sliderIdx + step + images.length) % images.length;
+            images[sliderIdx].classList.add('active');
+        }
+
+        const data = { 'mc': ["PROGETTO 1", "PROGETTO 2", "PROGETTO 3"], 'ca': ["CASA PIONIERA", "CENTRO POLIFUNZIONALE", "THE ELLIPSE", "RIQUALIFICAZIONE MOLINETTE", "RELOADINGENOVA"] };
 
         function setupMenu(prefix) {
             const menu = document.getElementById(`menu-${prefix}`);
@@ -267,63 +286,63 @@
                 const div = document.createElement('div');
                 div.className = 'menu-item'; div.innerText = item;
                 div.onclick = () => {
-                    document.querySelectorAll('.menu-item').forEach(m => { m.classList.remove('blue-act', 'green-act', 'teal-act', 'red-act'); });
+                    document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('blue-act', 'green-act', 'teal-act', 'red-act'));
                     document.body.classList.remove('cursor-triangle');
-                    
                     if(item === "CASA PIONIERA") div.classList.add('green-act');
                     else if (item === "THE ELLIPSE") div.classList.add('teal-act');
                     else if (item === "RIQUALIFICAZIONE MOLINETTE") div.classList.add('red-act');
-                    else if (prefix === 'ca') { 
-                        div.classList.add('blue-act'); 
-                        if(item === "CENTRO POLIFUNZIONALE") document.body.classList.add('cursor-triangle');
-                    }
+                    else if (prefix === 'ca') { div.classList.add('blue-act'); if(item === "CENTRO POLIFUNZIONALE") document.body.classList.add('cursor-triangle'); }
                     
                     updateSoftware(prefix === 'ca' ? 'sw-ca-list' : 'sw-mc-list', item);
                     title.innerText = item;
-                    gallery.querySelectorAll('.img-wrap, .btn-theplan, .project-description-sub').forEach(el => el.remove());
+                    gallery.innerHTML = '<div id="desc-box" class="project-description"></div>';
                     
                     const dBox = document.getElementById('desc-box');
-                    if(dBox) { 
-                        dBox.innerText = descriptions[item] || ""; 
-                        dBox.style.display = descriptions[item] ? "block" : "none";
-                        if(item === "CENTRO POLIFUNZIONALE") {
-                            const btn = document.createElement('a');
-                            btn.className = 'btn-theplan';
-                            btn.innerText = "Pubblicazione THE PLAN";
-                            btn.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano";
-                            btn.target = "_blank";
-                            gallery.insertBefore(btn, gallery.firstChild.nextSibling);
-                        }
+                    dBox.innerText = descriptions[item] || "";
+                    dBox.style.display = descriptions[item] ? "block" : "none";
+
+                    if(item === "CENTRO POLIFUNZIONALE") {
+                        const btn = document.createElement('a'); btn.className = 'btn-theplan'; btn.innerText = "Pubblicazione THE PLAN";
+                        btn.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano";
+                        btn.target = "_blank"; gallery.appendChild(btn);
                     }
 
-                    let count = 1;
-                    if (item === "CASA PIONIERA") count = 4;
-                    else if (item === "CENTRO POLIFUNZIONALE") count = 7;
-                    else if (item === "THE ELLIPSE") count = 4;
-                    else if (item === "RIQUALIFICAZIONE MOLINETTE") count = 7;
-
-                    for(let i=1; i<=count; i++) {
-                        const wrap = document.createElement('div'); wrap.className = 'img-wrap';
-                        const img = document.createElement('img');
-                        let fName = count > 1 ? `${item} ${i}` : item;
-                        img.src = `${prefix.toUpperCase()}/${fName}.PNG`;
-                        img.onerror = function() { this.src = this.src.includes(".PNG") ? this.src.replace(".PNG", ".png") : this.src.replace(".png", ".PNG"); };
-                        if(item === "CASA PIONIERA") { const c = document.createElement('div'); c.className = 'label-cap'; c.innerText = cpCaps[i-1]; wrap.appendChild(c); }
-                        
-                        wrap.prepend(img);
-                        gallery.appendChild(wrap);
-
-                        if (item === "RIQUALIFICAZIONE MOLINETTE" && i === 4) {
-                            const subText = document.createElement('div');
-                            subText.className = 'project-description project-description-sub';
-                            subText.style.display = 'block';
-                            subText.innerText = molinetteSubText;
-                            gallery.appendChild(subText);
+                    if(item === "RIQUALIFICAZIONE MOLINETTE") {
+                        // Foto 1-4
+                        for(let i=1; i<=4; i++) {
+                            const wrap = document.createElement('div'); wrap.className = 'img-wrap';
+                            const img = document.createElement('img'); img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
+                            img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
+                            wrap.appendChild(img); gallery.appendChild(wrap);
+                        }
+                        // Testo Celid
+                        const subT = document.createElement('div'); subT.className = 'project-description'; subT.style.display = 'block';
+                        subT.innerText = molinetteSubText; gallery.appendChild(subT);
+                        // Slider Foto 5-7
+                        const sliderCont = document.createElement('div'); sliderCont.className = 'slider-container';
+                        sliderIdx = 0;
+                        for(let i=5; i<=7; i++) {
+                            const img = document.createElement('img'); img.className = `slider-img ${i===5?'active':''}`;
+                            img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
+                            img.onerror = function() { this.src = this.src.replace(".PNG", ".png"); };
+                            sliderCont.appendChild(img);
+                        }
+                        const lA = document.createElement('button'); lA.className = 'slider-arrow arrow-left'; lA.innerHTML = '&#10094;'; lA.onclick = () => moveSlider(-1);
+                        const rA = document.createElement('button'); rA.className = 'slider-arrow arrow-right'; rA.innerHTML = '&#10095;'; rA.onclick = () => moveSlider(1);
+                        sliderCont.appendChild(lA); sliderCont.appendChild(rA); gallery.appendChild(sliderCont);
+                    } else {
+                        let count = (item === "CASA PIONIERA" || item === "THE ELLIPSE") ? 4 : (item === "CENTRO POLIFUNZIONALE") ? 7 : 1;
+                        for(let i=1; i<=count; i++) {
+                            const wrap = document.createElement('div'); wrap.className = 'img-wrap';
+                            const img = document.createElement('img');
+                            let fName = count > 1 ? `${item} ${i}` : item;
+                            img.src = `${prefix.toUpperCase()}/${fName}.PNG`;
+                            img.onerror = function() { this.src = this.src.includes(".PNG") ? this.src.replace(".PNG", ".png") : this.src.replace(".png", ".PNG"); };
+                            if(item === "CASA PIONIERA") { const c = document.createElement('div'); c.className = 'label-cap'; c.innerText = cpCaps[i-1]; wrap.appendChild(c); }
+                            wrap.prepend(img); gallery.appendChild(wrap);
                         }
                     }
-                    if(item !== "CENTRO POLIFUNZIONALE") randomLines = [];
-                    if(item !== "RIQUALIFICAZIONE MOLINETTE") waves = [];
-                    drawEffect(item);
+                    randomLines = []; waves = []; drawEffect(item);
                 };
                 menu.appendChild(div);
             });

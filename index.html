@@ -45,7 +45,7 @@
         }
         .header-center-title { font-size: 1.5rem; font-weight: bold; color: black; text-transform: uppercase; }
         
-        .sw-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-size: 0.8rem; font-weight: bold; }
+        .sw-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 0.8rem; font-weight: bold; max-width: 700px; }
         .sw-tag { padding: 2px 6px; background: transparent; }
         .sw-tag.green-h { background: rgb(169, 212, 177); }
         .sw-tag.blue-h { background: rgb(122, 161, 190); }
@@ -54,7 +54,7 @@
         .header-titles p { font-size: 1.1rem; color: #333; }
         .header-logo img { height: 60px; width: auto; object-fit: contain; }
 
-        /* --- CONTENT WRAPPER --- */
+        /* --- CONTENT --- */
         .content-wrapper { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: transparent; }
         
         .sidebar {
@@ -141,7 +141,7 @@
         let currentEffect = ""; let ellipses = []; let randomLines = [];
         let mouseX = 0, mouseY = 0;
         
-        const softwareNames = ["AutoCAD", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office"];
+        const softwareNames = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office"];
         const cpCaps = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
         const descriptions = {
             "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
@@ -163,10 +163,17 @@
             updateSoftware(id === 'page-ca' ? 'sw-ca-list' : 'sw-mc-list', "");
         }
 
-        function updateSoftware(id, hClass) {
+        function updateSoftware(id, currentItem) {
             const container = document.getElementById(id); container.innerHTML = "";
             softwareNames.forEach(name => {
-                const s = document.createElement('span'); s.className = `sw-tag ${hClass}`; s.innerText = name; container.appendChild(s);
+                const s = document.createElement('span'); s.className = `sw-tag`; s.innerText = name;
+                
+                if (currentItem === "CASA PIONIERA") {
+                    if (["AutoCAD", "Illustrator", "SketchUp"].includes(name)) s.classList.add("green-h");
+                } else if (currentItem === "CENTRO POLIFUNZIONALE") {
+                    if (["AutoCAD", "Revit", "Indesign", "Lumion 3D", "SketchUp", "Photoshop", "Enscape", "Pacchetto Office"].includes(name)) s.classList.add("blue-h");
+                }
+                container.appendChild(s);
             });
         }
 
@@ -174,8 +181,9 @@
 
         function drawEffect(type) {
             currentEffect = type; clearCanvas(); document.body.classList.remove('dark-mode');
-            ctx.strokeStyle = "black"; ctx.lineWidth = 1.5;
+            ctx.lineWidth = 1.5;
             if (type === "CASA PIONIERA") {
+                ctx.strokeStyle = "black";
                 const w = 60, h = 90;
                 for(let x=0; x<canvas.width; x+=w) {
                     for(let y=0; y<canvas.height; y+=h) {
@@ -185,9 +193,20 @@
                     }
                 }
             } else if (type === "CENTRO POLIFUNZIONALE") {
-                if (randomLines.length === 0) { for(let i=0; i<40; i++) randomLines.push({ x1: Math.random() * canvas.width, y1: 0, x2: Math.random() * canvas.width, y2: canvas.height }); }
-                randomLines.forEach(l => { ctx.beginPath(); ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke(); });
+                if (randomLines.length === 0) { 
+                    for(let i=0; i<45; i++) {
+                        randomLines.push({ 
+                            x1: Math.random() * canvas.width, y1: 0, 
+                            x2: Math.random() * canvas.width, y2: canvas.height,
+                            color: Math.random() > 0.5 ? "black" : "#bbb" // Nero o Grigio a caso
+                        }); 
+                    } 
+                }
+                randomLines.forEach(l => { 
+                    ctx.beginPath(); ctx.strokeStyle = l.color; ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke(); 
+                });
             } else if (type === "THE ELLIPSE") {
+                ctx.strokeStyle = "black";
                 if (ellipses.length === 0) { for(let i=0; i<30; i++) ellipses.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI }); }
                 ellipses.forEach(e => {
                     ctx.beginPath(); ctx.ellipse(e.x, e.y, e.rx, e.ry, e.rot, 0, Math.PI*2);
@@ -210,11 +229,10 @@
                 div.className = 'menu-item'; div.innerText = item;
                 div.onclick = () => {
                     document.querySelectorAll('.menu-item').forEach(m => { m.classList.remove('blue-act'); m.classList.remove('green-act'); });
-                    let hClass = "";
-                    if(item === "CASA PIONIERA") { div.classList.add('green-act'); hClass = "green-h"; }
-                    else if (prefix === 'ca') { div.classList.add('blue-act'); hClass = "blue-h"; }
+                    if(item === "CASA PIONIERA") { div.classList.add('green-act'); }
+                    else if (prefix === 'ca') { div.classList.add('blue-act'); }
                     
-                    updateSoftware(prefix === 'ca' ? 'sw-ca-list' : 'sw-mc-list', hClass);
+                    updateSoftware(prefix === 'ca' ? 'sw-ca-list' : 'sw-mc-list', item);
                     title.innerText = item;
                     gallery.querySelectorAll('.img-wrap').forEach(w => w.remove());
                     const dBox = document.getElementById('desc-box');
@@ -230,6 +248,7 @@
                         if(item === "CASA PIONIERA") { const c = document.createElement('div'); c.className = 'label-cap'; c.innerText = cpCaps[i-1]; wrap.appendChild(c); }
                         wrap.prepend(img); gallery.appendChild(wrap);
                     }
+                    if(item !== "CENTRO POLIFUNZIONALE") randomLines = [];
                     drawEffect(item);
                 };
                 menu.appendChild(div);

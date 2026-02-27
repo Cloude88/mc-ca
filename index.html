@@ -40,7 +40,7 @@
         .img-wrap { width: 100%; display: flex; flex-direction: column; position: relative; align-items: center; }
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
-        /* UI Elementi Speciali */
+        /* UI Elementi */
         .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; border: 1px solid #eee; }
         .btn-theplan { display: inline-block; margin: 20px auto; padding: 10px 20px; background-color: black; color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; border-radius: 2px; }
         .project-description { width: 100%; padding: 20px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
@@ -53,7 +53,7 @@
         .s-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: black; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 100; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
         .s-prev { left: 15%; display: none; } .s-next { right: 15%; }
 
-        /* --- RELOADINGENOVA STYLES --- */
+        /* --- GENOVA --- */
         .genova-content { width: 100%; color: white; position: relative; padding-top: 50px; cursor: none !important; }
         #cursor-dot { width: 10px; height: 10px; background-color: rgb(173, 54, 35); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); display: none; }
         .genova-title { color: rgb(173, 54, 35); font-size: 52px; margin-bottom: 80px; text-align: center; }
@@ -158,8 +158,7 @@
             const projs = user === 'mc' ? ["PROGETTO 1", "PROGETTO 2", "PROGETTO 3"] : ["CASA PIONIERA", "CENTRO POLIFUNZIONALE", "THE ELLIPSE", "RIQUALIFICAZIONE MOLINETTE", "RELOADINGENOVA"];
             projs.forEach(p => {
                 const d = document.createElement('div'); d.className = 'menu-item'; d.innerText = p;
-                d.onclick = () => loadProject(user, p, d);
-                box.appendChild(d);
+                d.onclick = () => loadProject(user, p, d); box.appendChild(d);
             });
             const back = document.createElement('div'); back.className = 'back-home'; back.innerText = "MC - CA"; back.onclick = () => location.reload(); box.appendChild(back);
         }
@@ -167,7 +166,6 @@
         function loadProject(user, title, element) {
             const gallery = document.getElementById('gallery-box');
             gallery.scrollTop = 0; 
-
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue'));
             if(title === "CASA PIONIERA") element.classList.add('active-green');
             else if(title === "THE ELLIPSE") element.classList.add('active-teal');
@@ -176,14 +174,12 @@
 
             document.getElementById('proj-title').innerText = title;
             gallery.innerHTML = ""; sliderIdx = 0;
-            
             dot.style.display = (title === "RELOADINGENOVA") ? "block" : "none";
             document.body.classList.toggle('dark-mode', title === "RELOADINGENOVA");
             document.body.classList.toggle('cursor-triangle', title === "CENTRO POLIFUNZIONALE");
 
             if(descriptions[title]) {
-                const dBox = document.createElement('div'); dBox.className = 'project-description';
-                dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
+                const dBox = document.createElement('div'); dBox.className = 'project-description'; dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
                 if(title === "CENTRO POLIFUNZIONALE") {
                     const btn = document.createElement('a'); btn.className = 'btn-theplan'; btn.innerText = "Pubblicazione THE PLAN";
                     btn.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano";
@@ -211,18 +207,17 @@
                             <div class="box-container side-box-genova"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%"><source src="CA/genova13.mp4" type="video/mp4"></video><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
                         </div>
                     </div></div>`;
-                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => { v.load(); v.play(); }); drawGenovaLines(); }, 200);
+                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => { v.load(); v.play(); }); drawGenovaLines(); }, 300);
             } else if(title === "RIQUALIFICAZIONE MOLINETTE") {
                 for(let i=1; i<=4; i++) addImg(gallery, `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`);
                 const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSubText; gallery.appendChild(sub);
-                
                 const sliderWrap = document.createElement('div'); sliderWrap.className = 'slider-container';
                 sliderWrap.innerHTML = `
                     <button class="s-arrow s-prev" id="prevB" onclick="moveS(-1)">&#10094;</button>
-                    <div class="slider-box">
-                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 5.PNG" class="slider-img-item active" onerror="if(this.src.includes('.PNG'))this.src=this.src.replace('.PNG','.png')">
-                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 6.PNG" class="slider-img-item" onerror="if(this.src.includes('.PNG'))this.src=this.src.replace('.PNG','.png')">
-                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 7.PNG" class="slider-img-item" onerror="if(this.src.includes('.PNG'))this.src=this.src.replace('.PNG','.png')">
+                    <div class="slider-box" id="mols">
+                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 5.PNG" class="slider-img-item active" onerror="this.src=this.src.replace('.PNG','.png')">
+                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 6.PNG" class="slider-img-item" onerror="this.src=this.src.replace('.PNG','.png')">
+                        <img src="CA/RIQUALIFICAZIONE MOLINETTE 7.PNG" class="slider-img-item" onerror="this.src=this.src.replace('.PNG','.png')">
                     </div>
                     <button class="s-arrow s-next" id="nextB" onclick="moveS(1)">&#10095;</button>`;
                 gallery.appendChild(sliderWrap);
@@ -233,8 +228,7 @@
                     if(title === "CASA PIONIERA") { const cap = document.createElement('div'); cap.className='cp-caption'; cap.innerText=cpCaptions[i-1]; wrap.appendChild(cap); }
                 }
             }
-            updateSW(title);
-            randomLines = []; ellipses = []; waves = []; drawEffect(title);
+            updateSW(title); randomLines = []; ellipses = []; waves = []; drawEffect(title);
         }
 
         function addImg(parent, src) {
@@ -245,8 +239,9 @@
         }
 
         function moveS(step) {
-            const imgs = document.querySelectorAll('.slider-img-item');
-            if(imgs.length === 0) return;
+            const container = document.getElementById('mols');
+            if(!container) return;
+            const imgs = container.querySelectorAll('.slider-img-item');
             imgs[sliderIdx].classList.remove('active');
             sliderIdx = Math.max(0, Math.min(imgs.length - 1, sliderIdx + step));
             imgs[sliderIdx].classList.add('active');

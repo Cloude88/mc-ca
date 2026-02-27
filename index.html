@@ -12,7 +12,7 @@
         /* --- INTRO & HOME --- */
         #intro-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; display: flex; justify-content: center; align-items: center; }
         video { width: 100%; height: 100%; object-fit: cover; }
-        #enter-btn { position: absolute; bottom: 5%; right: 5%; background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; display: none; font-weight: bold; }
+        #enter-btn { position: absolute; bottom: 10%; right: 10%; background: black; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; cursor: pointer; display: none; font-weight: bold; z-index: 1001; }
         #home-page { display: none; height: 100vh; width: 100vw; justify-content: center; align-items: center; position: relative; z-index: 10; }
         .main-logo { font-size: 8rem; font-weight: bold; letter-spacing: 2px; position: relative; }
         .hidden-link { position: absolute; top: 0; width: 40%; height: 100%; background: transparent; cursor: pointer; border: none; }
@@ -32,49 +32,51 @@
         .header-titles p { font-size: 1.1rem; color: #333; }
         .header-logo img { height: 60px; width: auto; }
 
-        /* --- CONTENT WRAPPER --- */
+        /* --- CONTENT --- */
         .content-wrapper { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; position: relative; z-index: 10; }
         .sidebar { width: 300px; border-right: 2px solid grey; display: flex; flex-direction: column; padding: 40px 0 40px 5%; gap: 15px; background: white; z-index: 30; }
+        .gallery { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding: 5%; gap: 60px; z-index: 20; background: transparent; }
         
-        /* --- GALLERY CONTAINER --- */
-        .gallery { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; z-index: 20; background: transparent; }
+        .img-wrap { width: 100%; display: flex; flex-direction: column; position: relative; align-items: center; }
+        .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
-        /* --- RELOADINGENOVA SPECIFIC STYLES --- */
-        .genova-content { width: 100%; color: white; position: relative; cursor: none; padding-top: 50px; }
+        /* Didascalie e Pulsanti Speciali */
+        .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; border: 1px solid #eee; }
+        .btn-theplan { display: inline-block; margin: 20px auto; padding: 10px 20px; background-color: black; color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; border-radius: 2px; }
+        .project-description { width: 100%; padding: 20px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
+
+        /* --- SLIDER MOLINETTE --- */
+        .slider-container { width: 100%; display: flex; justify-content: center; align-items: center; position: relative; margin: 40px 0; }
+        .slider-box { width: 50%; height: 500px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .slider-img-item { position: absolute; max-width: 100%; max-height: 100%; display: none; }
+        .slider-img-item.active { display: block; }
+        .s-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: black; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 100; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+        .s-prev { left: 15%; display: none; } .s-next { right: 15%; }
+
+        /* --- RELOADINGENOVA STYLES --- */
+        .genova-content { width: 100%; color: white; position: relative; padding-top: 50px; cursor: none !important; }
         #cursor-dot { width: 10px; height: 10px; background-color: rgb(173, 54, 35); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); display: none; }
         .genova-title { color: rgb(173, 54, 35); font-size: 52px; margin-bottom: 80px; text-align: center; }
-        .bilingual-grid { display: flex; width: 100%; gap: 60px; margin-bottom: 100px; padding: 0 10%; }
+        .bilingual-grid { display: flex; width: 100%; gap: 60px; margin-bottom: 80px; padding: 0 5%; }
         .lang-col { flex: 1; display: flex; flex-direction: column; }
-        .description { font-size: 16px; line-height: 1.7; text-align: justify; }
-        .it-side { text-align: right; color: white; }
-        .en-side { text-align: left; color: #888; }
-        .video-box { width: 80%; aspect-ratio: 16/9; margin: 0 auto 100px auto; background: white; }
-        .video-box video, .side-box video { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* SCHEMA TECNICO GENOVA */
+        .it-side { text-align: right; color: white; } .en-side { text-align: left; color: #888; }
+        .video-box-genova { width: 80%; aspect-ratio: 16/9; background: white; margin: 0 auto 100px auto; overflow: hidden; }
+        .video-box-genova video { width: 100%; height: 100%; object-fit: cover; }
         #schema-master-container { position: relative; width: 100%; padding: 0 5%; display: flex; flex-direction: column; }
-        .schema-row { display: flex; position: relative; width: 100%; margin-bottom: 250px; align-items: flex-start; }
+        .schema-row { display: flex; width: 100%; margin-bottom: 250px; align-items: flex-start; }
         .box-container { position: relative; border: 1px solid rgba(255, 255, 255, 0.15); z-index: 10; background-color: #1a1a1a; }
         .box-label { position: absolute; top: -35px; left: 0; font-size: 13px; font-weight: bold; color: rgb(122, 161, 190); white-space: nowrap; }
+        .gray-left { width: 20vw; aspect-ratio: 4/3; } .mid-right { width: 40vw; aspect-ratio: 16/9; margin-left: 10vw; margin-top: 60px; }
         .corner { width: 8px; height: 8px; background-color: rgb(122, 161, 190); position: absolute; }
-        .tl { top: -4px; left: -4px; } .tr { top: -4px; right: -4px; }
-        .bl { bottom: -4px; left: -4px; } .br { bottom: -4px; right: -4px; }
-        .gray-left { width: 20vw; aspect-ratio: 4/3; }
-        .mid-right { width: 40vw; aspect-ratio: 16/9; margin-left: 10vw; margin-top: 60px; }
-        #master-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 5; }
+        .tl { top: -4px; left: -4px; } .tr { top: -4px; right: -4px; } .bl { bottom: -4px; left: -4px; } .br { bottom: -4px; right: -4px; }
+        #master-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
         .connector-path { fill: none; stroke: rgb(122, 161, 190); stroke-width: 2; }
-
         .final-white-box { width: 60vw; aspect-ratio: 250/176; background: white; margin: 0 auto 150px auto; position: relative; display: flex; justify-content: center; }
-        .final-white-box img { width: 100%; height: 100%; object-fit: cover; }
-        .nav-arrow { position: absolute; right: 20px; bottom: 20px; width: 45px; height: 45px; background: rgba(0,0,0,0.1); color: black; display: flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 4px; }
+        .nav-arrow-genova { position: absolute; right: 20px; bottom: 20px; width: 45px; height: 45px; background: rgba(0,0,0,0.1); color: black; display: flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 4px; z-index: 20; }
         .dual-box-row { display: flex; justify-content: center; width: 60vw; margin: 0 auto 200px auto; gap: 40px; }
-        .side-box { flex: 1; aspect-ratio: 16/9; }
+        .side-box-genova { flex: 1; aspect-ratio: 16/9; overflow: hidden; }
 
-        /* --- STANDARD STYLES --- */
-        .img-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
-        .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; }
-        .project-description { width: 100%; padding: 20px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; font-weight: bold; }
+        /* UI GENERALE */
         .menu-item { cursor: pointer; font-size: 1.1rem; text-transform: uppercase; color: black; text-align: left; }
         .menu-item.active-blue { color: rgb(122, 161, 190); font-weight: bold; }
         .menu-item.active-green { color: rgb(169, 212, 177); font-weight: bold; }
@@ -85,12 +87,13 @@
         .dark-mode .sidebar { background-color: black !important; border-right-color: #444 !important; }
         .dark-mode .header { background-color: #111 !important; border-bottom-color: #333 !important; }
         .dark-mode .menu-item, .dark-mode .back-home, .dark-mode .header-titles p, .dark-mode .header-center-title, .dark-mode .sw-tag { color: white !important; }
+        .cursor-triangle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="black"/></svg>'), auto !important; }
     </style>
 </head>
 <body>
     <div id="cursor-dot"></div>
     <canvas id="bg-canvas"></canvas>
-    <div id="intro-container"><video autoplay muted loop playsinline><source src="intro.mp4" type="video/mp4"></video><button id="enter-btn" onclick="startSite()">ENTRA</button></div>
+    <div id="intro-container"><video id="introVideo" autoplay muted loop playsinline><source src="intro.mp4" type="video/mp4"></video><button id="enter-btn" onclick="startSite()">ENTRA</button></div>
     
     <div id="home-page">
         <div class="main-logo">MC - CA
@@ -114,13 +117,27 @@
     <script>
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        let currentEffect = ""; 
+        let currentEffect = "", sliderIdx = 0, mouseX = 0, mouseY = 0;
         let randomLines = [], ellipses = [], waves = [];
-        let mouseX = 0, mouseY = 0;
 
+        // --- GESTIONE INTRO ---
+        const enterBtn = document.getElementById('enter-btn');
+        setTimeout(() => { enterBtn.style.display = 'block'; }, 2000);
+        function startSite() { document.getElementById('intro-container').style.display='none'; document.getElementById('home-page').style.display='flex'; }
+
+        // --- TESTI COMPLETI ---
+        const descriptions = {
+            "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
+            "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro not solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
+            "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto not solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figura geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse not come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
+            "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
+        };
+
+        const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
+        const cpCaptions = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
         const softwareList = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
-        
-        // --- GESTIONE CURSORE ROSSO GENOVA ---
+
+        // --- LOGICA CURSORE E SFONDI ---
         const dot = document.getElementById('cursor-dot');
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX; mouseY = e.clientY;
@@ -128,7 +145,6 @@
             if(currentEffect === "CASA PIONIERA" || currentEffect === "THE ELLIPSE") drawEffect(currentEffect);
         });
 
-        function startSite() { document.getElementById('intro-container').style.display='none'; document.getElementById('home-page').style.display='flex'; }
         function openPage(user) {
             document.getElementById('home-page').style.display='none';
             document.getElementById('main-interface').style.display='flex';
@@ -149,7 +165,7 @@
         }
 
         function loadProject(user, title, element) {
-            document.querySelectorAll('.menu-item').forEach(m => m.className = 'menu-item');
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue'));
             if(title === "CASA PIONIERA") element.classList.add('active-green');
             else if(title === "THE ELLIPSE") element.classList.add('active-teal');
             else if(title === "RIQUALIFICAZIONE MOLINETTE") element.classList.add('active-red');
@@ -157,80 +173,74 @@
 
             document.getElementById('proj-title').innerText = title;
             const gallery = document.getElementById('gallery-box');
-            gallery.innerHTML = ""; 
+            gallery.innerHTML = ""; sliderIdx = 0;
             
-            // Toggle Cursore e Dark Mode
             dot.style.display = (title === "RELOADINGENOVA") ? "block" : "none";
             document.body.classList.toggle('dark-mode', title === "RELOADINGENOVA");
-            
+            document.body.classList.toggle('cursor-triangle', title === "CENTRO POLIFUNZIONALE");
+
+            if(descriptions[title]) {
+                const dBox = document.createElement('div'); dBox.className = 'project-description';
+                dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
+                if(title === "CENTRO POLIFUNZIONALE") {
+                    const btn = document.createElement('a'); btn.className = 'btn-theplan'; btn.innerText = "Pubblicazione THE PLAN";
+                    btn.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano";
+                    btn.target = "_blank"; gallery.appendChild(btn);
+                }
+            }
+
             if(title === "RELOADINGENOVA") {
-                gallery.innerHTML = `
-                    <div class="genova-content">
-                        <h1 class="genova-title">ReloadinGenova</h1>
-                        <div class="bilingual-grid">
-                            <div class="lang-col it-side"><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova...</div></div>
-                            <div class="lang-col en-side"><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa...</div></div>
+                gallery.innerHTML = `<div class="genova-content">
+                    <h1 class="genova-title">ReloadinGenova</h1>
+                    <div class="bilingual-grid">
+                        <div class="lang-col it-side"><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova...</div></div>
+                        <div class="lang-col en-side"><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa...</div></div>
+                    </div>
+                    <div class="video-box-genova"><video autoplay muted loop playsinline><source src="genova1.mp4" type="video/mp4"></video></div>
+                    <div id="schema-master-container">
+                        <svg id="master-svg"></svg>
+                        ${[0,1,2,3].map(i => `<div class="schema-row" id="row-${i}">
+                            <div class="box-container gray-left"><div class="box-label">${['MASTERPLAN','VOLUME','DISTRIBUZIONE','DISPOSITIVI ESTERNI'][i]}</div><img src="genova${i+2}.png" style="width:100%;height:100%;object-fit:cover"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
+                            <div class="box-container mid-right"><video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover"><source src="genova${i+6}.mp4" type="video/mp4"></video><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
+                        </div>`).join('')}
+                        <div id="final-box" class="box-container final-white-box"><img src="genova10.png" id="genova-main-img"><div class="nav-arrow-genova" onclick="const img=document.getElementById('genova-main-img'); img.src=img.src.includes('10')?'genova11.png':'genova10.png'">→</div></div>
+                        <div class="dual-box-row">
+                            <div class="box-container side-box-genova"><video autoplay muted loop playsinline style="width:100%;height:100%"><source src="genova12.mp4" type="video/mp4"></video></div>
+                            <div class="box-container side-box-genova"><video autoplay muted loop playsinline style="width:100%;height:100%"><source src="genova13.mp4" type="video/mp4"></video></div>
                         </div>
-                        <div class="video-box"><video autoplay muted loop playsinline><source src="genova1.mp4" type="video/mp4"></video></div>
-                        <div id="schema-master-container">
-                            <svg id="master-svg"></svg>
-                            ${[0,1,2,3].map(i => `
-                                <div class="schema-row" id="row-${i}">
-                                    <div class="box-container gray-left">
-                                        <div class="box-label">${['MASTERPLAN','VOLUME','DISTRIBUZIONE','DISPOSITIVI ESTERNI'][i]}</div>
-                                        <div class="img-wrapper"><img src="genova${i+2}.png"></div>
-                                        <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
-                                    </div>
-                                    <div class="box-container mid-right">
-                                        <div class="img-wrapper"><video autoplay muted loop playsinline><source src="genova${i+6}.mp4" type="video/mp4"></video></div>
-                                        <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
-                                    </div>
-                                </div>`).join('')}
-                            <div id="final-box" class="box-container final-white-box">
-                                <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
-                                <img src="genova10.png" id="genova-main-img">
-                                <div class="nav-arrow" onclick="document.getElementById('genova-main-img').src.includes('10') ? document.getElementById('genova-main-img').src='genova11.png' : document.getElementById('genova-main-img').src='genova10.png'">→</div>
-                            </div>
-                            <div class="dual-box-row">
-                                <div class="box-container side-box"><video autoplay muted loop playsinline><source src="genova12.mp4" type="video/mp4"></video></div>
-                                <div class="box-container side-box"><video autoplay muted loop playsinline><source src="genova13.mp4" type="video/mp4"></video></div>
-                            </div>
-                        </div>
-                    </div>`;
-                setTimeout(drawGenovaLines, 100);
+                    </div></div>`;
+                setTimeout(drawGenovaLines, 200);
+            } else if(title === "RIQUALIFICAZIONE MOLINETTE") {
+                for(let i=1; i<=4; i++) addImg(gallery, `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`);
+                const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSubText; gallery.appendChild(sub);
+                const sliderWrap = document.createElement('div'); sliderWrap.className = 'slider-container';
+                sliderWrap.innerHTML = `<button class="s-arrow s-prev" id="prevB" onclick="moveS(-1)">&#10094;</button><div class="slider-box">
+                    <img src="CA/RIQUALIFICAZIONE MOLINETTE 5.PNG" class="slider-img-item active"><img src="CA/RIQUALIFICAZIONE MOLINETTE 6.PNG" class="slider-img-item"><img src="CA/RIQUALIFICAZIONE MOLINETTE 7.PNG" class="slider-img-item">
+                </div><button class="s-arrow s-next" id="nextB" onclick="moveS(1)">&#10095;</button>`;
+                gallery.appendChild(sliderWrap);
             } else {
-                // Logica standard per altri progetti
-                let count = (title === "CENTRO POLIFUNZIONALE") ? 7 : 4;
+                let count = (title === "CENTRO POLIFUNZIONALE") ? 7 : (title === "THE ELLIPSE" || title === "CASA PIONIERA") ? 4 : 1;
                 for(let i=1; i<=count; i++) {
-                    const div = document.createElement('div'); div.className = 'img-wrap';
-                    const img = document.createElement('img'); img.src = `${user.toUpperCase()}/${title} ${i}.PNG`;
-                    div.appendChild(img); gallery.appendChild(div);
+                    const wrap = addImg(gallery, `${user.toUpperCase()}/${title}${count>1?' '+i:''}.PNG`);
+                    if(title === "CASA PIONIERA") { const cap = document.createElement('div'); cap.className='cp-caption'; cap.innerText=cpCaptions[i-1]; wrap.appendChild(cap); }
                 }
             }
             updateSW(title);
             randomLines = []; ellipses = []; waves = []; drawEffect(title);
         }
 
-        function drawGenovaLines() {
-            const svg = document.getElementById('master-svg');
-            const finalBox = document.getElementById('final-box');
-            const container = document.getElementById('schema-master-container');
-            if (!container || !finalBox || !svg) return;
-            const cRect = container.getBoundingClientRect();
-            const fRect = finalBox.getBoundingClientRect();
-            const fRX = fRect.right - cRect.left;
-            const fCY = (fRect.top + fRect.height/2) - cRect.top;
-            let paths = "";
-            for (let i=0; i<4; i++) {
-                const r = document.getElementById(`row-${i}`);
-                const g = r.querySelector('.gray-left').getBoundingClientRect();
-                const m = r.querySelector('.mid-right').getBoundingClientRect();
-                const gX = g.right - cRect.left; const gY = (g.top + g.height/2) - cRect.top;
-                const mLX = m.left - cRect.left; const mRX = m.right - cRect.left; const mY = (m.top + m.height/2) - cRect.top;
-                paths += `<path class="connector-path" d="M ${gX},${gY} H ${gX+40} V ${mY} H ${mLX}" />`;
-                paths += `<path class="connector-path" d="M ${mRX},${mY} H ${fRX+(20+i*25)} V ${fCY} H ${fRX}" />`;
-            }
-            svg.innerHTML = paths;
+        function addImg(parent, src) {
+            const div = document.createElement('div'); div.className = 'img-wrap';
+            const img = document.createElement('img'); img.src = src;
+            img.onerror = () => { if(img.src.includes('.PNG')) img.src = img.src.replace('.PNG', '.png'); };
+            div.appendChild(img); parent.appendChild(div); return div;
+        }
+
+        function moveS(step) {
+            const imgs = document.querySelectorAll('.slider-img-item');
+            imgs[sliderIdx].classList.remove('active'); sliderIdx += step; imgs[sliderIdx].classList.add('active');
+            document.getElementById('prevB').style.display = sliderIdx === 0 ? 'none' : 'flex';
+            document.getElementById('nextB').style.display = sliderIdx === imgs.length - 1 ? 'none' : 'flex';
         }
 
         function updateSW(proj) {
@@ -238,7 +248,9 @@
             softwareList.forEach(s => {
                 const span = document.createElement('span'); span.className = 'sw-tag'; span.innerText = s;
                 if(proj === "CASA PIONIERA" && ["AutoCAD", "Illustrator", "SketchUp"].includes(s)) span.classList.add('green-h');
-                if(proj === "RELOADINGENOVA" && ["Rhino", "Grasshopper"].includes(s)) span.classList.add('blue-h');
+                if(proj === "CENTRO POLIFUNZIONALE" && ["AutoCAD", "Revit", "Indesign", "Lumion 3D", "SketchUp", "Photoshop", "Enscape", "Pacchetto Office"].includes(s)) span.classList.add('blue-h');
+                if(proj === "THE ELLIPSE" && ["Revit", "Illustrator", "Lumion 3D", "Dynamo"].includes(s)) span.classList.add('teal-h');
+                if(proj === "RIQUALIFICAZIONE MOLINETTE" && ["AutoCAD", "Revit", "Illustrator", "Photoshop", "Pacchetto Office"].includes(s)) span.classList.add('red-h');
                 box.appendChild(span);
             });
         }
@@ -246,17 +258,34 @@
         function drawEffect(type) {
             currentEffect = type; ctx.clearRect(0,0,canvas.width,canvas.height);
             if(type === "CASA PIONIERA") {
-                ctx.strokeStyle = "black";
-                for(let x=0; x<canvas.width; x+=60) {
-                    for(let y=0; y<canvas.height; y+=90) {
-                        ctx.beginPath(); ctx.rect(x,y,60,90);
-                        if(mouseX>=x && mouseX<=x+60 && mouseY>=y && mouseY<=y+90) { ctx.fillStyle="rgba(169, 212, 177, 0.5)"; ctx.fill(); }
-                        ctx.stroke();
-                    }
-                }
+                ctx.strokeStyle = "black"; for(let x=0; x<canvas.width; x+=60) { for(let y=0; y<canvas.height; y+=90) { ctx.beginPath(); ctx.rect(x,y,60,90); if(mouseX>=x && mouseX<=x+60 && mouseY>=y && mouseY<=y+90) { ctx.fillStyle="rgba(169, 212, 177, 0.5)"; ctx.fill(); } ctx.stroke(); } }
+            } else if(type === "CENTRO POLIFUNZIONALE") {
+                if(!randomLines.length) for(let i=0; i<45; i++) randomLines.push({x1: Math.random()*canvas.width, y1: 0, x2: Math.random()*canvas.width, y2: canvas.height, c: Math.random()>0.5?"black":"#bbb"});
+                randomLines.forEach(l => { ctx.beginPath(); ctx.strokeStyle=l.c; ctx.moveTo(l.x1,l.y1); ctx.lineTo(l.x2,l.y2); ctx.stroke(); });
+            } else if(type === "THE ELLIPSE") {
+                if(!ellipses.length) for(let i=0; i<30; i++) ellipses.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI});
+                ctx.strokeStyle = "black"; ellipses.forEach(e => { ctx.beginPath(); ctx.ellipse(e.x, e.y, e.rx, e.ry, e.rot, 0, Math.PI*2); let dx=mouseX-e.x, dy=mouseY-e.y, cos=Math.cos(-e.rot), sin=Math.sin(-e.rot), xh=cos*dx-sin*dy, yh=sin*dx+cos*dy; if((xh*xh)/(e.rx*e.rx)+(yh*yh)/(e.ry*e.ry) <= 1) { ctx.fillStyle="rgba(133, 162, 162, 0.5)"; ctx.fill(); } ctx.stroke(); });
+            } else if(type === "RIQUALIFICAZIONE MOLINETTE") {
+                if(!waves.length) for(let i=0; i<35; i++) waves.push({y: Math.random()*canvas.height, c: Math.random()>0.5?"rgb(227, 59, 78)":"rgb(93, 113, 117)"});
+                waves.forEach(w => { ctx.beginPath(); ctx.strokeStyle=w.c; for(let x=0; x<canvas.width; x+=5) { let y = w.y + Math.sin(x*0.003)*30; if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.stroke(); });
             }
         }
+
+        function drawGenovaLines() {
+            const svg = document.getElementById('master-svg'); const finalBox = document.getElementById('final-box'); const container = document.getElementById('schema-master-container');
+            if (!container || !finalBox || !svg) return;
+            const cRect = container.getBoundingClientRect(); const fRect = finalBox.getBoundingClientRect(); const fRX = fRect.right - cRect.left; const fCY = (fRect.top + fRect.height/2) - cRect.top;
+            let paths = "";
+            for (let i=0; i<4; i++) {
+                const r = document.getElementById(`row-${i}`); const g = r.querySelector('.gray-left').getBoundingClientRect(); const m = r.querySelector('.mid-right').getBoundingClientRect();
+                const gX = g.right - cRect.left, gY = (g.top + g.height/2) - cRect.top, mLX = m.left - cRect.left, mRX = m.right - cRect.left, mY = (m.top + m.height/2) - cRect.top;
+                paths += `<path class="connector-path" d="M ${gX},${gY} H ${gX+40} V ${mY} H ${mLX}" />`;
+                paths += `<path class="connector-path" d="M ${mRX},${mY} H ${fRX+(20+i*25)} V ${fCY} H ${fRX}" />`;
+            }
+            svg.innerHTML = paths;
+        }
+
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; if(currentEffect === "RELOADINGENOVA") drawGenovaLines(); }
     </script>
 </body>
-</html>
 </html>

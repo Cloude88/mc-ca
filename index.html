@@ -9,6 +9,10 @@
         body, html { height: 100%; width: 100%; background-color: white; overflow-x: hidden; }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
+        /* Nasconde cursore default solo su Genova */
+        body.hide-cursor { cursor: none !important; }
+        body.hide-cursor a, body.hide-cursor button { cursor: none !important; }
+
         /* --- INTRO --- */
         #intro-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; display: flex; justify-content: center; align-items: center; }
         video#introVideo { width: 100%; height: 100%; object-fit: cover; }
@@ -51,7 +55,6 @@
         }
         .molinette-scroll-container::-webkit-scrollbar { height: 12px; }
         .molinette-scroll-container::-webkit-scrollbar-thumb { background: rgb(227, 59, 78); border-radius: 6px; }
-        .molinette-scroll-container::-webkit-scrollbar-track { background: #eee; }
         .molinette-scroll-img { height: 60vh; width: auto; flex-shrink: 0; object-fit: contain; }
 
         /* --- GENOVA --- */
@@ -60,7 +63,7 @@
         .bilingual-grid { display: flex; width: 100%; gap: 40px; margin-bottom: 60px; padding: 0 10%; }
         .lang-col { flex: 1; display: flex; flex-direction: column; }
         .it-side { text-align: right; color: white; } .en-side { text-align: left; color: #888; }
-        .video-box-genova { width: 85%; aspect-ratio: 16/9; background: white; margin: 0 auto 80px auto; overflow: hidden; }
+        .video-box-genova { width: 85%; aspect-ratio: 16/9; background: white; margin: 0 auto 10vh auto; overflow: hidden; }
         .video-box-genova video { width: 100%; height: 100%; object-fit: cover; }
         
         #schema-master-container { position: relative; width: 100%; padding: 0 5%; display: flex; flex-direction: column; }
@@ -72,6 +75,7 @@
 
         @media (max-width: 768px) {
             .header { flex-direction: column; min-height: auto; padding: 15px; }
+            .header-titles h1 { font-size: 2.2rem; }
             .sidebar { width: 100%; border-right: none; border-bottom: 2px solid grey; flex-direction: row; overflow-x: auto; padding: 10px; }
             .gallery { height: 75vh; }
             .molinette-scroll-img { height: 40vh; }
@@ -90,7 +94,7 @@
     </style>
 </head>
 <body>
-    <div id="cursor-dot" style="position: fixed; width: 10px; height: 10px; background: rgb(173, 54, 35); border-radius: 50%; pointer-events: none; z-index: 99999; display: none;"></div>
+    <div id="cursor-dot" style="position: fixed; width: 12px; height: 12px; background: rgb(173, 54, 35); border-radius: 50%; pointer-events: none; z-index: 99999; display: none; transform: translate(-50%, -50%);"></div>
     <canvas id="bg-canvas"></canvas>
 
     <div id="intro-container">
@@ -124,15 +128,28 @@
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize); resize();
 
+        // Controllo se c'era una pagina salvata al caricamento
+        window.onload = () => {
+            const savedPage = localStorage.getItem('activeProject');
+            if (savedPage) {
+                openPage('ca', savedPage);
+            }
+        };
+
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 2000);
 
-        function openPage(user) {
+        function openPage(user, autoLoadProject = null) {
             document.getElementById('intro-container').style.display='none';
             document.getElementById('main-interface').style.display='flex';
             document.getElementById('side-initials').innerText = user.toUpperCase();
             document.getElementById('side-fullname').innerText = 'Claudio Antonelli';
             buildMenu();
-            startRandomGallery();
+            
+            if (autoLoadProject) {
+                loadProject(autoLoadProject, null);
+            } else {
+                startRandomGallery();
+            }
         }
 
         function buildMenu() {
@@ -144,7 +161,8 @@
                 box.appendChild(d);
             });
             const back = document.createElement('div'); back.className = 'back-home'; back.innerText = "MC - CA";
-            back.onclick = () => location.reload(); box.appendChild(back);
+            back.onclick = () => { localStorage.removeItem('activeProject'); location.reload(); }; 
+            box.appendChild(back);
         }
 
         function startRandomGallery() {
@@ -166,21 +184,34 @@
         function stopRandomGallery() { clearInterval(randomGalleryInterval); }
 
         function loadProject(title, element) {
+            localStorage.setItem('activeProject', title); // Salva il progetto corrente
             const gallery = document.getElementById('gallery-box'); gallery.scrollTo(0,0);
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue'));
             
-            const dot = document.getElementById('cursor-dot');
-            dot.style.display = (title === "RELOADINGENOVA") ? "block" : "none";
-            document.body.classList.toggle('dark-mode', title === "RELOADINGENOVA");
-            document.body.classList.toggle('cursor-triangle', title === "CENTRO POLIFUNZIONALE");
-
-            if(title === "CASA PIONIERA") element.classList.add('active-green');
-            else if(title === "THE ELLIPSE") element.classList.add('active-teal');
-            else if(title === "RIQUALIFICAZIONE MOLINETTE") element.classList.add('active-red');
-            else element.classList.add('active-blue');
+            // Gestione Menu
+            document.querySelectorAll('.menu-item').forEach(m => {
+                m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue');
+                if (m.innerText === title) {
+                    if(title === "CASA PIONIERA") m.classList.add('active-green');
+                    else if(title === "THE ELLIPSE") m.classList.add('active-teal');
+                    else if(title === "RIQUALIFICAZIONE MOLINETTE") m.classList.add('active-red');
+                    else m.classList.add('active-blue');
+                }
+            });
 
             document.getElementById('proj-title').innerText = title;
             gallery.innerHTML = ""; currentEffect = title; randomLines = []; ellipses = []; waves = [];
+            
+            // Reset Cursore e Dark Mode
+            document.body.classList.remove('hide-cursor', 'dark-mode', 'cursor-triangle');
+            const dot = document.getElementById('cursor-dot');
+            dot.style.display = "none";
+
+            if (title === "RELOADINGENOVA") {
+                document.body.classList.add('hide-cursor', 'dark-mode');
+                dot.style.display = "block";
+            } else if (title === "CENTRO POLIFUNZIONALE") {
+                document.body.classList.add('cursor-triangle');
+            }
 
             const descriptions = {
                 "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
@@ -223,7 +254,7 @@
                         <div class="lang-col it-side"><div class="description">I quattro algoritmi ci sono stati utili per gestire e mettere a sistema la complessità. Il progetto è stato diviso in quattro livelli di approfondimento: Masterplan, Volume, Distribuzione e Dispositivi Esterni. L'idea progettuale che si è perseguita è quella di riconnettere visivamente il lotto con il mare, massimizzando per ogni edificio la vista.</div></div>
                         <div class="lang-col en-side"><div class="description">The four algorithms were useful for managing and organizing complexity. The project was divided into four levels of depth: Masterplan, Volume, Distribution, and External Devices. The design concept pursued is to visually reconnect the site with the sea, maximizing the view for each building.</div></div>
                     </div>
-                    <div id="final-box-wrap" class="img-wrap" style="width:70vw; background:white; margin:100px auto; position:relative;">
+                    <div id="final-box-wrap" class="img-wrap" style="width:70vw; background:white; margin:100px auto; position:relative; border:1px solid #333;">
                         <img src="CA/genova10.png" id="genova-main-img" style="width:100%;" onerror="this.src=this.src.replace('.png','.PNG')">
                         <div style="position:absolute; right:20px; bottom:20px; background:rgba(0,0,0,0.1); padding:10px; cursor:pointer; color:black; font-weight:bold;" onclick="const img=document.getElementById('genova-main-img'); img.src=img.src.includes('10')?'CA/genova11.png':'CA/genova10.png'">→</div>
                     </div>
@@ -232,7 +263,7 @@
                         <div class="box-container" style="flex:1; aspect-ratio:16/9; overflow:hidden;"><video autoplay muted loop playsinline class="gv" style="width:100%; height:100%; object-fit:cover;"><source src="CA/genova13.mp4" type="video/mp4"></video></div>
                     </div>
                 </div>`;
-                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => v.play()); drawGenovaLines(); }, 800);
+                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => v.play()); drawGenovaLines(); }, 1000);
             } else if(title === "RIQUALIFICAZIONE MOLINETTE") {
                 for(let i=1; i<=4; i++) {
                     const wrap = document.createElement('div'); wrap.className = 'img-wrap';
@@ -311,13 +342,11 @@
         function drawGenovaLines() {
             const svg = document.getElementById('master-svg'); 
             const container = document.getElementById('schema-master-container');
-            const finalImg = document.getElementById('genova-main-img');
-            if (!container || !svg || !finalImg) return;
+            const finalBox = document.getElementById('final-box-wrap');
+            if (!container || !svg || !finalBox) return;
 
             const cRect = container.getBoundingClientRect();
-            const fRect = finalImg.getBoundingClientRect();
-            
-            // Punto di arrivo: metà altezza del bordo sinistro della foto finale
+            const fRect = finalBox.getBoundingClientRect();
             const targetX = fRect.left - cRect.left;
             const targetY = (fRect.top + fRect.height / 2) - cRect.top;
             
@@ -331,13 +360,8 @@
                 const gX = g.right - cRect.left, gY = (g.top + g.height / 2) - cRect.top;
                 const mL = m.left - cRect.left, mR = m.right - cRect.left, mY = (m.top + m.height / 2) - cRect.top;
                 
-                // Offset per evitare accavallamenti delle linee finali
                 const offset = (i - 1.5) * 15;
-
-                // Percorso 1: Da grigio a Video
                 paths += `<path style="fill:none; stroke:rgb(122,161,190); stroke-width:2;" d="M ${gX},${gY} H ${gX + 30} V ${mY} H ${mL}" />`;
-                
-                // Percorso 2: Da Video a bordo sinistro Foto Finale (con curva/offset per non accavallare)
                 paths += `<path style="fill:none; stroke:rgb(122,161,190); stroke-width:2;" d="M ${mR},${mY} H ${mR + 50 + (i*10)} V ${targetY + offset} H ${targetX}" />`;
             }
             svg.innerHTML = paths;
@@ -346,7 +370,7 @@
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX; mouseY = e.clientY;
             const dot = document.getElementById('cursor-dot');
-            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+            dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px';
         });
     </script>
 </body>

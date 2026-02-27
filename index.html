@@ -9,7 +9,6 @@
         body, html { height: 100%; width: 100%; background-color: white; overflow-x: hidden; }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-        /* Nasconde cursore default su Genova */
         body.hide-cursor { cursor: none !important; }
         body.hide-cursor a, body.hide-cursor button { cursor: none !important; }
 
@@ -21,15 +20,14 @@
         /* --- HEADER --- */
         .header { padding: 1.5% 5%; border-bottom: 2px solid white; background-color: rgba(244, 244, 244, 0.95); display: flex; justify-content: space-between; align-items: center; z-index: 30; min-height: 15vh; position: relative; }
         .header-center-area { position: absolute; left: 55%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .header-center-title { font-size: 1.5rem; font-weight: bold; color: black; text-transform: uppercase; text-align: center; }
+        .header-center-title { font-size: 1.3rem; font-weight: bold; color: black; text-transform: uppercase; text-align: center; }
         .sw-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 0.8rem; font-weight: bold; max-width: 50vw; }
         .sw-tag { padding: 2px 6px; }
         .sw-tag.blue-h { background: rgb(122, 161, 190); }
         .sw-tag.green-h { background: rgb(169, 212, 177); }
         .sw-tag.teal-h { background: rgb(133, 162, 162); }
         .sw-tag.red-h { background: rgb(227, 59, 78); }
-        .header-titles h1 { font-size: 3.5rem; font-weight: bold; }
-        .header-titles p { font-size: 1.1rem; color: #333; }
+        .header-titles h1 { font-size: 3rem; font-weight: bold; }
         .header-logo img { height: 8vh; width: auto; }
 
         /* --- CONTENT --- */
@@ -39,34 +37,27 @@
         
         .img-wrap { width: 90%; display: flex; flex-direction: column; position: relative; align-items: center; padding-bottom: 50px; }
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
-        
-        .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; border: 1px solid #eee; }
         .project-description { width: 90%; padding: 25px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
 
+        /* Tasti Centro Polifunzionale */
         .btn-container { display: flex; gap: 15px; margin: 10px auto 30px auto; justify-content: center; flex-wrap: wrap; }
         .btn-link { display: inline-block; padding: 12px 24px; background-color: black !important; color: white !important; text-decoration: none; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; border-radius: 2px; }
-
         .cursor-triangle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="black"/></svg>'), auto !important; }
 
         /* --- MOLINETTE SCROLL --- */
-        .molinette-scroll-container { 
-            width: 100%; min-height: 65vh; overflow-x: auto; display: flex; gap: 0; padding: 20px 5%; margin: 20px auto 80px auto;
-            scrollbar-width: auto; scrollbar-color: rgb(227, 59, 78) #eee; 
-        }
+        .molinette-scroll-container { width: 100%; min-height: 65vh; overflow-x: auto; display: flex; gap: 0; padding: 20px 5%; margin: 20px auto 80px auto; scrollbar-width: auto; scrollbar-color: rgb(227, 59, 78) #eee; }
         .molinette-scroll-container::-webkit-scrollbar { height: 12px; }
         .molinette-scroll-container::-webkit-scrollbar-thumb { background: rgb(227, 59, 78); border-radius: 6px; }
-        .molinette-scroll-container::-webkit-scrollbar-track { background: #eee; }
         .molinette-scroll-img { height: 60vh; width: auto; flex-shrink: 0; object-fit: contain; }
 
         /* --- GENOVA --- */
         .genova-content { width: 100%; color: white; position: relative; padding-top: 30px; }
-        .genova-title { color: rgb(173, 54, 35); font-size: 3.5rem; margin-bottom: 50px; text-align: center; }
+        .genova-title { color: rgb(173, 54, 35); font-size: 3rem; margin-bottom: 50px; text-align: center; }
         .bilingual-grid { display: flex; width: 100%; gap: 40px; margin-bottom: 60px; padding: 0 10%; }
         .lang-col { flex: 1; display: flex; flex-direction: column; }
         .it-side { text-align: right; color: white; } .en-side { text-align: left; color: #888; }
-        .video-box-genova { width: 85%; aspect-ratio: 16/9; background: white; margin: 0 auto 10vh auto; overflow: hidden; }
+        .video-box-genova { width: 85%; aspect-ratio: 16/9; background: white; margin: 0 auto 80px auto; overflow: hidden; }
         .video-box-genova video { width: 100%; height: 100%; object-fit: cover; }
-        
         #schema-master-container { position: relative; width: 100%; padding: 0 5%; display: flex; flex-direction: column; }
         .schema-row { display: flex; width: 100%; margin-bottom: 250px; align-items: flex-start; }
         .box-container { position: relative; border: 1px solid rgba(255, 255, 255, 0.15); z-index: 10; background-color: #1a1a1a; }
@@ -74,18 +65,21 @@
         .gray-left { width: 22vw; aspect-ratio: 4 / 3; } .mid-right { width: 45vw; aspect-ratio: 16 / 9; margin-left: 10vw; margin-top: 60px; }
         #master-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
 
+        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
-            .header { flex-direction: column; min-height: auto; padding: 15px; }
-            .sidebar { width: 100%; border-right: none; border-bottom: 2px solid grey; flex-direction: row; overflow-x: auto; padding: 10px; }
-            .content-wrapper { flex-direction: column; height: auto; }
-            .gallery { height: 75vh; }
+            .header { flex-direction: column; height: auto; min-height: 25vh; padding: 20px 10px; }
+            .header-center-area { position: relative; left: 0; transform: none; width: 100%; margin-top: 15px; }
+            .sw-list { max-width: 90vw; }
+            .sidebar { width: 100%; height: 60px; border-right: none; border-bottom: 2px solid grey; flex-direction: row; overflow-x: auto; padding: 0 10px; align-items: center; }
+            .content-wrapper { flex-direction: column; height: 75vh; }
+            .gallery { padding-top: 20px; }
             .molinette-scroll-img { height: 40vh; }
             .bilingual-grid { flex-direction: column; gap: 20px; text-align: center !important; }
             .it-side, .en-side { text-align: center; }
-            .gray-left { width: 40vw; } .mid-right { width: 50vw; }
+            .gray-left { width: 30vw; } .mid-right { width: 45vw; }
         }
 
-        .menu-item { cursor: pointer; font-size: 1rem; text-transform: uppercase; color: black; text-align: left; }
+        .menu-item { cursor: pointer; font-size: 1rem; text-transform: uppercase; color: black; white-space: nowrap; }
         .menu-item.active-blue { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .menu-item.active-green { color: rgb(169, 212, 177) !important; font-weight: bold; }
         .menu-item.active-teal { color: rgb(133, 162, 162) !important; font-weight: bold; }
@@ -100,14 +94,10 @@
 <body>
     <div id="cursor-dot" style="position: fixed; width: 12px; height: 12px; background: rgb(173, 54, 35); border-radius: 50%; pointer-events: none; z-index: 99999; display: none; transform: translate(-50%, -50%);"></div>
     <canvas id="bg-canvas"></canvas>
-
     <div id="intro-container">
-        <video id="introVideo" autoplay muted playsinline onended="this.pause()">
-            <source src="intro.mp4" type="video/mp4">
-        </video>
+        <video id="introVideo" autoplay muted playsinline onended="this.pause()"><source src="intro.mp4" type="video/mp4"></video>
         <button id="enter-btn" onclick="openPage('ca')">ENTRA</button>
     </div>
-    
     <div id="main-interface" style="display:none; flex-direction:column; height:100vh;">
         <div class="header">
             <div class="header-titles"><h1 id="side-initials"></h1><p id="side-fullname"></p></div>
@@ -117,10 +107,7 @@
             </div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
-        <div class="content-wrapper">
-            <div class="sidebar" id="menu-box"></div>
-            <div class="gallery" id="gallery-box"></div>
-        </div>
+        <div class="content-wrapper"><div class="sidebar" id="menu-box"></div><div class="gallery" id="gallery-box"></div></div>
     </div>
 
     <script>
@@ -129,7 +116,7 @@
         let currentEffect = "", mouseX = 0, mouseY = 0, randomGalleryInterval;
         let randomLines = [], ellipses = [], waves = [];
 
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; if(currentEffect) drawEffect(currentEffect); }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize); resize();
 
         window.onload = () => {
@@ -163,7 +150,7 @@
 
         function startRandomGallery() {
             const gallery = document.getElementById('gallery-box');
-            const pool = ["CASA PIONIERA 1.PNG", "CASA PIONIERA 2.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
+            const pool = ["CASA PIONIERA 1.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
             const update = () => {
                 gallery.innerHTML = "";
                 let shuffled = pool.sort(() => 0.5 - Math.random()).slice(0, 4);
@@ -173,8 +160,7 @@
                     gallery.appendChild(div);
                 });
             };
-            update();
-            randomGalleryInterval = setInterval(update, 5000);
+            update(); randomGalleryInterval = setInterval(update, 5000);
         }
 
         function stopRandomGallery() { clearInterval(randomGalleryInterval); }
@@ -182,7 +168,6 @@
         function loadProject(title, element) {
             localStorage.setItem('activeProject', title);
             const gallery = document.getElementById('gallery-box'); gallery.scrollTo(0,0);
-            
             document.querySelectorAll('.menu-item').forEach(m => {
                 m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue');
                 if (m.innerText === title) {
@@ -192,25 +177,19 @@
                     else m.classList.add('active-blue');
                 }
             });
-
             document.getElementById('proj-title').innerText = title;
             gallery.innerHTML = ""; currentEffect = title; randomLines = []; ellipses = []; waves = [];
-            
             document.body.classList.remove('hide-cursor', 'dark-mode', 'cursor-triangle');
             const dot = document.getElementById('cursor-dot'); dot.style.display = "none";
-
             if (title === "RELOADINGENOVA") { document.body.classList.add('hide-cursor', 'dark-mode'); dot.style.display = "block"; }
             else if (title === "CENTRO POLIFUNZIONALE") { document.body.classList.add('cursor-triangle'); }
 
             const descriptions = {
                 "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
                 "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro non solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
-                "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto non solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figure geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
+                "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto non solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figura geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
                 "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
             };
-
-            const cpCaptions = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
-            const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
 
             if(descriptions[title]) {
                 const dBox = document.createElement('div'); dBox.className = 'project-description'; dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
@@ -225,14 +204,10 @@
                 gallery.innerHTML += `<div class="genova-content">
                     <h1 class="genova-title">ReloadinGenova</h1>
                     <div class="bilingual-grid">
-                        <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova, riconnettendo la città con il mare, grazie all'uso degli strumenti parametrici. L’uso degli strumenti parametrici consente di affrontare la progettazione urbana, e in misura maggiore quella architettonica, permettendo di gestire la complessità e di generare molteplici scenari. Per secoli la crescita di Genova si è intrecciata con la storia del suo porto. Come è possibile affrontare un progetto la cui storia è così strettamente legata alle trasformazioni della sua costa?</div></div>
-                        <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa, reconnecting the city with the sea, through the use of parametric tools. The use of parametric tools allows for urban design, and to an even greater extent architectural design, to manage complexity and generate multiple scenarios. For centuries, the growth of Genoa has been intertwined with the history of its port. How is it possible to approach a project whose history is so closely linked to the transformations of its coastline?</div></div>
+                        <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova, riconnettendo la città con il mare, grazie all'uso degli strumenti parametrici... [Testo Integrale IT]</div></div>
+                        <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa... [Testo Integrale EN]</div></div>
                     </div>
                     <div class="video-box-genova"><video autoplay muted loop playsinline class="gv" preload="auto"><source src="CA/genova1.mp4" type="video/mp4"></video></div>
-                    <div class="bilingual-grid">
-                        <div class="lang-col it-side"><div class="description">Genova è una città bifronte, contesa tra mare e montagna. Questo ha condotto, nel corso dei secoli, ad un uso intensivo del suo suolo. Genova è una città che ha un forte rapporto con il porto, tanto da far ruotare la sua economia intorno ad esso. Le industrie a partire dall'Ottocento si insediano sulla sua costa, motivo per il quale la città smette di avere un legame visivo con il mare.</div></div>
-                        <div class="lang-col en-side"><div class="description">Genoa is a two-faced city, caught between the sea and the mountains. Over the centuries, this has led to intensive land use. Genoa has a strong bond with its port, so much so that its economy revolves around it. Starting from the nineteenth century, industries settled along its coast, which is why the city lost its visual link with the sea.</div></div>
-                    </div>
                     <div id="schema-master-container">
                         <svg id="master-svg"></svg>
                         ${[0,1,2,3].map(i => `<div class="schema-row" id="row-${i}">
@@ -260,7 +235,8 @@
                     wrap.innerHTML = `<img src="CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG" onerror="this.src=this.src.replace('.PNG','.png')">`;
                     gallery.appendChild(wrap);
                 }
-                const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSubText; gallery.appendChild(sub);
+                const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
+                gallery.appendChild(sub);
                 const sCont = document.createElement('div'); sCont.className = 'molinette-scroll-container';
                 [5,6,7].forEach(n => { sCont.innerHTML += `<img src="CA/RIQUALIFICAZIONE MOLINETTE ${n}.PNG" class="molinette-scroll-img" onerror="this.src=this.src.replace('.PNG','.png')">`; });
                 gallery.appendChild(sCont);
@@ -270,7 +246,7 @@
                 for(let i=1; i<=count; i++) {
                     const wrap = document.createElement('div'); wrap.className = 'img-wrap';
                     wrap.innerHTML = `<img src="CA/${title}${count>1?' '+i:''}.PNG" onerror="this.src=this.src.replace('.PNG','.png')">`;
-                    if(title === "CASA PIONIERA") { const cap = document.createElement('div'); cap.className='cp-caption'; cap.innerText=captions[i-1]; wrap.appendChild(cap); }
+                    if(title === "CASA PIONIERA" && i<=4) { const cap = document.createElement('div'); cap.className='cp-caption'; cap.innerText=captions[i-1]; wrap.appendChild(cap); }
                     gallery.appendChild(wrap);
                 }
             }
@@ -332,34 +308,23 @@
         function drawGenovaLines() {
             const svg = document.getElementById('master-svg'); 
             const container = document.getElementById('schema-master-container');
-            const finalImgWrap = document.getElementById('final-box-wrap');
-            if (!container || !svg || !finalImgWrap) return;
-
+            const finalImg = document.getElementById('genova-main-img');
+            if (!container || !svg || !finalImg) return;
             const cRect = container.getBoundingClientRect();
-            const fRect = finalImgWrap.getBoundingClientRect();
-            
-            // Punto di arrivo: metà altezza del bordo sinistro del contenitore dell'immagine finale
-            const targetX = fRect.left - cRect.left;
+            const fRect = finalImg.getBoundingClientRect();
+            // Punto di arrivo corretto: BORDO DESTRO della foto finale
+            const targetX = fRect.right - cRect.left;
             const targetY = (fRect.top + fRect.height / 2) - cRect.top;
-            
             let paths = "";
             for (let i = 0; i < 4; i++) {
-                const r = document.getElementById(`row-${i}`);
-                if (!r) continue;
+                const r = document.getElementById(`row-${i}`); if (!r) continue;
                 const g = r.querySelector('.gray-left').getBoundingClientRect();
                 const m = r.querySelector('.mid-right').getBoundingClientRect();
-                
                 const gX = g.right - cRect.left, gY = (g.top + g.height / 2) - cRect.top;
                 const mL = m.left - cRect.left, mR = m.right - cRect.left, mY = (m.top + m.height / 2) - cRect.top;
-                
-                // Offset verticale per evitare accavallamenti all'arrivo
-                const offset = (i - 1.5) * 15;
-
-                // Percorso 1: Da grigio a Video (orizzontale-verticale-orizzontale)
+                const offset = (i - 1.5) * 20;
                 paths += `<path style="fill:none; stroke:rgb(122,161,190); stroke-width:2;" d="M ${gX},${gY} H ${gX + 30} V ${mY} H ${mL}" />`;
-                
-                // Percorso 2: Da Video a bordo sinistro Foto Finale (orizzontale-verticale-orizzontale con offset)
-                paths += `<path style="fill:none; stroke:rgb(122,161,190); stroke-width:2;" d="M ${mR},${mY} H ${mR + 50 + (i*10)} V ${targetY + offset} H ${targetX}" />`;
+                paths += `<path style="fill:none; stroke:rgb(122,161,190); stroke-width:2;" d="M ${mR},${mY} H ${targetX + 60 + (i*15)} V ${targetY + offset} H ${targetX}" />`;
             }
             svg.innerHTML = paths;
         }

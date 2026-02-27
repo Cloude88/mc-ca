@@ -9,7 +9,6 @@
         body, html { height: 100%; width: 100%; background-color: white; overflow-x: hidden; }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-        /* Nasconde cursore default su Genova */
         body.hide-cursor { cursor: none !important; }
         body.hide-cursor a, body.hide-cursor button { cursor: none !important; }
 
@@ -18,7 +17,7 @@
         video#introVideo { width: 100%; height: 100%; object-fit: cover; }
         #enter-btn { position: absolute; bottom: 10%; right: 10%; background: black; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; cursor: pointer; display: none; font-weight: bold; z-index: 1001; }
 
-        /* --- HEADER (%) --- */
+        /* --- HEADER --- */
         .header { padding: 1.5% 5%; border-bottom: 2px solid white; background-color: rgba(244, 244, 244, 0.95); display: flex; justify-content: space-between; align-items: center; z-index: 30; min-height: 15vh; position: relative; }
         .header-center-area { position: absolute; left: 55%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .header-center-title { font-size: 1.5rem; font-weight: bold; color: black; text-transform: uppercase; text-align: center; }
@@ -43,22 +42,21 @@
         .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; border: 1px solid #eee; }
         .project-description { width: 90%; padding: 25px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
 
-        /* Tasti Link e Cursore Triangolo */
         .btn-container { display: flex; gap: 15px; margin: 10px auto 30px auto; justify-content: center; flex-wrap: wrap; }
         .btn-link { display: inline-block; padding: 12px 24px; background-color: black !important; color: white !important; text-decoration: none; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; border-radius: 2px; }
+
         .cursor-triangle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="black"/></svg>'), auto !important; }
 
-        /* --- MOLINETTE WEB SCROLL --- */
+        /* --- MOLINETTE --- */
         .molinette-scroll-container { 
             width: 100%; min-height: 65vh; overflow-x: auto; display: flex; gap: 0; padding: 20px 5%; margin: 20px auto 80px auto;
             scrollbar-width: auto; scrollbar-color: rgb(227, 59, 78) #eee; 
         }
         .molinette-scroll-container::-webkit-scrollbar { height: 12px; }
         .molinette-scroll-container::-webkit-scrollbar-thumb { background: rgb(227, 59, 78); border-radius: 6px; }
-        .molinette-scroll-container::-webkit-scrollbar-track { background: #eee; }
         .molinette-scroll-img { height: 60vh; width: auto; flex-shrink: 0; object-fit: contain; }
 
-        /* --- GENOVA WEB --- */
+        /* --- GENOVA --- */
         .genova-content { width: 100%; color: white; position: relative; padding-top: 30px; }
         .genova-title { color: rgb(173, 54, 35); font-size: 3.5rem; margin-bottom: 50px; text-align: center; }
         .bilingual-grid { display: flex; width: 100%; gap: 40px; margin-bottom: 60px; padding: 0 10%; }
@@ -82,10 +80,10 @@
         }
 
         .menu-item { cursor: pointer; font-size: 1rem; text-transform: uppercase; color: black; text-align: left; }
+        .menu-item.active-blue { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .menu-item.active-green { color: rgb(169, 212, 177) !important; font-weight: bold; }
         .menu-item.active-teal { color: rgb(133, 162, 162) !important; font-weight: bold; }
         .menu-item.active-red { color: rgb(227, 59, 78) !important; font-weight: bold; }
-        .menu-item.active-blue { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .back-home { margin-top: auto; font-weight: bold; cursor: pointer; color: black; }
         .dark-mode { background-color: black !important; color: white !important; }
         .dark-mode .sidebar { background-color: black !important; }
@@ -110,7 +108,10 @@
             <div class="header-center-area"><div class="header-center-title" id="proj-title"></div><div class="sw-list" id="sw-box"></div></div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
-        <div class="content-wrapper"><div class="sidebar" id="menu-box"></div><div class="gallery" id="gallery-box"></div></div>
+        <div class="content-wrapper">
+            <div class="sidebar" id="menu-box"></div>
+            <div class="gallery" id="gallery-box"></div>
+        </div>
     </div>
 
     <script>
@@ -153,7 +154,7 @@
 
         function startRandomGallery() {
             const gallery = document.getElementById('gallery-box');
-            const pool = ["CASA PIONIERA 1.PNG", "CASA PIONIERA 2.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
+            const pool = ["CASA PIONIERA 1.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
             const update = () => {
                 gallery.innerHTML = "";
                 let shuffled = pool.sort(() => 0.5 - Math.random()).slice(0, 4);
@@ -172,7 +173,6 @@
         function loadProject(title, element) {
             localStorage.setItem('activeProject', title);
             const gallery = document.getElementById('gallery-box'); gallery.scrollTo(0,0);
-            
             document.querySelectorAll('.menu-item').forEach(m => {
                 m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue');
                 if (m.innerText === title) {
@@ -185,7 +185,6 @@
 
             document.getElementById('proj-title').innerText = title;
             gallery.innerHTML = ""; currentEffect = title; randomLines = []; ellipses = []; waves = [];
-            
             document.body.classList.remove('hide-cursor', 'dark-mode', 'cursor-triangle');
             const dot = document.getElementById('cursor-dot'); dot.style.display = "none";
 
@@ -199,7 +198,7 @@
                 "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
             };
 
-            const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
+            const molinetteSub = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
 
             if(descriptions[title]) {
                 const dBox = document.createElement('div'); dBox.className = 'project-description'; dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
@@ -229,19 +228,27 @@
                             <div class="box-container mid-right"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%;object-fit:cover" preload="auto"><source src="CA/genova${i+6}.mp4" type="video/mp4"></video></div>
                         </div>`).join('')}
                     </div>
+                    <div class="bilingual-grid">
+                        <div class="lang-col it-side"><div class="description">I quattro algoritmi ci sono stati utili per gestire e mettere a sistema la complessità. Il progetto è stato diviso in quattro livelli di approfondimento: Masterplan, Volume, Distribuzione e Dispositivi Esterni. L'idea progettuale che si è perseguita è quella di riconnettere visivamente il lotto con il mare, massimizzando per ogni edificio la vista.</div></div>
+                        <div class="lang-col en-side"><div class="description">The four algorithms were useful for managing and organizing complexity. The project was divided into four levels of depth: Masterplan, Volume, Distribution, and External Devices. The design concept pursued is to visually reconnect the site with the sea, maximizing the view for each building.</div></div>
+                    </div>
                     <div id="final-box-wrap" class="img-wrap" style="width:70vw; background:white; margin:100px auto; position:relative; border:1px solid #333;">
                         <img src="CA/genova10.png" id="genova-main-img" style="width:100%;" onerror="this.src=this.src.replace('.png','.PNG')">
                         <div style="position:absolute; right:20px; bottom:20px; background:rgba(0,0,0,0.1); padding:10px; cursor:pointer; color:black; font-weight:bold;" onclick="const img=document.getElementById('genova-main-img'); img.src=img.src.includes('10')?'CA/genova11.png':'CA/genova10.png'">→</div>
                     </div>
+                    <div style="display:flex; justify-content:center; width:70vw; margin:0 auto 100px auto; gap:40px;">
+                        <div class="box-container" style="flex:1; aspect-ratio:16/9; overflow:hidden;"><video autoplay muted loop playsinline class="gv" style="width:100%; height:100%; object-fit:cover;"><source src="CA/genova12.mp4" type="video/mp4"></video></div>
+                        <div class="box-container" style="flex:1; aspect-ratio:16/9; overflow:hidden;"><video autoplay muted loop playsinline class="gv" style="width:100%; height:100%; object-fit:cover;"><source src="CA/genova13.mp4" type="video/mp4"></video></div>
+                    </div>
                 </div>`;
-                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => v.play()); drawGenovaLines(); }, 800);
+                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => v.play()); drawGenovaLines(); }, 1000);
             } else if(title === "RIQUALIFICAZIONE MOLINETTE") {
                 for(let i=1; i<=4; i++) {
                     const wrap = document.createElement('div'); wrap.className = 'img-wrap';
                     wrap.innerHTML = `<img src="CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG" onerror="this.src=this.src.replace('.PNG','.png')">`;
                     gallery.appendChild(wrap);
                 }
-                const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSubText; gallery.appendChild(sub);
+                const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSub; gallery.appendChild(sub);
                 const sCont = document.createElement('div'); sCont.className = 'molinette-scroll-container';
                 [5,6,7].forEach(n => { sCont.innerHTML += `<img src="CA/RIQUALIFICAZIONE MOLINETTE ${n}.PNG" class="molinette-scroll-img" onerror="this.src=this.src.replace('.PNG','.png')">`; });
                 gallery.appendChild(sCont);
@@ -311,20 +318,26 @@
         drawEffect();
 
         function drawGenovaLines() {
-            const svg = document.getElementById('master-svg'); const container = document.getElementById('schema-master-container');
+            const svg = document.getElementById('master-svg'); 
+            const container = document.getElementById('schema-master-container');
             const finalImg = document.getElementById('genova-main-img');
             if (!container || !svg || !finalImg) return;
+
             const cRect = container.getBoundingClientRect();
             const fRect = finalImg.getBoundingClientRect();
             const targetX = fRect.left - cRect.left;
             const targetY = (fRect.top + fRect.height / 2) - cRect.top;
+            
             let paths = "";
             for (let i = 0; i < 4; i++) {
-                const r = document.getElementById(`row-${i}`); if (!r) continue;
+                const r = document.getElementById(`row-${i}`);
+                if (!r) continue;
                 const g = r.querySelector('.gray-left').getBoundingClientRect();
                 const m = r.querySelector('.mid-right').getBoundingClientRect();
+                
                 const gX = g.right - cRect.left, gY = (g.top + g.height / 2) - cRect.top;
                 const mL = m.left - cRect.left, mR = m.right - cRect.left, mY = (m.top + m.height / 2) - cRect.top;
+                
                 const offset = (i - 1.5) * 15;
                 paths += `<path style="fill:none; stroke:rgb(122,161,190); stroke-width:2;" d="M ${gX},${gY} H ${gX + 30} V ${mY} H ${mL}" />`;
                 paths += `<path style="fill:none; stroke:rgb(122,161,190); stroke-width:2;" d="M ${mR},${mY} H ${mR + 50 + (i*10)} V ${targetY + offset} H ${targetX}" />`;

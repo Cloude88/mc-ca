@@ -9,6 +9,7 @@
         body, html { height: 100%; width: 100%; background-color: white; overflow-x: hidden; }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
+        /* Nasconde cursore default su Genova */
         body.hide-cursor { cursor: none !important; }
         body.hide-cursor a, body.hide-cursor button { cursor: none !important; }
 
@@ -47,13 +48,14 @@
 
         .cursor-triangle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="black"/></svg>'), auto !important; }
 
-        /* --- MOLINETTE --- */
+        /* --- MOLINETTE SCROLL --- */
         .molinette-scroll-container { 
             width: 100%; min-height: 65vh; overflow-x: auto; display: flex; gap: 0; padding: 20px 5%; margin: 20px auto 80px auto;
             scrollbar-width: auto; scrollbar-color: rgb(227, 59, 78) #eee; 
         }
         .molinette-scroll-container::-webkit-scrollbar { height: 12px; }
         .molinette-scroll-container::-webkit-scrollbar-thumb { background: rgb(227, 59, 78); border-radius: 6px; }
+        .molinette-scroll-container::-webkit-scrollbar-track { background: #eee; }
         .molinette-scroll-img { height: 60vh; width: auto; flex-shrink: 0; object-fit: contain; }
 
         /* --- GENOVA --- */
@@ -75,8 +77,12 @@
         @media (max-width: 768px) {
             .header { flex-direction: column; min-height: auto; padding: 15px; }
             .sidebar { width: 100%; border-right: none; border-bottom: 2px solid grey; flex-direction: row; overflow-x: auto; padding: 10px; }
+            .content-wrapper { flex-direction: column; height: auto; }
             .gallery { height: 75vh; }
             .molinette-scroll-img { height: 40vh; }
+            .bilingual-grid { flex-direction: column; gap: 20px; text-align: center !important; }
+            .it-side, .en-side { text-align: center; }
+            .gray-left { width: 40vw; } .mid-right { width: 50vw; }
         }
 
         .menu-item { cursor: pointer; font-size: 1rem; text-transform: uppercase; color: black; text-align: left; }
@@ -105,7 +111,10 @@
     <div id="main-interface" style="display:none; flex-direction:column; height:100vh;">
         <div class="header">
             <div class="header-titles"><h1 id="side-initials"></h1><p id="side-fullname"></p></div>
-            <div class="header-center-area"><div class="header-center-title" id="proj-title"></div><div class="sw-list" id="sw-box"></div></div>
+            <div class="header-center-area">
+                <div class="header-center-title" id="proj-title"></div>
+                <div class="sw-list" id="sw-box"></div>
+            </div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
         <div class="content-wrapper">
@@ -120,7 +129,7 @@
         let currentEffect = "", mouseX = 0, mouseY = 0, randomGalleryInterval;
         let randomLines = [], ellipses = [], waves = [];
 
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; if(currentEffect) drawEffect(currentEffect); }
         window.addEventListener('resize', resize); resize();
 
         window.onload = () => {
@@ -154,7 +163,7 @@
 
         function startRandomGallery() {
             const gallery = document.getElementById('gallery-box');
-            const pool = ["CASA PIONIERA 1.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
+            const pool = ["CASA PIONIERA 1.PNG", "CASA PIONIERA 2.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
             const update = () => {
                 gallery.innerHTML = "";
                 let shuffled = pool.sort(() => 0.5 - Math.random()).slice(0, 4);
@@ -173,6 +182,7 @@
         function loadProject(title, element) {
             localStorage.setItem('activeProject', title);
             const gallery = document.getElementById('gallery-box'); gallery.scrollTo(0,0);
+            
             document.querySelectorAll('.menu-item').forEach(m => {
                 m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue');
                 if (m.innerText === title) {
@@ -185,6 +195,7 @@
 
             document.getElementById('proj-title').innerText = title;
             gallery.innerHTML = ""; currentEffect = title; randomLines = []; ellipses = []; waves = [];
+            
             document.body.classList.remove('hide-cursor', 'dark-mode', 'cursor-triangle');
             const dot = document.getElementById('cursor-dot'); dot.style.display = "none";
 
@@ -194,11 +205,12 @@
             const descriptions = {
                 "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
                 "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro non solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
-                "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto non solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figura geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
+                "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto non solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figure geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
                 "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
             };
 
-            const molinetteSub = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
+            const cpCaptions = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
+            const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
 
             if(descriptions[title]) {
                 const dBox = document.createElement('div'); dBox.className = 'project-description'; dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
@@ -248,7 +260,7 @@
                     wrap.innerHTML = `<img src="CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG" onerror="this.src=this.src.replace('.PNG','.png')">`;
                     gallery.appendChild(wrap);
                 }
-                const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSub; gallery.appendChild(sub);
+                const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSubText; gallery.appendChild(sub);
                 const sCont = document.createElement('div'); sCont.className = 'molinette-scroll-container';
                 [5,6,7].forEach(n => { sCont.innerHTML += `<img src="CA/RIQUALIFICAZIONE MOLINETTE ${n}.PNG" class="molinette-scroll-img" onerror="this.src=this.src.replace('.PNG','.png')">`; });
                 gallery.appendChild(sCont);
@@ -320,11 +332,13 @@
         function drawGenovaLines() {
             const svg = document.getElementById('master-svg'); 
             const container = document.getElementById('schema-master-container');
-            const finalImg = document.getElementById('genova-main-img');
-            if (!container || !svg || !finalImg) return;
+            const finalImgWrap = document.getElementById('final-box-wrap');
+            if (!container || !svg || !finalImgWrap) return;
 
             const cRect = container.getBoundingClientRect();
-            const fRect = finalImg.getBoundingClientRect();
+            const fRect = finalImgWrap.getBoundingClientRect();
+            
+            // Punto di arrivo: metà altezza del bordo sinistro del contenitore dell'immagine finale
             const targetX = fRect.left - cRect.left;
             const targetY = (fRect.top + fRect.height / 2) - cRect.top;
             
@@ -338,8 +352,13 @@
                 const gX = g.right - cRect.left, gY = (g.top + g.height / 2) - cRect.top;
                 const mL = m.left - cRect.left, mR = m.right - cRect.left, mY = (m.top + m.height / 2) - cRect.top;
                 
+                // Offset verticale per evitare accavallamenti all'arrivo
                 const offset = (i - 1.5) * 15;
+
+                // Percorso 1: Da grigio a Video (orizzontale-verticale-orizzontale)
                 paths += `<path style="fill:none; stroke:rgb(122,161,190); stroke-width:2;" d="M ${gX},${gY} H ${gX + 30} V ${mY} H ${mL}" />`;
+                
+                // Percorso 2: Da Video a bordo sinistro Foto Finale (orizzontale-verticale-orizzontale con offset)
                 paths += `<path style="fill:none; stroke:rgb(122,161,190); stroke-width:2;" d="M ${mR},${mY} H ${mR + 50 + (i*10)} V ${targetY + offset} H ${targetX}" />`;
             }
             svg.innerHTML = paths;

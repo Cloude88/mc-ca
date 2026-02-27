@@ -28,6 +28,7 @@
         .sw-tag.teal-h { background: rgb(133, 162, 162); }
         .sw-tag.red-h { background: rgb(227, 59, 78); }
         .header-titles h1 { font-size: 3rem; font-weight: bold; }
+        .header-titles p { font-size: 1.1rem; color: #333; }
         .header-logo img { height: 8vh; width: auto; }
 
         /* --- CONTENT --- */
@@ -39,12 +40,11 @@
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         .project-description { width: 90%; padding: 25px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
 
-        /* Tasti Centro Polifunzionale */
         .btn-container { display: flex; gap: 15px; margin: 10px auto 30px auto; justify-content: center; flex-wrap: wrap; }
         .btn-link { display: inline-block; padding: 12px 24px; background-color: black !important; color: white !important; text-decoration: none; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; border-radius: 2px; }
         .cursor-triangle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="black"/></svg>'), auto !important; }
 
-        /* --- MOLINETTE SCROLL --- */
+        /* --- MOLINETTE --- */
         .molinette-scroll-container { width: 100%; min-height: 65vh; overflow-x: auto; display: flex; gap: 0; padding: 20px 5%; margin: 20px auto 80px auto; scrollbar-width: auto; scrollbar-color: rgb(227, 59, 78) #eee; }
         .molinette-scroll-container::-webkit-scrollbar { height: 12px; }
         .molinette-scroll-container::-webkit-scrollbar-thumb { background: rgb(227, 59, 78); border-radius: 6px; }
@@ -52,7 +52,7 @@
 
         /* --- GENOVA --- */
         .genova-content { width: 100%; color: white; position: relative; padding-top: 30px; }
-        .genova-title { color: rgb(173, 54, 35); font-size: 3rem; margin-bottom: 50px; text-align: center; }
+        .genova-title { color: rgb(173, 54, 35); font-size: 3rem; margin-bottom: 50px; text-align: center; text-transform: uppercase; }
         .bilingual-grid { display: flex; width: 100%; gap: 40px; margin-bottom: 60px; padding: 0 10%; }
         .lang-col { flex: 1; display: flex; flex-direction: column; }
         .it-side { text-align: right; color: white; } .en-side { text-align: left; color: #888; }
@@ -65,18 +65,16 @@
         .gray-left { width: 22vw; aspect-ratio: 4 / 3; } .mid-right { width: 45vw; aspect-ratio: 16 / 9; margin-left: 10vw; margin-top: 60px; }
         #master-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
 
-        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
             .header { flex-direction: column; height: auto; min-height: 25vh; padding: 20px 10px; }
-            .header-center-area { position: relative; left: 0; transform: none; width: 100%; margin-top: 15px; }
-            .sw-list { max-width: 90vw; }
+            .header-center-area { position: relative; left: 0; transform: none; width: 100%; margin: 15px 0; }
             .sidebar { width: 100%; height: 60px; border-right: none; border-bottom: 2px solid grey; flex-direction: row; overflow-x: auto; padding: 0 10px; align-items: center; }
-            .content-wrapper { flex-direction: column; height: 75vh; }
-            .gallery { padding-top: 20px; }
+            .content-wrapper { flex-direction: column; height: auto; }
+            .gallery { padding-top: 30px; }
             .molinette-scroll-img { height: 40vh; }
             .bilingual-grid { flex-direction: column; gap: 20px; text-align: center !important; }
             .it-side, .en-side { text-align: center; }
-            .gray-left { width: 30vw; } .mid-right { width: 45vw; }
+            .gray-left { width: 35vw; } .mid-right { width: 45vw; }
         }
 
         .menu-item { cursor: pointer; font-size: 1rem; text-transform: uppercase; color: black; white-space: nowrap; }
@@ -94,10 +92,12 @@
 <body>
     <div id="cursor-dot" style="position: fixed; width: 12px; height: 12px; background: rgb(173, 54, 35); border-radius: 50%; pointer-events: none; z-index: 99999; display: none; transform: translate(-50%, -50%);"></div>
     <canvas id="bg-canvas"></canvas>
+
     <div id="intro-container">
         <video id="introVideo" autoplay muted playsinline onended="this.pause()"><source src="intro.mp4" type="video/mp4"></video>
         <button id="enter-btn" onclick="openPage('ca')">ENTRA</button>
     </div>
+    
     <div id="main-interface" style="display:none; flex-direction:column; height:100vh;">
         <div class="header">
             <div class="header-titles"><h1 id="side-initials"></h1><p id="side-fullname"></p></div>
@@ -107,7 +107,10 @@
             </div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
-        <div class="content-wrapper"><div class="sidebar" id="menu-box"></div><div class="gallery" id="gallery-box"></div></div>
+        <div class="content-wrapper">
+            <div class="sidebar" id="menu-box"></div>
+            <div class="gallery" id="gallery-box"></div>
+        </div>
     </div>
 
     <script>
@@ -121,7 +124,7 @@
 
         window.onload = () => {
             const savedPage = localStorage.getItem('activeProject');
-            if (savedPage) { openPage('ca', savedPage); }
+            if (savedPage) openPage('ca', savedPage);
         };
 
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 2000);
@@ -132,7 +135,7 @@
             document.getElementById('side-initials').innerText = user.toUpperCase();
             document.getElementById('side-fullname').innerText = 'Claudio Antonelli';
             buildMenu();
-            if (autoLoadProject) { loadProject(autoLoadProject, null); } else { startRandomGallery(); }
+            if (autoLoadProject) loadProject(autoLoadProject, null); else startRandomGallery();
         }
 
         function buildMenu() {
@@ -150,7 +153,7 @@
 
         function startRandomGallery() {
             const gallery = document.getElementById('gallery-box');
-            const pool = ["CASA PIONIERA 1.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
+            const pool = ["CASA PIONIERA 1.PNG", "CASA PIONIERA 2.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
             const update = () => {
                 gallery.innerHTML = "";
                 let shuffled = pool.sort(() => 0.5 - Math.random()).slice(0, 4);
@@ -177,10 +180,12 @@
                     else m.classList.add('active-blue');
                 }
             });
+
             document.getElementById('proj-title').innerText = title;
             gallery.innerHTML = ""; currentEffect = title; randomLines = []; ellipses = []; waves = [];
             document.body.classList.remove('hide-cursor', 'dark-mode', 'cursor-triangle');
             const dot = document.getElementById('cursor-dot'); dot.style.display = "none";
+
             if (title === "RELOADINGENOVA") { document.body.classList.add('hide-cursor', 'dark-mode'); dot.style.display = "block"; }
             else if (title === "CENTRO POLIFUNZIONALE") { document.body.classList.add('cursor-triangle'); }
 
@@ -204,10 +209,14 @@
                 gallery.innerHTML += `<div class="genova-content">
                     <h1 class="genova-title">ReloadinGenova</h1>
                     <div class="bilingual-grid">
-                        <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova, riconnettendo la città con il mare, grazie all'uso degli strumenti parametrici... [Testo Integrale IT]</div></div>
-                        <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa... [Testo Integrale EN]</div></div>
+                        <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova, riconnettendo la città con il mare, grazie all'uso degli strumenti parametrici. L’uso degli strumenti parametrici consente di affrontare la progettazione urbana, e in misura maggiore quella architettonica, permettendo di gestire la complessità e di generare molteplici scenari. Per secoli la crescita di Genova si è intrecciata con la storia del suo porto. Come è possibile affrontare un progetto la cui storia è così strettamente legata alle trasformazioni della sua costa?</div></div>
+                        <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa, reconnecting the city with the sea, through the use of parametric tools. The use of parametric tools allows for urban design, and to an even greater extent architectural design, to manage complexity and generate multiple scenarios. For centuries, the growth of Genoa has been intertwined with the history of its port. How is it possible to approach a project whose history is so closely linked to the transformations of its coastline?</div></div>
                     </div>
                     <div class="video-box-genova"><video autoplay muted loop playsinline class="gv" preload="auto"><source src="CA/genova1.mp4" type="video/mp4"></video></div>
+                    <div class="bilingual-grid">
+                        <div class="lang-col it-side"><div class="description">Genova è una città bifronte, contesa tra mare e montagna. Questo ha condotto, nel corso dei secoli, ad un uso intensivo del suo suolo. Genova è una città che ha un forte rapporto con il porto, tanto da far ruotare la sua economia intorno ad esso. Le industrie a partire dall'Ottocento si insediano sulla sua costa, motivo per il quale la città smette di avere un legame visivo con il mare.</div></div>
+                        <div class="lang-col en-side"><div class="description">Genoa is a two-faced city, caught between the sea and the mountains. Over the centuries, this has led to intensive land use. Genoa has a strong bond with its port, so much so that its economy revolves around it. Starting from the nineteenth century, industries settled along its coast, which is why the city lost its visual link with the sea.</div></div>
+                    </div>
                     <div id="schema-master-container">
                         <svg id="master-svg"></svg>
                         ${[0,1,2,3].map(i => `<div class="schema-row" id="row-${i}">
@@ -251,9 +260,9 @@
                 }
             }
             updateSW(title);
-            if(title === "CENTRO POLIFUNZIONALE") { for(let i=0; i<45; i++) randomLines.push({x1: Math.random()*canvas.width, y1: 0, x2: Math.random()*canvas.width, y2: canvas.height, c: Math.random()>0.5?"black":"#bbb"}); }
-            if(title === "THE ELLIPSE") { for(let i=0; i<30; i++) ellipses.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI}); }
-            if(title === "RIQUALIFICAZIONE MOLINETTE") { for(let i=0; i<30; i++) waves.push({y: Math.random()*canvas.height, c: Math.random()>0.5?"rgb(227, 59, 78)":"#ddd"}); }
+            if(title === "CENTRO POLIFUNZIONALE") for(let i=0; i<45; i++) randomLines.push({x1: Math.random()*canvas.width, y1: 0, x2: Math.random()*canvas.width, y2: canvas.height, c: Math.random()>0.5?"black":"#bbb"});
+            if(title === "THE ELLIPSE") for(let i=0; i<30; i++) ellipses.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI});
+            if(title === "RIQUALIFICAZIONE MOLINETTE") for(let i=0; i<30; i++) waves.push({y: Math.random()*canvas.height, c: Math.random()>0.5?"rgb(227, 59, 78)":"#ddd"});
         }
 
         function updateSW(proj) {
@@ -306,13 +315,11 @@
         drawEffect();
 
         function drawGenovaLines() {
-            const svg = document.getElementById('master-svg'); 
-            const container = document.getElementById('schema-master-container');
+            const svg = document.getElementById('master-svg'); const container = document.getElementById('schema-master-container');
             const finalImg = document.getElementById('genova-main-img');
             if (!container || !svg || !finalImg) return;
             const cRect = container.getBoundingClientRect();
             const fRect = finalImg.getBoundingClientRect();
-            // Punto di arrivo corretto: BORDO DESTRO della foto finale
             const targetX = fRect.right - cRect.left;
             const targetY = (fRect.top + fRect.height / 2) - cRect.top;
             let paths = "";

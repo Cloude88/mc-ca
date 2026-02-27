@@ -40,18 +40,18 @@
         .img-wrap { width: 100%; display: flex; flex-direction: column; position: relative; align-items: center; }
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
-        /* UI Didascalie e Pulsanti */
+        /* UI Elementi */
         .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; border: 1px solid #eee; }
         .btn-theplan { display: inline-block; margin: 20px auto; padding: 10px 20px; background-color: black; color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; border-radius: 2px; }
-        .project-description { width: 100%; padding: 20px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; font-weight: normal; }
+        .project-description { width: 100%; padding: 20px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
 
-        /* --- SLIDER MOLINETTE RI-PROGETTATO --- */
+        /* --- SLIDER MOLINETTE --- */
         .slider-container { width: 100%; display: flex; justify-content: center; align-items: center; position: relative; margin: 40px 0; }
         .slider-box { width: 50%; height: 500px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #fff; border: 1px solid #eee; }
         .slider-img-item { position: absolute; max-width: 100%; max-height: 100%; display: none; }
-        .slider-img-item.active { display: block; }
-        .s-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: black; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 100; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
-        #p-arr { left: 10%; display: none; } #n-arr { right: 10%; }
+        .slider-img-item.active { display: block !important; }
+        .s-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: black; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; z-index: 100; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
+        #prevB { left: 10%; display: none; } #nextB { right: 10%; }
 
         /* --- GENOVA --- */
         .genova-content { width: 100%; color: white; position: relative; padding-top: 50px; cursor: none !important; }
@@ -76,7 +76,7 @@
         .dual-box-row { display: flex; justify-content: center; width: 60vw; margin: 0 auto 200px auto; gap: 40px; }
         .side-box-genova { flex: 1; aspect-ratio: 16/9; overflow: hidden; }
 
-        /* MENU */
+        /* MENU LATERALI */
         .menu-item { cursor: pointer; font-size: 1.1rem; text-transform: uppercase; color: black; text-align: left; }
         .menu-item.active-blue { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .menu-item.active-green { color: rgb(169, 212, 177) !important; font-weight: bold; }
@@ -127,17 +127,27 @@
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 2000);
         function startSite() { document.getElementById('intro-container').style.display='none'; document.getElementById('home-page').style.display='flex'; }
 
-        // --- DATABASE TESTI COMPLETI ---
+        // --- TESTI ---
         const descriptions = {
             "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
             "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro not solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
             "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto not solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figura geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse not come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
             "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
         };
-
         const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
         const cpCaptions = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
         const softwareList = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
+
+        // --- FUNZIONE SLIDER GLOBALE ---
+        window.handleSlider = function(dir) {
+            const imgs = document.querySelectorAll('.slider-img-item');
+            if(!imgs.length) return;
+            imgs[sliderPos].classList.remove('active');
+            sliderPos = Math.max(0, Math.min(imgs.length - 1, sliderPos + dir));
+            imgs[sliderPos].classList.add('active');
+            document.getElementById('prevB').style.display = (sliderPos === 0) ? "none" : "flex";
+            document.getElementById('nextB').style.display = (sliderPos === imgs.length - 1) ? "none" : "flex";
+        };
 
         const dot = document.getElementById('cursor-dot');
         document.addEventListener('mousemove', (e) => {
@@ -166,7 +176,8 @@
 
         function loadProject(user, title, element) {
             const gallery = document.getElementById('gallery-box');
-            gallery.scrollTop = 0; 
+            gallery.scrollTo(0,0); // RESET SCROLL
+
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue'));
             if(title === "CASA PIONIERA") element.classList.add('active-green');
             else if(title === "THE ELLIPSE") element.classList.add('active-teal');
@@ -180,7 +191,8 @@
             document.body.classList.toggle('cursor-triangle', title === "CENTRO POLIFUNZIONALE");
 
             if(descriptions[title]) {
-                const dBox = document.createElement('div'); dBox.className = 'project-description'; dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
+                const dBox = document.createElement('div'); dBox.className = 'project-description';
+                dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
                 if(title === "CENTRO POLIFUNZIONALE") {
                     const btn = document.createElement('a'); btn.className = 'btn-theplan'; btn.innerText = "Pubblicazione THE PLAN";
                     btn.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano";
@@ -216,19 +228,20 @@
                             <div class="box-container side-box-genova"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%" preload="auto"><source src="CA/genova13.mp4" type="video/mp4"></video><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
                         </div>
                     </div></div>`;
-                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => { v.load(); v.play(); }); drawGenovaLines(); }, 400);
+                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => { v.load(); v.play(); }); drawGenovaLines(); }, 1000);
             } else if(title === "RIQUALIFICAZIONE MOLINETTE") {
                 for(let i=1; i<=4; i++) addImg(gallery, `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`);
                 const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSubText; gallery.appendChild(sub);
+                
                 const sliderWrap = document.createElement('div'); sliderWrap.className = 'slider-container';
                 sliderWrap.innerHTML = `
-                    <button class="s-arrow" id="p-arr" onclick="handleSlider(-1)">&#10094;</button>
-                    <div class="slider-box" id="mol-box">
+                    <button class="s-arrow" id="prevB" onclick="window.handleSlider(-1)">&#10094;</button>
+                    <div class="slider-box">
                         <img src="CA/RIQUALIFICAZIONE MOLINETTE 5.PNG" class="slider-img-item active" onerror="this.src=this.src.replace('.PNG','.png')">
                         <img src="CA/RIQUALIFICAZIONE MOLINETTE 6.PNG" class="slider-img-item" onerror="this.src=this.src.replace('.PNG','.png')">
                         <img src="CA/RIQUALIFICAZIONE MOLINETTE 7.PNG" class="slider-img-item" onerror="this.src=this.src.replace('.PNG','.png')">
                     </div>
-                    <button class="s-arrow" id="n-arr" onclick="handleSlider(1)">&#10095;</button>`;
+                    <button class="s-arrow" id="nextB" onclick="window.handleSlider(1)">&#10095;</button>`;
                 gallery.appendChild(sliderWrap);
             } else {
                 let count = (title === "CENTRO POLIFUNZIONALE") ? 7 : (title === "THE ELLIPSE" || title === "CASA PIONIERA") ? 4 : 1;
@@ -238,21 +251,6 @@
                 }
             }
             updateSW(title); randomLines = []; ellipses = []; waves = []; drawEffect(title);
-        }
-
-        function handleSlider(dir) {
-            const box = document.getElementById('mol-box');
-            if(!box) return;
-            const imgs = box.querySelectorAll('.slider-img-item');
-            const pBtn = document.getElementById('p-arr');
-            const nBtn = document.getElementById('n-arr');
-            
-            imgs[sliderPos].classList.remove('active');
-            sliderPos = Math.max(0, Math.min(imgs.length - 1, sliderPos + dir));
-            imgs[sliderPos].classList.add('active');
-
-            pBtn.style.display = (sliderPos === 0) ? "none" : "flex";
-            nBtn.style.display = (sliderPos === imgs.length - 1) ? "none" : "flex";
         }
 
         function addImg(parent, src) {

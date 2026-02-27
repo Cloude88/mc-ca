@@ -42,7 +42,7 @@
         
         .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; border: 1px solid #eee; }
         
-        /* Contenitore Bottoni */
+        /* Contenitore Bottoni Centro Polifunzionale */
         .btn-container { display: flex; gap: 20px; margin: 5px auto 30px auto; justify-content: center; }
         .btn-link { display: inline-block; padding: 10px 20px; background-color: black; color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; border-radius: 2px; }
 
@@ -52,7 +52,7 @@
         .molinette-horizontal-box { width: 100%; overflow-x: auto; display: flex; gap: 20px; padding: 20px 5%; margin-bottom: 50px; scrollbar-width: thin; scrollbar-color: #ccc transparent; }
         .molinette-horizontal-box::-webkit-scrollbar { height: 8px; }
         .molinette-horizontal-box::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-        .molinette-img-item { height: 600px; width: auto; flex-shrink: 0; object-fit: contain; display: block !important; }
+        .molinette-img-item { height: 600px; width: auto; flex-shrink: 0; object-fit: contain; display: block; }
 
         /* --- GENOVA --- */
         .genova-content { width: 100%; color: white; position: relative; padding-top: 50px; cursor: none !important; }
@@ -191,13 +191,13 @@
                 gallery.innerHTML = `<div class="genova-content">
                     <h1 class="genova-title">ReloadinGenova</h1>
                     <div class="bilingual-grid">
-                        <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova, riconnettendo la città con il mare, grazie all'uso degli strumenti parametrici...</div></div>
-                        <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa, reconnecting the city with the sea...</div></div>
+                        <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova, riconnettendo la città con il mare, grazie all'uso degli strumenti parametrici. L’uso degli strumenti parametrici consente di affrontare la progettazione urbana, e in misura maggiore quella architettonica, permettendo di gestire la complessità e di generare molteplici scenari. Per secoli la crescita di Genova si è intrecciata con la storia del suo porto. Come è possibile affrontare un progetto la cui storia è così strettamente legata alle trasformazioni della sua costa?</div></div>
+                        <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa, reconnecting the city with the sea, through the use of parametric tools. The use of parametric tools allows for urban design, and to an even greater extent architectural design, to manage complexity and generate multiple scenarios. For centuries, the growth of Genoa has been intertwined with the history of its port. How is it possible to approach a project whose history is so closely linked to the transformations of its coastline?</div></div>
                     </div>
                     <div class="video-box-genova"><video autoplay muted loop playsinline class="gv" preload="auto"><source src="CA/genova1.mp4" type="video/mp4"></video></div>
                     <div class="bilingual-grid">
-                        <div class="lang-col it-side"><div class="description">Genova è una città bifronte, contesa tra mare e montagna...</div></div>
-                        <div class="lang-col en-side"><div class="description">Genoa is a two-faced city, caught between the sea and the mountains...</div></div>
+                        <div class="lang-col it-side"><div class="description">Genova è una città bifronte, contesa tra mare e montagna. Questo ha condotto, nel corso dei secoli, ad un uso intensivo del suo suolo. Genova è una città che ha un forte rapporto con il porto, tanto da far ruotare la sua economia intorno ad esso. Le industrie a partire dall'Ottocento si insediano sulla sua costa, motivo per il quale la città smette di avere un legame visivo con il mare.</div></div>
+                        <div class="lang-col en-side"><div class="description">Genoa is a two-faced city, caught between the sea and the mountains. Over the centuries, this has led to intensive land use. Genoa has a strong bond with its port, so much so that its economy revolves around it. Starting from the nineteenth century, industries settled along its coast, which is why the city lost its visual link with the sea.</div></div>
                     </div>
                     <div id="schema-master-container">
                         <svg id="master-svg"></svg>
@@ -206,8 +206,8 @@
                             <div class="box-container mid-right"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%;object-fit:cover" preload="auto"><source src="CA/genova${i+6}.mp4" type="video/mp4"></video><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
                         </div>`).join('')}
                         <div class="bilingual-grid">
-                            <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">I quattro algoritmi ci sono stati utili per gestire e mettere a sistema la complessità...</div></div>
-                            <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The four algorithms were useful for managing and organizing complexity...</div></div>
+                            <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">I quattro algoritmi ci sono stati utili per gestire e mettere a sistema la complessità. Il progetto è stato diviso in quattro livelli di approfondimento: Masterplan, Volume, Distribuzione e Dispositivi Esterni. L'idea progettuale che si è perseguita è quella di riconnettere visivamente il lotto con il mare, massimizzando per ogni edificio la vista.</div></div>
+                            <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The four algorithms were useful for managing and organizing complexity. The project was divided into four levels of depth: Masterplan, Volume, Distribution, and External Devices. The design concept pursued is to visually reconnect the site with the sea, maximizing the view for each building.</div></div>
                         </div>
                         <div id="final-box" class="box-container final-white-box"><img src="CA/genova10.png" id="genova-main-img" onerror="this.src=this.src.replace('.png','.PNG')"><div class="nav-arrow-genova" onclick="const img=document.getElementById('genova-main-img'); img.src=img.src.includes('10')?'CA/genova11.png':'CA/genova10.png'">→</div></div>
                         <div class="dual-box-row">
@@ -220,7 +220,7 @@
                 for(let i=1; i<=4; i++) addImg(gallery, `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`);
                 const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSubText; gallery.appendChild(sub);
                 
-                // BOX ORIZZONTALE - IMMAGINI FORZATE
+                // BOX ORIZZONTALE CON IMMAGINI FORZATE 5,6,7
                 const hBox = document.createElement('div'); hBox.className = 'molinette-horizontal-box';
                 [5,6,7].forEach(num => {
                     const img = document.createElement('img');

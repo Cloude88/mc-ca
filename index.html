@@ -35,28 +35,30 @@
         /* --- CONTENT --- */
         .content-wrapper { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; position: relative; z-index: 10; }
         .sidebar { width: 300px; border-right: 2px solid grey; display: flex; flex-direction: column; padding: 40px 0 40px 5%; gap: 15px; background: white; z-index: 30; }
-        .gallery { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding: 5%; gap: 60px; z-index: 20; background: transparent; }
+        .gallery { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding: 5% 0; gap: 60px; z-index: 20; background: transparent; }
         
-        .img-wrap { width: 100%; display: flex; flex-direction: column; position: relative; align-items: center; }
+        .img-wrap { width: 100%; display: flex; flex-direction: column; position: relative; align-items: center; padding: 0 5%; }
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
         .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; border: 1px solid #eee; }
-        .btn-link { display: inline-block; margin: 10px auto; padding: 10px 20px; background-color: black; color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; border-radius: 2px; text-align: center; }
-        .project-description { width: 100%; padding: 20px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
+        
+        /* Contenitore Bottoni Centro Polifunzionale */
+        .btn-container { display: flex; gap: 20px; margin: 10px auto 30px auto; justify-content: center; }
+        .btn-link { display: inline-block; padding: 10px 20px; background-color: black; color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; border-radius: 2px; }
 
-        /* --- SLIDER MOLINETTE --- */
-        .slider-container { width: 100%; display: flex; justify-content: center; align-items: center; position: relative; margin: 40px 0; }
-        .slider-box { width: 50%; height: 500px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #fff; }
-        .slider-img-item { position: absolute; max-width: 100%; max-height: 100%; display: none; }
-        .slider-img-item.active { display: block !important; }
-        .s-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: black; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; z-index: 100; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
-        #prevB { left: 10%; display: none; } #nextB { right: 10%; }
+        .project-description { width: 100%; padding: 20px 5%; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 5px; }
+
+        /* --- NUOVA SEZIONE MOLINETTE SCROLL ORIZZONTALE --- */
+        .molinette-horizontal-box { width: 100%; overflow-x: auto; display: flex; gap: 20px; padding: 20px 5%; scrollbar-width: thin; scrollbar-color: #ddd transparent; }
+        .molinette-horizontal-box::-webkit-scrollbar { height: 6px; }
+        .molinette-horizontal-box::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+        .molinette-img-item { height: 600px; width: auto; flex-shrink: 0; object-fit: contain; }
 
         /* --- GENOVA --- */
         .genova-content { width: 100%; color: white; position: relative; padding-top: 50px; cursor: none !important; }
         #cursor-dot { width: 10px; height: 10px; background-color: rgb(173, 54, 35); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); display: none; }
         .genova-title { color: rgb(173, 54, 35); font-size: 52px; margin-bottom: 80px; text-align: center; }
-        .bilingual-grid { display: flex; width: 100%; gap: 60px; margin-bottom: 80px; padding: 0 5%; }
+        .bilingual-grid { display: flex; width: 100%; gap: 60px; margin-bottom: 80px; padding: 0 10%; }
         .lang-col { flex: 1; display: flex; flex-direction: column; }
         .it-side { text-align: right; color: white; } .en-side { text-align: left; color: #888; }
         .video-box-genova { width: 80%; aspect-ratio: 16/9; background: white; margin: 0 auto 100px auto; overflow: hidden; }
@@ -75,6 +77,7 @@
         .dual-box-row { display: flex; justify-content: center; width: 60vw; margin: 0 auto 200px auto; gap: 40px; }
         .side-box-genova { flex: 1; aspect-ratio: 16/9; overflow: hidden; }
 
+        /* MENU */
         .menu-item { cursor: pointer; font-size: 1.1rem; text-transform: uppercase; color: black; text-align: left; }
         .menu-item.active-blue { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .menu-item.active-green { color: rgb(169, 212, 177) !important; font-weight: bold; }
@@ -116,7 +119,7 @@
     <script>
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        let currentEffect = "", sliderPos = 0, mouseX = 0, mouseY = 0;
+        let currentEffect = "", mouseX = 0, mouseY = 0;
         let randomLines = [], ellipses = [], waves = [];
 
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; if(currentEffect) drawEffect(currentEffect); }
@@ -125,7 +128,6 @@
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 2000);
         function startSite() { document.getElementById('intro-container').style.display='none'; document.getElementById('home-page').style.display='flex'; }
 
-        // --- TESTI COMPLETI ---
         const descriptions = {
             "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
             "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro not solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
@@ -135,17 +137,6 @@
         const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
         const cpCaptions = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
         const softwareList = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
-
-        // --- FUNZIONE SLIDER GLOBALE MIGLIORATA ---
-        window.handleSlider = function(dir) {
-            const imgs = document.querySelectorAll('.slider-img-item');
-            if(!imgs.length) return;
-            imgs[sliderPos].classList.remove('active');
-            sliderPos += dir;
-            imgs[sliderPos].classList.add('active');
-            document.getElementById('prevB').style.display = (sliderPos === 0) ? "none" : "flex";
-            document.getElementById('nextB').style.display = (sliderPos === imgs.length - 1) ? "none" : "flex";
-        };
 
         const dot = document.getElementById('cursor-dot');
         document.addEventListener('mousemove', (e) => {
@@ -173,8 +164,7 @@
         }
 
         function loadProject(user, title, element) {
-            const gallery = document.getElementById('gallery-box');
-            gallery.scrollTo(0,0);
+            const gallery = document.getElementById('gallery-box'); gallery.scrollTo(0,0);
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue'));
             if(title === "CASA PIONIERA") element.classList.add('active-green');
             else if(title === "THE ELLIPSE") element.classList.add('active-teal');
@@ -182,22 +172,19 @@
             else element.classList.add('active-blue');
 
             document.getElementById('proj-title').innerText = title;
-            gallery.innerHTML = ""; sliderPos = 0;
+            gallery.innerHTML = ""; 
             dot.style.display = (title === "RELOADINGENOVA") ? "block" : "none";
             document.body.classList.toggle('dark-mode', title === "RELOADINGENOVA");
             document.body.classList.toggle('cursor-triangle', title === "CENTRO POLIFUNZIONALE");
 
             if(descriptions[title]) {
-                const dBox = document.createElement('div'); dBox.className = 'project-description';
-                dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
+                const dBox = document.createElement('div'); dBox.className = 'project-description'; dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
                 
                 if(title === "CENTRO POLIFUNZIONALE") {
-                    const btnStudio = document.createElement('a'); btnStudio.className = 'btn-link'; btnStudio.innerText = "Studio AD Architetti";
-                    btnStudio.href = "https://adarchitetti.it/lo-studio"; btnStudio.target = "_blank"; gallery.appendChild(btnStudio);
-                    
-                    const btnPlan = document.createElement('a'); btnPlan.className = 'btn-link'; btnPlan.innerText = "Pubblicazione THE PLAN";
-                    btnPlan.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano";
-                    btnPlan.target = "_blank"; gallery.appendChild(btnPlan);
+                    const bCont = document.createElement('div'); bCont.className = 'btn-container';
+                    const btnS = document.createElement('a'); btnS.className = 'btn-link'; btnS.innerText = "Studio AD Architetti"; btnS.href = "https://adarchitetti.it/lo-studio"; btnS.target = "_blank"; bCont.appendChild(btnS);
+                    const btnP = document.createElement('a'); btnP.className = 'btn-link'; btnP.innerText = "Pubblicazione THE PLAN"; btnP.href = "https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano"; btnP.target = "_blank"; bCont.appendChild(btnP);
+                    gallery.appendChild(bCont);
                 }
             }
 
@@ -205,33 +192,42 @@
                 gallery.innerHTML = `<div class="genova-content">
                     <h1 class="genova-title">ReloadinGenova</h1>
                     <div class="bilingual-grid">
-                        <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova...</div></div>
-                        <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa...</div></div>
+                        <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">L'obiettivo della tesi è stato quello di progettare la riqualificazione di un'area industriale a Genova, riconnettendo la città con il mare, grazie all'uso degli strumenti parametrici. L’uso degli strumenti parametrici consente di affrontare la progettazione urbana, e in misura maggiore quella architettonica, permettendo di gestire la complessità e di generare molteplici scenari. Per secoli la crescita di Genova si è intrecciata con la storia del suo porto. Come è possibile affrontare un progetto la cui storia è così strettamente legata alle trasformazioni della sua costa?</div></div>
+                        <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The goal of the thesis was to design the redevelopment of an industrial area in Genoa, reconnecting the city with the sea, through the use of parametric tools. The use of parametric tools allows for urban design, and to an even greater extent architectural design, to manage complexity and generate multiple scenarios. For centuries, the growth of Genoa has been intertwined with the history of its port. How is it possible to approach a project whose history is so closely linked to the transformations of its coastline?</div></div>
                     </div>
                     <div class="video-box-genova"><video autoplay muted loop playsinline class="gv" preload="auto"><source src="CA/genova1.mp4" type="video/mp4"></video></div>
+                    <div class="bilingual-grid">
+                        <div class="lang-col it-side"><div class="description">Genova è una città bifronte, contesa tra mare e montagna. Questo ha condotto, nel corso dei secoli, ad un uso intensivo del suo suolo. Genova è una città che ha un forte rapporto con il porto, tanto da far ruotare la sua economia intorno ad esso. Le industrie a partire dall'Ottocento si insediano sulla sua costa, motivo per il quale la città smette di avere un legame visivo con il mare.</div></div>
+                        <div class="lang-col en-side"><div class="description">Genoa is a two-faced city, caught between the sea and the mountains. Over the centuries, this has led to intensive land use. Genoa has a strong bond with its port, so much so that its economy revolves around it. Starting from the nineteenth century, industries settled along its coast, which is why the city lost its visual link with the sea.</div></div>
+                    </div>
                     <div id="schema-master-container">
                         <svg id="master-svg"></svg>
                         ${[0,1,2,3].map(i => `<div class="schema-row" id="row-${i}">
-                            <div class="box-container gray-left"><div class="box-label">${['MASTERPLAN','VOLUME','DISTRIBUZIONE','DISPOSITIVI ESTERNI'][i]}</div><img src="CA/genova${i+2}.png" style="width:100%;height:100%;object-fit:cover"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
+                            <div class="box-container gray-left"><div class="box-label">${['MASTERPLAN','VOLUME','DISTRIBUZIONE','DISPOSITIVI ESTERNI'][i]}</div><img src="CA/genova${i+2}.png" style="width:100%;height:100%;object-fit:cover" onerror="this.src=this.src.replace('.png','.PNG')"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
                             <div class="box-container mid-right"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%;object-fit:cover" preload="auto"><source src="CA/genova${i+6}.mp4" type="video/mp4"></video><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
                         </div>`).join('')}
-                        <div id="final-box" class="box-container final-white-box"><img src="CA/genova10.png" id="genova-main-img"><div class="nav-arrow-genova" onclick="const img=document.getElementById('genova-main-img'); img.src=img.src.includes('10')?'CA/genova11.png':'CA/genova10.png'">→</div></div>
+                        <div class="bilingual-grid">
+                            <div class="lang-col it-side"><div class="lang-label">IT</div><div class="description">I quattro algoritmi ci sono stati utili per gestire e mettere a sistema la complessità. Il progetto è stato diviso in quattro livelli di approfondimento: Masterplan, Volume, Distribuzione e Dispositivi Esterni. L'idea progettuale che si è perseguita è quella di riconnettere visivamente il lotto con il mare, massimizzando per ogni edificio la vista.</div></div>
+                            <div class="lang-col en-side"><div class="lang-label">EN</div><div class="description">The four algorithms were useful for managing and organizing complexity. The project was divided into four levels of depth: Masterplan, Volume, Distribution, and External Devices. The design concept pursued is to visually reconnect the site with the sea, maximizing the view for each building.</div></div>
+                        </div>
+                        <div id="final-box" class="box-container final-white-box"><img src="CA/genova10.png" id="genova-main-img" onerror="this.src=this.src.replace('.png','.PNG')"><div class="nav-arrow-genova" onclick="const img=document.getElementById('genova-main-img'); img.src=img.src.includes('10')?'CA/genova11.png':'CA/genova10.png'">→</div></div>
                         <div class="dual-box-row">
-                            <div class="box-container side-box-genova"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%"><source src="CA/genova12.mp4" type="video/mp4"></video><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
-                            <div class="box-container side-box-genova"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%"><source src="CA/genova13.mp4" type="video/mp4"></video><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
+                            <div class="box-container side-box-genova"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%" preload="auto"><source src="CA/genova12.mp4" type="video/mp4"></video><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
+                            <div class="box-container side-box-genova"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%" preload="auto"><source src="CA/genova13.mp4" type="video/mp4"></video><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div></div>
                         </div>
                     </div></div>`;
-                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => { v.load(); v.play(); }); drawGenovaLines(); }, 500);
+                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => { v.load(); v.play(); }); drawGenovaLines(); }, 600);
             } else if(title === "RIQUALIFICAZIONE MOLINETTE") {
                 for(let i=1; i<=4; i++) addImg(gallery, `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`);
                 const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSubText; gallery.appendChild(sub);
-                const sliderWrap = document.createElement('div'); sliderWrap.className = 'slider-container';
-                sliderWrap.innerHTML = `<button class="s-arrow" id="prevB" onclick="window.handleSlider(-1)">&#10094;</button><div class="slider-box">
-                    <img src="CA/RIQUALIFICAZIONE MOLINETTE 5.PNG" class="slider-img-item active" onerror="this.src=this.src.replace('.PNG','.png')">
-                    <img src="CA/RIQUALIFICAZIONE MOLINETTE 6.PNG" class="slider-img-item" onerror="this.src=this.src.replace('.PNG','.png')">
-                    <img src="CA/RIQUALIFICAZIONE MOLINETTE 7.PNG" class="slider-img-item" onerror="this.src=this.src.replace('.PNG','.png')">
-                </div><button class="s-arrow" id="nextB" onclick="window.handleSlider(1)">&#10095;</button>`;
-                gallery.appendChild(sliderWrap);
+                const hBox = document.createElement('div'); hBox.className = 'molinette-horizontal-box';
+                for(let i=5; i<=7; i++){
+                    const img = document.createElement('img'); img.className = 'molinette-img-item';
+                    img.src = `CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG`;
+                    img.onerror = () => { if(img.src.includes('.PNG')) img.src = img.src.replace('.PNG', '.png'); };
+                    hBox.appendChild(img);
+                }
+                gallery.appendChild(hBox);
             } else {
                 let count = (title === "CENTRO POLIFUNZIONALE") ? 7 : (title === "THE ELLIPSE" || title === "CASA PIONIERA") ? 4 : 1;
                 for(let i=1; i<=count; i++) {
@@ -257,6 +253,7 @@
                 if(proj === "CENTRO POLIFUNZIONALE" && ["AutoCAD", "Revit", "Indesign", "Lumion 3D", "SketchUp", "Photoshop", "Enscape", "Pacchetto Office"].includes(s)) span.classList.add('blue-h');
                 if(proj === "THE ELLIPSE" && ["Revit", "Illustrator", "Lumion 3D", "Dynamo"].includes(s)) span.classList.add('teal-h');
                 if(proj === "RIQUALIFICAZIONE MOLINETTE" && ["AutoCAD", "Revit", "Illustrator", "Photoshop", "Pacchetto Office"].includes(s)) span.classList.add('red-h');
+                if(proj === "RELOADINGENOVA" && ["Rhino", "Grasshopper"].includes(s)) span.classList.add('blue-h');
                 box.appendChild(span);
             });
         }

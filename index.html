@@ -17,7 +17,7 @@
         video#introVideo { width: 100%; height: 100%; object-fit: cover; }
         #enter-btn { position: absolute; bottom: 10%; right: 10%; background: black; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; cursor: pointer; display: none; font-weight: bold; z-index: 1001; }
 
-        /* --- HEADER --- */
+        /* --- HEADER DESKTOP --- */
         .header { padding: 1.5% 5%; border-bottom: 2px solid white; background-color: rgba(244, 244, 244, 0.95); display: flex; justify-content: space-between; align-items: center; z-index: 30; min-height: 15vh; position: relative; }
         .header-center-area { position: absolute; left: 55%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .header-center-title { font-size: 1.3rem; font-weight: bold; color: black; text-transform: uppercase; text-align: center; }
@@ -28,10 +28,9 @@
         .sw-tag.teal-h { background: rgb(133, 162, 162); }
         .sw-tag.red-h { background: rgb(227, 59, 78); }
         .header-titles h1 { font-size: 3rem; font-weight: bold; }
-        .header-titles p { font-size: 1.1rem; color: #333; }
         .header-logo img { height: 8vh; width: auto; }
 
-        /* --- CONTENT --- */
+        /* --- CONTENT DESKTOP --- */
         .content-wrapper { display: flex; flex: 1; height: 85vh; overflow: hidden; position: relative; z-index: 10; }
         .sidebar { width: 15%; border-right: 2px solid grey; display: flex; flex-direction: column; padding: 40px 0 40px 3%; gap: 15px; background: white; z-index: 30; }
         .gallery { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding-bottom: 100px; z-index: 20; background: transparent; }
@@ -39,9 +38,7 @@
         .img-wrap { width: 90%; display: flex; flex-direction: column; position: relative; align-items: center; padding-bottom: 50px; }
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
-        /* Didascalie Casa Pioniera */
         .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; border: 1px solid #eee; }
-        
         .project-description { width: 90%; padding: 25px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
 
         .btn-container { display: flex; gap: 15px; margin: 10px auto 30px auto; justify-content: center; flex-wrap: wrap; }
@@ -69,28 +66,55 @@
         .gray-left { width: 22vw; aspect-ratio: 4 / 3; } .mid-right { width: 45vw; aspect-ratio: 16 / 9; margin-left: 10vw; margin-top: 60px; }
         #master-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
 
-        @media (max-width: 768px) {
-            .header { flex-direction: column; height: auto; min-height: 25vh; padding: 20px 10px; }
-            .header-center-area { position: relative; left: 0; transform: none; width: 100%; margin: 15px 0; }
-            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 2px solid grey; flex-direction: column; padding: 15px; }
-            .content-wrapper { flex-direction: column; height: auto; }
-            .gallery { padding-top: 30px; }
-            .molinette-scroll-img { height: 40vh; }
-            .bilingual-grid { flex-direction: column; gap: 20px; text-align: center !important; }
-            .it-side, .en-side { text-align: center; }
-            .gray-left { width: 35vw; } .mid-right { width: 45vw; }
-        }
-
+        /* --- MOBILE TENDINA --- */
+        #mobile-menu-container { display: none; }
         .menu-item { cursor: pointer; font-size: 1rem; text-transform: uppercase; color: black; margin-bottom: 10px; }
         .menu-item.active-blue { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .menu-item.active-green { color: rgb(169, 212, 177) !important; font-weight: bold; }
         .menu-item.active-teal { color: rgb(133, 162, 162) !important; font-weight: bold; }
         .menu-item.active-red { color: rgb(227, 59, 78) !important; font-weight: bold; }
         .back-home { margin-top: auto; font-weight: bold; cursor: pointer; color: black; }
+
+        @media (max-width: 768px) {
+            .header { flex-direction: column; height: auto; min-height: 25vh; padding: 15px 10px; border-bottom: 1px solid #ccc; }
+            .header-center-area { position: relative; left: 0; transform: none; width: 100%; margin-top: 10px; }
+            .sw-list { max-width: 95vw; gap: 5px; font-size: 0.7rem; }
+            
+            .sidebar { display: none; } /* Nasconde sidebar desktop */
+            
+            #mobile-menu-container { 
+                display: block; 
+                width: 100%; 
+                padding: 10px 5%; 
+                background: white; 
+                border-bottom: 2px solid grey;
+                position: sticky;
+                top: 0;
+                z-index: 40;
+            }
+            #proj-selector {
+                width: 100%;
+                padding: 12px;
+                font-size: 1rem;
+                text-transform: uppercase;
+                font-weight: bold;
+                border: 2px solid black;
+                background: white;
+            }
+
+            .content-wrapper { flex-direction: column; height: auto; overflow: visible; }
+            .gallery { padding-top: 20px; width: 100%; overflow-y: visible; }
+            .img-wrap { width: 95%; padding-bottom: 30px; }
+            .molinette-scroll-img { height: 40vh; }
+            .bilingual-grid { flex-direction: column; gap: 20px; text-align: center !important; }
+            .it-side, .en-side { text-align: center; }
+            .gray-left { width: 35vw; } .mid-right { width: 45vw; }
+        }
+
         .dark-mode { background-color: black !important; color: white !important; }
-        .dark-mode .sidebar { background-color: black !important; }
-        .dark-mode .header { background-color: #111 !important; }
-        .dark-mode .menu-item, .dark-mode .back-home, .dark-mode .header-titles p, .dark-mode .header-center-title, .dark-mode .sw-tag { color: white !important; }
+        .dark-mode .header, .dark-mode #mobile-menu-container { background-color: #111 !important; }
+        .dark-mode .header-titles p, .dark-mode .header-center-title, .dark-mode .sw-tag, .dark-mode #proj-selector { color: white !important; }
+        .dark-mode #proj-selector { background: #222; border-color: white; }
     </style>
 </head>
 <body>
@@ -103,12 +127,22 @@
     <div id="main-interface" style="display:none; flex-direction:column; height:100vh;">
         <div class="header">
             <div class="header-titles"><h1 id="side-initials"></h1><p id="side-fullname"></p></div>
-            <div class="header-center-area">
-                <div class="header-center-title" id="proj-title"></div>
-                <div class="sw-list" id="sw-box"></div>
-            </div>
+            <div class="header-center-area"><div class="header-center-title" id="proj-title"></div><div class="sw-list" id="sw-box"></div></div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
+        
+        <div id="mobile-menu-container">
+            <select id="proj-selector" onchange="loadProject(this.value, null)">
+                <option value="" disabled selected>Seleziona Progetto</option>
+                <option value="CASA PIONIERA">CASA PIONIERA</option>
+                <option value="CENTRO POLIFUNZIONALE">CENTRO POLIFUNZIONALE</option>
+                <option value="THE ELLIPSE">THE ELLIPSE</option>
+                <option value="RIQUALIFICAZIONE MOLINETTE">RIQUALIFICAZIONE MOLINETTE</option>
+                <option value="RELOADINGENOVA">RELOADINGENOVA</option>
+                <option value="HOME">TORNA ALLA HOME</option>
+            </select>
+        </div>
+
         <div class="content-wrapper"><div class="sidebar" id="menu-box"></div><div class="gallery" id="gallery-box"></div></div>
     </div>
 
@@ -168,8 +202,14 @@
         function stopRandomGallery() { clearInterval(randomGalleryInterval); }
 
         function loadProject(title, element) {
+            if(title === "HOME") { localStorage.removeItem('activeProject'); location.reload(); return; }
+            stopRandomGallery();
             localStorage.setItem('activeProject', title);
             const gallery = document.getElementById('gallery-box'); gallery.scrollTo(0,0);
+            
+            // Sync tendina mobile
+            document.getElementById('proj-selector').value = title;
+
             document.querySelectorAll('.menu-item').forEach(m => {
                 m.classList.remove('active-green', 'active-teal', 'active-red', 'active-blue');
                 if (m.innerText === title) {
@@ -189,7 +229,7 @@
 
             const descriptions = {
                 "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
-                "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro notocolo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
+                "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro notolo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
                 "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto notolo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figure geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
                 "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
             };

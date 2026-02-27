@@ -37,8 +37,6 @@
         .gallery img { width: 100%; height: auto; object-fit: contain; display: block; }
         
         .cp-caption { align-self: flex-end; margin-top: 10px; font-size: 0.85rem; font-weight: bold; background: white; color: black; padding: 4px 8px; text-transform: uppercase; border: 1px solid #eee; }
-        .btn-container { display: flex; gap: 15px; margin: 5px auto 30px auto; justify-content: center; flex-wrap: wrap; }
-        .btn-link { display: inline-block; padding: 10px 20px; background-color: black; color: white; text-decoration: none; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; border-radius: 2px; }
         .project-description { width: 90%; padding: 25px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
 
         /* --- MOLINETTE SCROLL --- */
@@ -56,7 +54,7 @@
         .bilingual-grid { display: flex; width: 100%; gap: 40px; margin-bottom: 60px; padding: 0 10%; }
         .lang-col { flex: 1; display: flex; flex-direction: column; }
         .it-side { text-align: right; color: white; } .en-side { text-align: left; color: #888; }
-        .video-box-genova { width: 85%; aspect-ratio: 16/9; background: white; margin: 0 auto 100px auto; overflow: hidden; }
+        .video-box-genova { width: 85%; aspect-ratio: 16/9; background: white; margin: 0 auto 80px auto; overflow: hidden; }
         .video-box-genova video { width: 100%; height: 100%; object-fit: cover; }
         
         #schema-master-container { position: relative; width: 100%; padding: 0 5%; display: flex; flex-direction: column; }
@@ -175,16 +173,15 @@
             document.body.classList.toggle('dark-mode', title === "RELOADINGENOVA");
             document.getElementById('cursor-dot').style.display = (title === "RELOADINGENOVA") ? "block" : "none";
 
-            const softwareList = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
-            const cpCaptions = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
-
+            // DATABASE TESTI COMPLETO
             const descriptions = {
                 "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
                 "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro non solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
-                "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto non solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figura geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
+                "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto non solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figure geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
                 "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
             };
 
+            const cpCaptions = ["Assonometria", "Pianta piano tipo", "Prospetto Sud", "Sezione A-A"];
             const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
 
             if(descriptions[title]) {
@@ -228,7 +225,7 @@
                         <div class="box-container side-box-genova" style="flex:1; aspect-ratio:16/9; overflow:hidden;"><video autoplay muted loop playsinline class="gv" style="width:100%; height:100%; object-fit:cover;"><source src="CA/genova13.mp4" type="video/mp4"></video></div>
                     </div>
                 </div>`;
-                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => v.play()); drawGenovaLines(); }, 800);
+                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => v.play()); drawGenovaLines(); }, 1000);
             } else if(title === "RIQUALIFICAZIONE MOLINETTE") {
                 for(let i=1; i<=4; i++) {
                     const wrap = document.createElement('div'); wrap.className = 'img-wrap';
@@ -250,7 +247,8 @@
                     gallery.appendChild(wrap);
                 }
             }
-            updateSW(title); 
+            updateSW(title);
+            // Inizializzazione sfondi specifici
             if(title === "CENTRO POLIFUNZIONALE") { for(let i=0; i<45; i++) randomLines.push({x1: Math.random()*canvas.width, y1: 0, x2: Math.random()*canvas.width, y2: canvas.height, c: Math.random()>0.5?"black":"#bbb"}); }
             if(title === "THE ELLIPSE") { for(let i=0; i<30; i++) ellipses.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, rx: 100, ry: 50, rot: Math.random()*Math.PI}); }
             if(title === "RIQUALIFICAZIONE MOLINETTE") { for(let i=0; i<30; i++) waves.push({y: Math.random()*canvas.height, c: Math.random()>0.5?"rgb(227, 59, 78)":"#ddd"}); }
@@ -258,8 +256,8 @@
 
         function updateSW(proj) {
             const box = document.getElementById('sw-box'); box.innerHTML = "";
-            const softwareList = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
-            softwareList.forEach(s => {
+            const swList = ["AutoCAD", "SketchUp", "Illustrator", "Revit", "Indesign", "V-Ray", "Lumion 3D", "Enscape", "Photoshop", "Pacchetto Office", "Rhino", "Grasshopper", "Dynamo"];
+            swList.forEach(s => {
                 const span = document.createElement('span'); span.className = 'sw-tag'; span.innerText = s;
                 if(proj === "CASA PIONIERA" && ["AutoCAD", "SketchUp", "Illustrator"].includes(s)) span.classList.add('green-h');
                 if(proj === "CENTRO POLIFUNZIONALE" && ["AutoCAD", "Revit", "Indesign", "Lumion 3D", "SketchUp", "Photoshop", "Enscape", "Pacchetto Office"].includes(s)) span.classList.add('blue-h');

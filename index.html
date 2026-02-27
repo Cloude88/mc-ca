@@ -41,13 +41,14 @@
         .btn-link { display: inline-block; padding: 10px 20px; background-color: black; color: white; text-decoration: none; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; border-radius: 2px; }
         .project-description { width: 90%; padding: 25px; text-align: center; line-height: 1.6; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
 
-        /* --- MOLINETTE SCROLL --- */
+        /* --- BARRA ROSSA MOLINETTE --- */
         .molinette-scroll-container { 
             width: 100%; min-height: 65vh; overflow-x: auto; display: flex; gap: 0; padding: 20px 5%; margin: 20px auto 80px auto;
-            scrollbar-width: auto; scrollbar-color: rgb(227, 59, 78) #f0f0f0; 
+            scrollbar-width: auto; scrollbar-color: rgb(227, 59, 78) #eee; 
         }
         .molinette-scroll-container::-webkit-scrollbar { height: 12px; }
         .molinette-scroll-container::-webkit-scrollbar-thumb { background: rgb(227, 59, 78); border-radius: 6px; }
+        .molinette-scroll-container::-webkit-scrollbar-track { background: #eee; }
         .molinette-scroll-img { height: 60vh; width: auto; flex-shrink: 0; object-fit: contain; }
 
         /* --- GENOVA --- */
@@ -66,20 +67,14 @@
         .gray-left { width: 22vw; aspect-ratio: 4 / 3; } .mid-right { width: 45vw; aspect-ratio: 16 / 9; margin-left: 10vw; margin-top: 60px; }
         #master-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
 
-        /* --- RESPONSIVE MOBILE --- */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .header { flex-direction: column; min-height: auto; padding: 15px; }
-            .header-titles h1 { font-size: 2.2rem; text-align: center; }
-            .header-center-area { position: static; transform: none; margin: 15px 0; width: 100%; }
-            .sw-list { max-width: 100%; font-size: 0.7rem; }
-            .header-logo { display: none; }
-            .content-wrapper { flex-direction: column; height: auto; }
-            .sidebar { width: 100%; border-right: none; border-bottom: 2px solid grey; flex-direction: row; overflow-x: auto; padding: 10px; }
-            .gallery { height: 75vh; width: 100%; }
+            .header-titles h1 { font-size: 2rem; }
+            .header-center-area { position: static; transform: none; margin: 15px 0; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 2px solid grey; flex-direction: row; overflow-x: auto; }
+            .gallery { height: 70vh; }
             .molinette-scroll-img { height: 40vh; }
-            .bilingual-grid { flex-direction: column; gap: 20px; text-align: center !important; }
-            .it-side, .en-side { text-align: center; }
-            .gray-left { width: 40vw; } .mid-right { width: 50vw; }
         }
 
         .menu-item { cursor: pointer; font-size: 1rem; text-transform: uppercase; color: black; text-align: left; }
@@ -184,15 +179,17 @@
             document.body.classList.toggle('dark-mode', title === "RELOADINGENOVA");
             document.getElementById('cursor-dot').style.display = (title === "RELOADINGENOVA") ? "block" : "none";
 
-            const descText = {
+            const descriptions = {
                 "CASA PIONIERA": "La Casa Pioniera è un progetto di un cohousing per genitori divorziati. Il lotto è situato a Nord di Torino, nel quartiere di Barriera di Milano, ma effettivamente l’idea progettuale si estende nel primo intorno della zona. L’edificio è di quattro piani fuori terra e si relaziona con il contesto densamente edificato e la forma triangolare del lotto è stato sfruttato per la sua opportunità di essere un edificio di testa. Quest’ultima caratteristica ha dato il nome del progetto infatti, la Casa Pioniera. Il piano terra ospita locali dedicati alla comunità, motivo per cui lo spazio contiguo è di fondamentale importanza per garantire continuità e qualità architettonica. I piani superiori invece ospitano le residenze. La copertura è uno spazio comune riservato.",
                 "CENTRO POLIFUNZIONALE": "Il progetto del Centro Polifunzionale è l’esito della vincita di un concorso pubblico nel comune di Beinasco. Si tratta di un edificio di circa 1200 mq su 3 piani fuori terra che ospitano numerosi spazi polifunzionali, tra cui una biblioteca e un bar aperto al pubblico. Nel primo piano ci sono molteplici affacci su dei vuoti verso il piano terra per garantire un senso di apertura e un’esperienza spaziale ricercata. La progettazione di questo edificio è andato incontro non solo alle esigenze funzionali ma anche alle necessità fisiche e ai problemi tecnici di cantiere. Attualmente è in fase di realizzazione ed è stato finanziato dai fondi PNRR. Il suo aspetto è frutto di ispirazione artistica applicata all’architettura, ovvero il celebre quadro di Laszlo Moholy-Nagy “Konstrucktion IV” reso tridimensionale e spazializzato attraverso le richieste da parte dell’Amministrazione Pubblica.",
                 "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto non solo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figura geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
                 "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
             };
 
-            if(descText[title]) {
-                const dBox = document.createElement('div'); dBox.className = 'project-description'; dBox.innerText = descText[title]; gallery.appendChild(dBox);
+            const molinetteSubText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
+
+            if(descriptions[title]) {
+                const dBox = document.createElement('div'); dBox.className = 'project-description'; dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
                 if(title === "CENTRO POLIFUNZIONALE") {
                     const bCont = document.createElement('div'); bCont.className = 'btn-container';
                     bCont.innerHTML = `<a href="https://adarchitetti.it/lo-studio" target="_blank" class="btn-link">Studio AD Architetti</a><a href="https://www.theplan.it/award-2023-Culture/a-socio-cultural-multipurpose-center-in-turin-merges-bauhaus-and-wrightian-architecture-ad-studio-arch-roberto-apostolo-arch-paola-maria-delpiano" target="_blank" class="btn-link">Pubblicazione THE PLAN</a>`;
@@ -218,12 +215,18 @@
                             <div class="box-container gray-left"><div class="box-label">${['MASTERPLAN','VOLUME','DISTRIBUZIONE','DISPOSITIVI ESTERNI'][i]}</div><img src="CA/genova${i+2}.png" style="width:100%;height:100%;object-fit:cover" onerror="this.src=this.src.replace('.png','.PNG')"></div>
                             <div class="box-container mid-right"><video autoplay muted loop playsinline class="gv" style="width:100%;height:100%;object-fit:cover" preload="auto"><source src="CA/genova${i+6}.mp4" type="video/mp4"></video></div>
                         </div>`).join('')}
-                        <div class="bilingual-grid">
-                            <div class="lang-col it-side"><div class="description">I quattro algoritmi ci sono stati utili per gestire e mettere a sistema la complessità. Il progetto è stato diviso in quattro livelli di approfondimento: Masterplan, Volume, Distribuzione e Dispositivi Esterni. L'idea progettuale che si è perseguita è quella di riconnettere visivamente il lotto con il mare, massimizzando per ogni edificio la vista.</div></div>
-                            <div class="lang-col en-side"><div class="description">The four algorithms were useful for managing and organizing complexity. The project was divided into four levels of depth: Masterplan, Volume, Distribution, and External Devices. The design concept pursued is to visually reconnect the site with the sea, maximizing the view for each building.</div></div>
-                        </div>
-                    </div></div>`;
-                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => v.play()); drawGenovaLines(); }, 800);
+                    </div>
+                    <div class="bilingual-grid">
+                        <div class="lang-col it-side"><div class="description">I quattro algoritmi ci sono stati utili per gestire e mettere a sistema la complessità. Il progetto è stato diviso in quattro livelli di approfondimento: Masterplan, Volume, Distribuzione e Dispositivi Esterni. L'idea progettuale che si è perseguita è quella di riconnettere visivamente il lotto con il mare, massimizzando per ogni edificio la vista.</div></div>
+                        <div class="lang-col en-side"><div class="description">The four algorithms were useful for managing and organizing complexity. The project was divided into four levels of depth: Masterplan, Volume, Distribution, and External Devices. The design concept pursued is to visually reconnect the site with the sea, maximizing the view for each building.</div></div>
+                    </div>
+                    <div id="final-box" class="box-container final-white-box" style="width:70vw; background:white; margin:0 auto 15vh auto; position:relative; aspect-ratio:250/176; display:flex; justify-content:center;"><img src="CA/genova10.png" id="genova-main-img" style="max-width:100%; height:auto;" onerror="this.src=this.src.replace('.png','.PNG')"><div class="nav-arrow-genova" style="position:absolute; right:20px; bottom:20px; width:45px; height:45px; background:rgba(0,0,0,0.1); display:flex; justify-content:center; align-items:center; cursor:pointer;" onclick="const img=document.getElementById('genova-main-img'); img.src=img.src.includes('10')?'CA/genova11.png':'CA/genova10.png'">→</div></div>
+                    <div class="dual-box-row">
+                        <div class="box-container side-box-genova" style="flex:1; aspect-ratio:16/9; overflow:hidden;"><video autoplay muted loop playsinline class="gv" style="width:100%; height:100%; object-fit:cover;"><source src="CA/genova12.mp4" type="video/mp4"></video></div>
+                        <div class="box-container side-box-genova" style="flex:1; aspect-ratio:16/9; overflow:hidden;"><video autoplay muted loop playsinline class="gv" style="width:100%; height:100%; object-fit:cover;"><source src="CA/genova13.mp4" type="video/mp4"></video></div>
+                    </div>
+                </div>`;
+                setTimeout(() => { document.querySelectorAll('.gv').forEach(v => v.play()); drawGenovaLines(); }, 1000);
             } else if(title === "RIQUALIFICAZIONE MOLINETTE") {
                 for(let i=1; i<=4; i++) {
                     const wrap = document.createElement('div'); wrap.className = 'img-wrap';
@@ -262,20 +265,6 @@
             });
         }
 
-        function drawEffect(type) {
-            currentEffect = type; ctx.clearRect(0,0,canvas.width,canvas.height);
-            if(type === "CASA PIONIERA") {
-                ctx.strokeStyle = "black"; ctx.lineWidth = 1;
-                for(let x=0; x<canvas.width; x+=60) {
-                    for(let y=0; y<canvas.height; y+=90) {
-                        ctx.beginPath(); ctx.rect(x,y,60,90);
-                        if(mouseX>=x && mouseX<=x+60 && mouseY>=y && mouseY<=y+90) { ctx.fillStyle="rgba(169, 212, 177, 0.4)"; ctx.fill(); }
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
         function drawGenovaLines() {
             const svg = document.getElementById('master-svg'); const container = document.getElementById('schema-master-container');
             if (!container || !svg) return;
@@ -292,10 +281,22 @@
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX; mouseY = e.clientY;
-            const dot = document.getElementById('cursor-dot');
-            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
             if(currentEffect === "CASA PIONIERA") drawEffect(currentEffect);
         });
+
+        function drawEffect(type) {
+            currentEffect = type; ctx.clearRect(0,0,canvas.width,canvas.height);
+            if(type === "CASA PIONIERA") {
+                ctx.strokeStyle = "black"; ctx.lineWidth = 1;
+                for(let x=0; x<canvas.width; x+=60) {
+                    for(let y=0; y<canvas.height; y+=90) {
+                        ctx.beginPath(); ctx.rect(x,y,60,90);
+                        if(mouseX>=x && mouseX<=x+60 && mouseY>=y && mouseY<=y+90) { ctx.fillStyle="rgba(169, 212, 177, 0.4)"; ctx.fill(); }
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
     </script>
 </body>
 </html>

@@ -28,12 +28,11 @@
         .sw-tag.teal-h { background: rgb(133, 162, 162); }
         .sw-tag.red-h { background: rgb(227, 59, 78); }
         .header-titles h1 { font-size: 3rem; font-weight: bold; }
-        .header-titles p { font-size: 1.1rem; color: #333; }
         .header-logo img { height: 8vh; width: auto; }
 
         /* --- CONTENT --- */
         .content-wrapper { display: flex; flex: 1; height: 85vh; overflow: hidden; position: relative; z-index: 10; }
-        .sidebar { width: 15%; border-right: 2px solid grey; display: flex; flex-direction: column; padding: 20px 0 20px 3%; gap: 15px; background: white; z-index: 30; }
+        .sidebar { width: 15%; border-right: 2px solid grey; display: flex; flex-direction: column; padding: 40px 0 40px 3%; gap: 15px; background: white; z-index: 30; }
         .gallery { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding-bottom: 100px; z-index: 20; background: transparent; }
         
         .img-wrap { width: 90%; display: flex; flex-direction: column; position: relative; align-items: center; padding-bottom: 50px; }
@@ -56,7 +55,7 @@
         .bilingual-grid { display: flex; width: 100%; gap: 40px; margin-bottom: 60px; padding: 0 10%; }
         .lang-col { flex: 1; display: flex; flex-direction: column; }
         .it-side { text-align: right; color: white; } .en-side { text-align: left; color: #888; }
-        .video-box-genova { width: 85%; aspect-ratio: 16/9; background: white; margin: 0 auto 80px auto; overflow: hidden; }
+        .video-box-genova { width: 85%; aspect-ratio: 16/9; background: white; margin: 0 auto 100px auto; overflow: hidden; }
         .video-box-genova video { width: 100%; height: 100%; object-fit: cover; }
         #schema-master-container { position: relative; width: 100%; padding: 0 5%; display: flex; flex-direction: column; }
         .schema-row { display: flex; width: 100%; margin-bottom: 250px; align-items: flex-start; }
@@ -66,18 +65,18 @@
         #master-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
 
         @media (max-width: 768px) {
-            .header { flex-direction: column; height: auto; min-height: 25vh; padding: 20px 10px; }
+            .header { flex-direction: column; height: auto; min-height: 28vh; padding: 20px 10px; }
             .header-center-area { position: relative; left: 0; transform: none; width: 100%; margin: 15px 0; }
-            .sidebar { width: 100%; height: 60px; border-right: none; border-bottom: 2px solid grey; flex-direction: row; overflow-x: auto; padding: 0 10px; align-items: center; }
+            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 2px solid grey; flex-direction: column; padding: 15px; }
             .content-wrapper { flex-direction: column; height: auto; }
-            .gallery { padding-top: 30px; }
+            .gallery { padding-top: 40px; }
             .molinette-scroll-img { height: 40vh; }
             .bilingual-grid { flex-direction: column; gap: 20px; text-align: center !important; }
             .it-side, .en-side { text-align: center; }
             .gray-left { width: 35vw; } .mid-right { width: 45vw; }
         }
 
-        .menu-item { cursor: pointer; font-size: 1rem; text-transform: uppercase; color: black; white-space: nowrap; }
+        .menu-item { cursor: pointer; font-size: 1rem; text-transform: uppercase; color: black; margin-bottom: 10px; }
         .menu-item.active-blue { color: rgb(122, 161, 190) !important; font-weight: bold; }
         .menu-item.active-green { color: rgb(169, 212, 177) !important; font-weight: bold; }
         .menu-item.active-teal { color: rgb(133, 162, 162) !important; font-weight: bold; }
@@ -92,12 +91,10 @@
 <body>
     <div id="cursor-dot" style="position: fixed; width: 12px; height: 12px; background: rgb(173, 54, 35); border-radius: 50%; pointer-events: none; z-index: 99999; display: none; transform: translate(-50%, -50%);"></div>
     <canvas id="bg-canvas"></canvas>
-
     <div id="intro-container">
         <video id="introVideo" autoplay muted playsinline onended="this.pause()"><source src="intro.mp4" type="video/mp4"></video>
         <button id="enter-btn" onclick="openPage('ca')">ENTRA</button>
     </div>
-    
     <div id="main-interface" style="display:none; flex-direction:column; height:100vh;">
         <div class="header">
             <div class="header-titles"><h1 id="side-initials"></h1><p id="side-fullname"></p></div>
@@ -107,10 +104,7 @@
             </div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
-        <div class="content-wrapper">
-            <div class="sidebar" id="menu-box"></div>
-            <div class="gallery" id="gallery-box"></div>
-        </div>
+        <div class="content-wrapper"><div class="sidebar" id="menu-box"></div><div class="gallery" id="gallery-box"></div></div>
     </div>
 
     <script>
@@ -185,7 +179,6 @@
             gallery.innerHTML = ""; currentEffect = title; randomLines = []; ellipses = []; waves = [];
             document.body.classList.remove('hide-cursor', 'dark-mode', 'cursor-triangle');
             const dot = document.getElementById('cursor-dot'); dot.style.display = "none";
-
             if (title === "RELOADINGENOVA") { document.body.classList.add('hide-cursor', 'dark-mode'); dot.style.display = "block"; }
             else if (title === "CENTRO POLIFUNZIONALE") { document.body.classList.add('cursor-triangle'); }
 
@@ -315,13 +308,16 @@
         drawEffect();
 
         function drawGenovaLines() {
-            const svg = document.getElementById('master-svg'); const container = document.getElementById('schema-master-container');
+            const svg = document.getElementById('master-svg'); 
+            const container = document.getElementById('schema-master-container');
             const finalImg = document.getElementById('genova-main-img');
             if (!container || !svg || !finalImg) return;
             const cRect = container.getBoundingClientRect();
             const fRect = finalImg.getBoundingClientRect();
+            
             const targetX = fRect.right - cRect.left;
             const targetY = (fRect.top + fRect.height / 2) - cRect.top;
+            
             let paths = "";
             for (let i = 0; i < 4; i++) {
                 const r = document.getElementById(`row-${i}`); if (!r) continue;

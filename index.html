@@ -79,29 +79,9 @@
             .header { flex-direction: column; height: auto; min-height: 25vh; padding: 15px 10px; border-bottom: 1px solid #ccc; }
             .header-center-area { position: relative; left: 0; transform: none; width: 100%; margin-top: 10px; }
             .sw-list { max-width: 95vw; gap: 5px; font-size: 0.7rem; }
-            
-            .sidebar { display: none; } /* Nasconde sidebar desktop */
-            
-            #mobile-menu-container { 
-                display: block; 
-                width: 100%; 
-                padding: 10px 5%; 
-                background: white; 
-                border-bottom: 2px solid grey;
-                position: sticky;
-                top: 0;
-                z-index: 40;
-            }
-            #proj-selector {
-                width: 100%;
-                padding: 12px;
-                font-size: 1rem;
-                text-transform: uppercase;
-                font-weight: bold;
-                border: 2px solid black;
-                background: white;
-            }
-
+            .sidebar { display: none; } 
+            #mobile-menu-container { display: block; width: 100%; padding: 10px 5%; background: white; border-bottom: 2px solid grey; position: sticky; top: 0; z-index: 40; }
+            #proj-selector { width: 100%; padding: 12px; font-size: 1rem; text-transform: uppercase; font-weight: bold; border: 2px solid black; background: white; }
             .content-wrapper { flex-direction: column; height: auto; overflow: visible; }
             .gallery { padding-top: 20px; width: 100%; overflow-y: visible; }
             .img-wrap { width: 95%; padding-bottom: 30px; }
@@ -130,9 +110,8 @@
             <div class="header-center-area"><div class="header-center-title" id="proj-title"></div><div class="sw-list" id="sw-box"></div></div>
             <div class="header-logo"><img src="logo.PNG" alt="Logo"></div>
         </div>
-        
         <div id="mobile-menu-container">
-            <select id="proj-selector" onchange="loadProject(this.value, null)">
+            <select id="proj-selector" onchange="window.location.hash = encodeURIComponent(this.value)">
                 <option value="" disabled selected>Seleziona Progetto</option>
                 <option value="CASA PIONIERA">CASA PIONIERA</option>
                 <option value="CENTRO POLIFUNZIONALE">CENTRO POLIFUNZIONALE</option>
@@ -142,7 +121,6 @@
                 <option value="HOME">TORNA ALLA HOME</option>
             </select>
         </div>
-
         <div class="content-wrapper"><div class="sidebar" id="menu-box"></div><div class="gallery" id="gallery-box"></div></div>
     </div>
 
@@ -155,9 +133,21 @@
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize); resize();
 
+        // GESTIONE URL DEDICATI
+        window.onhashchange = () => {
+            const hash = decodeURIComponent(window.location.hash.substring(1));
+            if (hash === "HOME" || hash === "") {
+                location.reload();
+            } else {
+                loadProject(hash, null);
+            }
+        };
+
         window.onload = () => {
-            const savedPage = localStorage.getItem('activeProject');
-            if (savedPage) openPage('ca', savedPage);
+            const hash = decodeURIComponent(window.location.hash.substring(1));
+            if (hash) {
+                openPage('ca', hash);
+            }
         };
 
         setTimeout(() => { document.getElementById('enter-btn').style.display = 'block'; }, 2000);
@@ -176,17 +166,17 @@
             const projs = ["CASA PIONIERA", "CENTRO POLIFUNZIONALE", "THE ELLIPSE", "RIQUALIFICAZIONE MOLINETTE", "RELOADINGENOVA"];
             projs.forEach(p => {
                 const d = document.createElement('div'); d.className = 'menu-item'; d.innerText = p;
-                d.onclick = () => { stopRandomGallery(); loadProject(p, d); };
+                d.onclick = () => { window.location.hash = encodeURIComponent(p); };
                 box.appendChild(d);
             });
             const back = document.createElement('div'); back.className = 'back-home'; back.innerText = "MC - CA";
-            back.onclick = () => { localStorage.removeItem('activeProject'); location.reload(); }; 
+            back.onclick = () => { window.location.hash = ""; location.reload(); }; 
             box.appendChild(back);
         }
 
         function startRandomGallery() {
             const gallery = document.getElementById('gallery-box');
-            const pool = ["CASA PIONIERA 1.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
+            const pool = ["CASA PIONIERA 1.PNG", "CASA PIONIERA 2.PNG", "CENTRO POLIFUNZIONALE 1.PNG", "THE ELLIPSE 1.PNG", "RIQUALIFICAZIONE MOLINETTE 1.PNG"];
             const update = () => {
                 gallery.innerHTML = "";
                 let shuffled = pool.sort(() => 0.5 - Math.random()).slice(0, 4);
@@ -202,12 +192,9 @@
         function stopRandomGallery() { clearInterval(randomGalleryInterval); }
 
         function loadProject(title, element) {
-            if(title === "HOME") { localStorage.removeItem('activeProject'); location.reload(); return; }
+            if(title === "HOME") { window.location.hash = ""; location.reload(); return; }
             stopRandomGallery();
-            localStorage.setItem('activeProject', title);
             const gallery = document.getElementById('gallery-box'); gallery.scrollTo(0,0);
-            
-            // Sync tendina mobile
             document.getElementById('proj-selector').value = title;
 
             document.querySelectorAll('.menu-item').forEach(m => {
@@ -233,8 +220,6 @@
                 "THE ELLIPSE": "The Ellipse è un progetto ex novo di un sistema di 4 edifici, chiamati giocosamente “bolle” per via della loro forma, a Torino. L’intenzione era di dare un nuovo volto notolo al lotto di progetto ma anche all’intera comunità del quartiere. Il masterplan riprende la figure geometrica dell’ellisse, così come le piante e le sezioni. Sono ospitate all’interno di questi edifici diverse funzioni pubbliche e private, ipotizzate dall’analisi del territorio limitrofo, per garantire un piano di riqualificazione e resilienza del quartiere. Particolare importanza è stata data alla progettazione dell’involucro, ovvero le bolle, rispetto agli edifici stessi, considerando esse non come il tamponamento esterno ma piuttosto come un sistema termoregolatore per via della totale esposizione del lotto. Quest’ultimo quindi ricopre molteplici ruoli fondamentali per la qualità della vita all’interno degli edifici e rispecchia perfettamente il concept progettuale e i fabbisogni di sostenibilità ambientale.",
                 "RIQUALIFICAZIONE MOLINETTE": "In vista della nuova apertura del Parco della Salute a Torino è stato fatto un nuovo masterplan delle Molinette. Questo progetto è frutto di valutazioni economiche registringenti e di una ricerca di investitori plausibili che ne hanno influenzato notevolmente l’esito. Per questi motivi il lotto di progetto è una rivisitazione dell’attuale complesso ma tiene conto anche di nuove progettazioni puntali per la vivibilità del luogo. I percorsi, le funzioni e le gallerie dell’area sono state di notevole importanza alla visione delle connessioni con il quartiere e anch’essi hanno contribuito alla stesura del piano. La densità del lotto e i costi di gestione sono stati ulteriori elementi chiave per la progettazione del verde, in connessione con il Parco Fluviale del fiume Po, e per le funzioni ospitate in esso. Inoltre il dislivello è stato visto come un’opportunità progettuale per la passarella sovrastante Corso Unità d’Italia e l’attuale parcheggio delle Molinette (rifunzionalizzato anch’esso)."
             };
-
-            const molinetteSub = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
 
             if(descriptions[title]) {
                 const dBox = document.createElement('div'); dBox.className = 'project-description'; dBox.innerText = descriptions[title]; gallery.appendChild(dBox);
@@ -284,7 +269,8 @@
                     wrap.innerHTML = `<img src="CA/RIQUALIFICAZIONE MOLINETTE ${i}.PNG" onerror="this.src=this.src.replace('.PNG','.png')">`;
                     gallery.appendChild(wrap);
                 }
-                const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = molinetteSub; gallery.appendChild(sub);
+                const sub = document.createElement('div'); sub.className = 'project-description'; sub.style.fontStyle = "italic"; sub.innerText = "Grazie a questo lavoro abbiamo avuto l'opportunità di essere pubblicati in un libro che parla del tema della riqualificazione del complesso: Progettare la città possibile, Strategie e scenari per la trasformazione delle Molinette, Federica Joe Gardella, Luciana Mastrolia, Celid, Torino, 2025.";
+                gallery.appendChild(sub);
                 const sCont = document.createElement('div'); sCont.className = 'molinette-scroll-container';
                 [5,6,7].forEach(n => { sCont.innerHTML += `<img src="CA/RIQUALIFICAZIONE MOLINETTE ${n}.PNG" class="molinette-scroll-img" onerror="this.src=this.src.replace('.PNG','.png')">`; });
                 gallery.appendChild(sCont);
@@ -382,4 +368,5 @@
         });
     </script>
 </body>
+</html>
 </html>
